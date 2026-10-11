@@ -264,13 +264,16 @@
               <span id="combat-live-badge" class="px-2 py-0.5 rounded text-[10px] font-mono bg-brand-emerald/15 text-brand-emerald border border-brand-emerald/30">
                 ● 战时时钟已锁死江苏徐州
               </span>
+              <span id="daily-auto-badge" class="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-500/15 text-blue-300 border border-blue-500/30">
+                ⚡ 每日00:00自适应轮转已激活
+              </span>
             </div>
             <p class="text-[11px] text-gray-400 mt-1 flex flex-wrap items-center gap-2">
               <span id="combat-live-time" class="font-mono text-brand-gold font-semibold">2026.10.11 周日 --:--:--</span>
               <span class="text-gray-500">|</span>
               <span id="combat-cur-day-tag" class="text-gray-300">第5周·周日攻坚</span>
               <span class="text-gray-500">|</span>
-              <span class="text-gray-400">自动根据真实星期动态调度今日必决事项</span>
+              <span class="text-gray-400">系统根据真实星期每日凌晨0点自动调度当日必决事项</span>
             </p>
           </div>
           
@@ -291,6 +294,9 @@
             <div class="text-xs text-gray-400 font-mono">
               完成度: <span class="text-brand-gold font-bold text-sm" id="task-progress-stat">0 / 0</span>
             </div>
+            <button onclick="forceRefreshDailyDirectives()" class="px-2.5 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border border border-brand-border text-gray-300 text-xs font-medium flex items-center gap-1 transition-all" title="根据当前真实星期重新校准今日战地指令">
+              <span>🔄 刷新今日</span>
+            </button>
             <button onclick="toggleHistoryModal(true)" class="px-2.5 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border border border-brand-border text-gray-300 text-xs font-medium flex items-center gap-1 transition-all" title="查看历史已结战役与时间戳">
               <span>📜 战史归档</span>
             </button>
@@ -1027,9 +1033,10 @@
                   <div class="text-[11px] text-gray-400">全站仪/水准仪外业路线闭合观测 (主测兼主算)</div>
                 </td>
                 <!-- Sun 5-6 -->
-                <td class="py-3 px-3 col-sun">
-                  <div class="text-gray-300 font-medium">测量内业平差</div>
-                  <span class="text-[10px] text-gray-500">坐标增量闭合差手簿核算</span>
+                <td class="py-3 px-3 col-sun cursor-pointer hover:bg-brand-surface/40 bg-brand-dark/40" onclick="openScheduleEditor('周日', '第 5-6 节', 'slot_sun_5_6')">
+                  <div class="font-medium text-white cell-title">自主弹性阵地</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">点击自由规划</div>
+                  <span class="text-[10px] text-gray-400 cell-note">周日下午完全自主支配</span>
                 </td>
               </tr>
 
@@ -1057,12 +1064,10 @@
                   <span class="text-[10px] text-gray-400">1-3, 6-12周</span>
                 </td>
                 <!-- Sun 7-8 -->
-                <td class="py-3 px-3 col-sun bg-brand-emerald/10 text-brand-emerald sched-synced-cell" id="sched-cell-sun-run" onclick="toggleTaskFromSchedule('sun-run')">
-                  <div class="flex items-center justify-between gap-1">
-                    <span class="font-bold sched-cell-title">第 21 次校园跑</span>
-                    <span class="sched-status-pill font-mono bg-emerald-900/40 text-emerald-400" id="sched-pill-sun-run">待跑</span>
-                  </div>
-                  <span class="text-[10px]">2.52 km 达标即停</span>
+                <td class="py-3 px-3 col-sun cursor-pointer hover:bg-brand-surface/40 bg-brand-dark/40" onclick="openScheduleEditor('周日', '第 7-8 节', 'slot_sun_7_8')">
+                  <div class="font-medium text-white cell-title">自由机动与休憩</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">点击自由编辑</div>
+                  <span class="text-[10px] text-gray-400 cell-note">弹性自由安排，无拘束</span>
                 </td>
               </tr>
 
@@ -1071,13 +1076,13 @@
                 <td class="py-2.5 px-3 text-center text-brand-emerald font-bold">
                   18:00 - 18:30<br><span class="text-[10px] text-gray-400 font-normal">低心率排酸</span>
                 </td>
-                <td class="py-2.5 px-3 col-mon text-brand-emerald font-medium">校园跑 2.52 km</td>
+                <td class="py-2.5 px-3 col-mon text-brand-emerald font-medium">校园跑 2.52 km (冲23/40)</td>
                 <td class="py-2.5 px-3 col-tue text-gray-500">训练日洗澡用餐</td>
                 <td class="py-2.5 px-3 col-wed text-brand-emerald font-medium">校园跑 2.52 km</td>
                 <td class="py-2.5 px-3 col-thu text-brand-emerald font-medium">校园跑 2.52 km</td>
                 <td class="py-2.5 px-3 col-fri text-brand-emerald font-medium">校园跑 2.52 km</td>
                 <td class="py-2.5 px-3 col-sat border-l border-brand-border text-gray-500">实习收工休整</td>
-                <td class="py-2.5 px-3 col-sun text-brand-emerald font-medium">第21次校园跑</td>
+                <td class="py-2.5 px-3 col-sun text-gray-300 cursor-pointer hover:border-brand-gold" onclick="openScheduleEditor('周日', '傍晚时段', 'slot_sun_evening')">周日自主机动调节</td>
               </tr>
 
               <!-- Night Section (19:00 - 20:45) -->
@@ -1344,12 +1349,12 @@
             <div class="flex items-center justify-between">
               <h4 class="text-sm font-bold text-white flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
-                校园跑极速战术：Zone 2 低心率排酸法
+                校园跑极速战术：Zone 2 低心率排酸法 (学期目标 40 次)
               </h4>
-              <span class="text-xs font-mono text-brand-emerald">单次锁死 2.52 km</span>
+              <span class="text-xs font-mono text-brand-emerald">已完成 22/40 次 · 仅剩 18 次 (55%)</span>
             </div>
             <p class="text-xs text-gray-400 leading-relaxed">
-              严格把心率控制在 <strong>130~145 bpm</strong>（配速 7'15"~7'45"/km，全程能用鼻子平稳呼吸）。坚决不冲刺、不多跑 1 米。将跑步重新定义为高强度脑力做题后的“动态排酸与脑力减压”。
+              学期目标锁死 <strong>40 次</strong>，今日已圆满达成<strong>第 22 次</strong>。严格把心率控制在 <strong>130~145 bpm</strong>（配速 7'15"~7'45"/km，全程能用鼻子平稳呼吸）。坚决不冲刺、不多跑 1 米。将跑步重新定义为高强度脑力做题后的“动态排酸与脑力减压”。
             </p>
           </div>
 
@@ -1476,6 +1481,7 @@
     const STORAGE_HISTORY_KEY = 'fjj_combat_history_v2';
     const STORAGE_INSIGHTS_KEY = 'fjj_study_insights_v1';
     const STORAGE_SCHEDULE_KEY = 'fjj_schedule_overrides_v1';
+    const STORAGE_DIRECTIVE_DATE_KEY = 'fjj_active_directive_date_v3';
     const STORAGE_GIST_TOKEN = 'GIST_TOKEN';
     const STORAGE_GIST_ID = 'GIST_ID';
     const STORAGE_GIST_LAST_SYNC = 'GIST_LAST_SYNC';
@@ -1488,37 +1494,305 @@
       filename: 'data.json'
     };
 
-    // Default Baseline Master Task Repository (Cleaned up party exam)
-    const defaultTacticalTasks = [
+    // 周一至周日全周期战术蓝图字典 (0=周日, 1=周一, ..., 6=周六)
+    const WEEKLY_BLUEPRINTS = {
+      // 0: 周日
+      0: [
+        {
+          id: 101,
+          title: "【今日必决·上午】自主研读与周梳理",
+          sub: "博4自习室/图书馆·查漏补缺，保持专注状态，梳理下周各科节奏",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 0,
+          scheduleBind: "sun-study"
+        },
+        {
+          id: 102,
+          title: "【周日下午·自主机动】自由规划与弹性安排",
+          sub: "周日下午时间完全自主支配，随需安排复习、社交或休整（点击课表可随时自由编辑）",
+          done: false,
+          tag: "自主机动",
+          scope: "today",
+          dayCode: 0,
+          scheduleBind: "sun-free"
+        },
+        {
+          id: 104,
+          title: "【今日必决·晚间】★CMC 本周错题重塑与周复盘",
+          sub: "21:15-22:45 攻关本周中值定理压轴错题，23:30 准时熄灯",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 0,
+          scheduleBind: "sun-cmc"
+        }
+      ],
+      // 1: 周一
+      1: [
+        {
+          id: 111,
+          title: "【今日必决·晨训】六级高频核心词与听力长对话",
+          sub: "07:15-08:00 晓艳考频版高频词大声朗读 + 历年真题长对话影子跟读",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 1,
+          scheduleBind: "mon-cet"
+        },
+        {
+          id: 112,
+          title: "【今日必决·课业】博5-C206基础学术英语 & 博4-B506工程力学B",
+          sub: "第1-4节课紧跟板书推导，力学课后第1-2道大题当堂理清解题思路",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 1,
+          scheduleBind: "mon-study"
+        },
+        {
+          id: 113,
+          title: "【今日必决·傍晚】第 23 次校园跑 2.52 km (目标 23/40)",
+          sub: "18:00-18:30 达标即停，心率压在130~145 bpm，低心率排酸稳步推进",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 1,
+          scheduleBind: "mon-run"
+        },
+        {
+          id: 114,
+          title: "【今日必决·晚间】★CMC 极限与导数雷霆阵地",
+          sub: "21:15-22:45 限时做通3道 Stolz定理与佩亚诺泰勒展开压轴题，23:30熄灯",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 1,
+          scheduleBind: "mon-cmc"
+        }
+      ],
+      // 2: 周二
+      2: [
+        {
+          id: 121,
+          title: "【今日必决·晨训】六级核心词串记与精听磨耳朵",
+          sub: "07:15-08:00 晓艳高频词大声朗读，激活清晨大脑专注力",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 2,
+          scheduleBind: "tue-cet"
+        },
+        {
+          id: 122,
+          title: "【今日必决·上午】大物实验数据拟合与线代黄金窗",
+          sub: "08:00-09:45 博4空教室·铁磁材料回线拟合作图与矩阵初等变换推导",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 2,
+          scheduleBind: "tue-exp"
+        },
+        {
+          id: 123,
+          title: "【今日必决·傍晚】★健身房训练 A (撑起挺拔气场)",
+          sub: "16:15-17:15 高位下拉 + 坐姿划船 + 罗马尼亚硬拉 (45分钟门到门)",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 2,
+          scheduleBind: "tue-gym"
+        },
+        {
+          id: 124,
+          title: "【今日必决·晚间】★CMC 微分中值定理专题攻坚",
+          sub: "21:15-22:45 突破柯西/拉格朗日辅助函数积分法与零点定理构造，23:30熄灯",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 2,
+          scheduleBind: "tue-cmc"
+        }
+      ],
+      // 3: 周三
+      3: [
+        {
+          id: 131,
+          title: "【今日必决·晨训】六级真题听力长对话影子跟读",
+          sub: "07:15-08:00 听力高频词速记与长难句口头顺读",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 3,
+          scheduleBind: "wed-cet"
+        },
+        {
+          id: 132,
+          title: "【★★★ 今日核心】4小时核心攻坚阵地 (14:00-18:00)",
+          sub: "14:00-16:00 攻关工程力学B课后大题；16:00-18:00 刷通CMC历年压轴真题",
+          done: false,
+          tag: "今日核心",
+          scope: "today",
+          dayCode: 3,
+          scheduleBind: "wed-core"
+        },
+        {
+          id: 133,
+          title: "【今日必决·傍晚】校园跑 2.52 km 低心率动态恢复",
+          sub: "18:00-18:30 4小时脑力攻坚后慢跑排酸，消除肌肉僵硬",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 3,
+          scheduleBind: "wed-run"
+        },
+        {
+          id: 134,
+          title: "【今日必决·晚间】★CMC 积分与反常积分深度回火",
+          sub: "21:15-22:45 下午攻坚成果晚间二次回火，专攻含参变量积分与敛散性",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 3,
+          scheduleBind: "wed-cmc"
+        }
+      ],
+      // 4: 周四
+      4: [
+        {
+          id: 141,
+          title: "【今日必决·晨训】六级核心词朗读与真题精练",
+          sub: "07:15-08:00 晓艳考频版高频词复习 + 真题阅读逻辑精析",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 4,
+          scheduleBind: "thu-cet"
+        },
+        {
+          id: 142,
+          title: "【今日必决·下午】★健身房训练 B (紧致上肢与核心)",
+          sub: "14:00-15:00 上斜哑铃卧推 + 自重深蹲 + 平板支撑收紧核心腹横肌",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 4,
+          scheduleBind: "thu-gym"
+        },
+        {
+          id: 143,
+          title: "【今日必决·傍晚】校园跑 2.52 km 达标即停",
+          sub: "18:00-18:30 控心率在 130~145 bpm，不冲刺、不多跑1米消耗精力",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 4,
+          scheduleBind: "thu-run"
+        },
+        {
+          id: 144,
+          title: "【今日必决·晚间】★CMC 多元微积分压轴速杀",
+          sub: "21:15-22:45 格林公式与高斯公式对称性变形、曲面积分转化技巧，23:30熄灯",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 4,
+          scheduleBind: "thu-cmc"
+        }
+      ],
+      // 5: 周五
+      5: [
+        {
+          id: 151,
+          title: "【今日必决·晨训】六级听力综合模考片段演练",
+          sub: "07:15-08:00 晓艳考频版生词扫盲，保持耳感灵敏",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 5,
+          scheduleBind: "fri-cet"
+        },
+        {
+          id: 152,
+          title: "【今日必决·上午】工程测量手簿计算黄金块",
+          sub: "08:00-09:45 博4自习室·亲手算通闭合水准与导线平差手簿数据",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 5,
+          scheduleBind: "fri-calc"
+        },
+        {
+          id: 153,
+          title: "【今日必决·下午】校园交通信息绘编 4 堂实训",
+          sub: "14:00-18:00 博4-B102 制图实训，吃透CAD制图与道路拓扑结构",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 5,
+          scheduleBind: "fri-draw"
+        },
+        {
+          id: 154,
+          title: "【今日必决·晚间】★CMC 无穷级数审敛专题攻坚",
+          sub: "21:15-22:45 突破阿贝尔/狄利克雷判别法与幂级数求和函数，备齐周末实习仪器手册",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 5,
+          scheduleBind: "fri-cmc"
+        }
+      ],
+      // 6: 周六
+      6: [
+        {
+          id: 161,
+          title: "【今日必决·早间】优质高蛋白早餐与实习仪器清点",
+          sub: "自然苏醒·早充优质蛋白，检查全站仪测回法手簿与计算器",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 6,
+          scheduleBind: "sat-morn"
+        },
+        {
+          id: 162,
+          title: "【今日必决·全天】野外测绘实操 / CMC 4小时全真模考",
+          sub: "实习周: 环测A308/C305全站仪外业测角量距；非实习周: CMC高数闭卷大模考",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 6,
+          scheduleBind: "sat-field"
+        },
+        {
+          id: 163,
+          title: "【今日必决·晚间】外业数据整理平差与记录归档",
+          sub: "19:00-20:45 当场把水准与导线记录手簿闭合差算通，不留糊涂账",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 6,
+          scheduleBind: "sat-night"
+        },
+        {
+          id: 164,
+          title: "【今日必决·晚间】★CMC 90分钟初赛全真模拟",
+          sub: "21:15-22:45 闭卷真题限时答卷，严格按江苏赛区评分细则自批，23:30熄灯",
+          done: false,
+          tag: "今日必决",
+          scope: "today",
+          dayCode: 6,
+          scheduleBind: "sat-cmc"
+        }
+      ]
+    };
+
+    // 本周攻坚常驻大项 (scope === 'week')
+    const WEEKLY_PERSISTENT_TASKS = [
       {
-        id: 102,
-        title: "【今日必决·下午】工程测量内业平差自算",
-        sub: "核算水准路线闭合差与导线方位角推算手簿，理论盲区不过夜",
-        done: false,
-        tag: "今日必决",
-        scope: "today",
-        dayCode: 0
-      },
-      {
-        id: 103,
-        title: "【今日必决·傍晚】第 21 次校园跑达标",
-        sub: "2.52 km 达标即停（配速7'30\"），低心率排酸不消耗精力",
-        done: false,
-        tag: "今日必决",
-        scope: "today",
-        dayCode: 0
-      },
-      {
-        id: 104,
-        title: "【今日必决·晚间】CMC 错题重塑与周复盘",
-        sub: "21:15-22:45 攻关本周中值定理压轴错题，23:30 准时熄灯",
-        done: false,
-        tag: "今日必决",
-        scope: "today",
-        dayCode: 0
-      },
-      {
-        id: 105,
+        id: 191,
         title: "【本周截稿】大物实验报告·铁磁材料回线拟合",
         sub: "10.15 周三前结项，趁周二无课窗算通数据并完成坐标纸绘图",
         done: false,
@@ -1527,11 +1801,20 @@
         dayCode: -1
       },
       {
-        id: 106,
+        id: 192,
         title: "【下周实习预演】碎部测图外业预习 (环测C305)",
         sub: "10.17~18 全天实习：提前吃透极坐标法测设与特征点展绘",
         done: false,
         tag: "工程测量",
+        scope: "week",
+        dayCode: -1
+      },
+      {
+        id: 193,
+        title: "【六级长线防线】晓艳高频词前 5 单元三刷",
+        sub: "每日晨读跟进，真题长对话与精听无死角突破，为12.12积攒题感",
+        done: false,
+        tag: "六级备考",
         scope: "week",
         dayCode: -1
       }
@@ -1541,6 +1824,78 @@
     let combatHistoryLog = [];
     let studyInsightsList = [];
     let scheduleOverrides = {};
+    let lastCheckedSystemDateStr = '';
+
+    // -------------------------------------------------------------
+    // Automatic Daily Directive Rotation & Refresh Engine
+    // -------------------------------------------------------------
+    function getTodayDateString(d = new Date()) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function checkAndAutoRotateDailyDirectives(force = false) {
+      const now = new Date();
+      const todayDateStr = getTodayDateString(now);
+      const savedDateStr = localStorage.getItem(STORAGE_DIRECTIVE_DATE_KEY);
+      const curDayOfWeek = now.getDay();
+      const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+      // 如果日期未变且非强制刷新，则保留用户当天在本地已打卡的状态
+      if (!force && savedDateStr === todayDateStr && tacticalTasks.length > 0) {
+        lastCheckedSystemDateStr = todayDateStr;
+        return;
+      }
+
+      // 如果跨日：把之前完成的任务自动归档进战史（若尚未归档）
+      if (savedDateStr && savedDateStr !== todayDateStr) {
+        tacticalTasks.forEach(task => {
+          if (task.done && !combatHistoryLog.some(h => h.title === task.title && h.completedAt.startsWith(savedDateStr))) {
+            combatHistoryLog.unshift({
+              id: Date.now() + Math.random(),
+              title: task.title,
+              sub: task.sub,
+              completedAt: `${savedDateStr.replace(/-/g, '.')} 23:30 (自动归档)`
+            });
+          }
+        });
+      }
+
+      // 提取今日蓝图任务
+      const blueprintToday = (WEEKLY_BLUEPRINTS[curDayOfWeek] || WEEKLY_BLUEPRINTS[0]).map(item => ({
+        ...item,
+        done: false
+      }));
+
+      // 保留用户自定义尚未完成的任务与常驻本周大项
+      const preservedCustomTasks = tacticalTasks.filter(t => t.tag === '自定义' && !t.done);
+      const persistentWeekTasks = WEEKLY_PERSISTENT_TASKS.map(w => {
+        const existing = tacticalTasks.find(t => t.id === w.id);
+        return existing ? existing : { ...w };
+      });
+
+      // 组合生成今日最新任务队列
+      tacticalTasks = [...blueprintToday, ...persistentWeekTasks, ...preservedCustomTasks];
+
+      // 更新存储与全局日期标记
+      localStorage.setItem(STORAGE_DIRECTIVE_DATE_KEY, todayDateStr);
+      lastCheckedSystemDateStr = todayDateStr;
+      saveStateToStorage();
+      renderTacticalTasks();
+
+      const badge = document.getElementById('daily-auto-badge');
+      if (badge) {
+        badge.textContent = `● 今日(${weekDays[curDayOfWeek]})攻坚阵地已对齐`;
+      }
+
+      showToast(`已自动更新为今日 (${weekDays[curDayOfWeek]}) 战地攻坚指令！`);
+    }
+
+    function forceRefreshDailyDirectives() {
+      checkAndAutoRotateDailyDirectives(true);
+    }
 
     // -------------------------------------------------------------
     // Storage Engine (Fixed Try-Catch Closure & Local Persistence)
@@ -1550,10 +1905,8 @@
         const savedTasks = localStorage.getItem(STORAGE_TASKS_KEY);
         if (savedTasks) {
           tacticalTasks = JSON.parse(savedTasks);
-          // Purge party history exam if it was in the saved cache
-          tacticalTasks = tacticalTasks.filter(t => !t.title.includes('党史课程考试'));
-        } else {
-          tacticalTasks = defaultTacticalTasks;
+          // 清除历史党史考试残留，并剔除周日僵化绑定的校园跑
+          tacticalTasks = tacticalTasks.filter(t => !t.title.includes('党史课程考试') && t.scheduleBind !== 'sun-run' && !(t.dayCode === 0 && t.title.includes('校园跑')));
         }
 
         const savedHistory = localStorage.getItem(STORAGE_HISTORY_KEY);
@@ -1569,9 +1922,9 @@
             },
             {
               id: 202,
-              title: "【党史课程考试】已顺利通过结项 (博1-A101)",
-              sub: "通识课稳步过关，精力全力转入核心专业与竞赛",
-              completedAt: "2026.10.11 11:30"
+              title: "【第 22 次校园跑】2.52 km 达标结项 (学期进度 22/40)",
+              sub: "Zone 2 低心率排酸，学期完成率突破 55%，仅剩 18 次",
+              completedAt: "2026.10.11 18:25"
             }
           ];
         }
@@ -1605,12 +1958,12 @@
           scheduleOverrides = {};
         }
 
+        // 校验并执行每日指令自动轮转
+        checkAndAutoRotateDailyDirectives(false);
+
       } catch (e) {
         console.warn('Storage load fallback', e);
-        tacticalTasks = defaultTacticalTasks;
-        combatHistoryLog = [];
-        studyInsightsList = [];
-        scheduleOverrides = {};
+        checkAndAutoRotateDailyDirectives(true);
       }
     }
 
@@ -2034,6 +2387,12 @@
       if (tagEl) {
         tagEl.textContent = `第5周·${curWeekDay}实战阵地`;
       }
+
+      // 检测系统日期是否越过午夜零点 (00:00:00 自动跨日轮转)
+      const curDateStr = `${year}-${month}-${date}`;
+      if (lastCheckedSystemDateStr && lastCheckedSystemDateStr !== curDateStr) {
+        checkAndAutoRotateDailyDirectives(false);
+      }
     }
 
     function updateCountdowns() {
@@ -2140,18 +2499,15 @@
           cell.classList.add('is-completed');
           if (pill) {
             pill.className = 'sched-status-pill font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
-            pill.textContent = '✓ 已结项';
+            pill.textContent = task.scheduleBind === 'sun-run' ? '✓ 已达成 (22/40)' : '✓ 已结项';
           }
         } else {
           cell.classList.remove('is-completed');
           if (pill) {
-            if (task.scheduleBind === 'sun-exam') {
-              pill.className = 'sched-status-pill font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30';
-              pill.textContent = '待决';
-            } else if (task.scheduleBind === 'sun-run') {
+            if (task.scheduleBind === 'sun-run' || task.scheduleBind.endsWith('-run')) {
               pill.className = 'sched-status-pill font-mono bg-emerald-900/40 text-emerald-400';
               pill.textContent = '待跑';
-            } else if (task.scheduleBind === 'sun-cmc') {
+            } else if (task.scheduleBind === 'sun-cmc' || task.scheduleBind.endsWith('-cmc')) {
               pill.className = 'sched-status-pill font-mono bg-amber-900/40 text-amber-300';
               pill.textContent = '待战';
             } else {
