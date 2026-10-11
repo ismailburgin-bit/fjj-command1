@@ -1822,6 +1822,96 @@
     // -------------------------------------------------------------
     // Gist Cloud Sync Engine (Enhanced to support schedule & insights)
     // -------------------------------------------------------------
+    function loadGistConfig() {
+      gistConfig.token = localStorage.getItem(STORAGE_GIST_TOKEN) || '';
+      gistConfig.gistId = localStorage.getItem(STORAGE_GIST_ID) || '';
+
+      const tokenInput = document.getElementById('inputSyncToken');
+      const gistInput = document.getElementById('inputSyncGistId');
+      if (tokenInput) tokenInput.value = gistConfig.token;
+      if (gistInput) gistInput.value = gistConfig.gistId;
+
+      updateSyncModalStatus();
+      updateSyncDot(gistConfig.token && gistConfig.gistId ? 'online' : 'offline');
+    }
+
+    function toggleSyncModal(show) {
+      const modal = document.getElementById('syncModal');
+      if (!modal) return;
+      if (show) {
+        loadGistConfig();
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function updateSyncModalStatus() {
+      const statusText = document.getElementById('syncModalStatusText');
+      const lastTime = document.getElementById('syncModalLastTime');
+      const lastSync = localStorage.getItem(STORAGE_GIST_LAST_SYNC);
+
+      if (statusText) {
+        if (gistConfig.token && gistConfig.gistId) {
+          statusText.innerHTML = '<span class="text-brand-emerald font-semibold">🟢 已配置凭证 (云端已就绪)</span>';
+        } else {
+          statusText.innerHTML = '<span class="text-gray-400">⚪ 未配置凭证 (仅单机存储)</span>';
+        }
+      }
+      if (lastTime) {
+        lastTime.textContent = lastSync || '无同步记录';
+      }
+    }
+
+    function updateSyncDot(state) {
+      const dotDesktop = document.getElementById('syncStatusDot');
+      const dotMobile = document.getElementById('syncStatusDotMobile');
+      const dots = [dotDesktop, dotMobile].filter(Boolean);
+
+      dots.forEach(dot => {
+        dot.className = 'w-2 h-2 rounded-full transition-colors';
+        if (state === 'online') {
+          dot.classList.add('bg-brand-emerald');
+        } else if (state === 'syncing') {
+          dot.classList.add('bg-brand-gold', 'animate-pulse');
+        } else if (state === 'error') {
+          dot.classList.add('bg-brand-red');
+        } else {
+          dot.classList.add('bg-gray-500');
+        }
+      });
+    }
+
+    async function saveAndSyncGist() {
+      const tokenInput = document.getElementById('inputSyncToken');
+      const gistInput = document.getElementById('inputSyncGistId');
+      const token = tokenInput ? tokenInput.value.trim() : '';
+      const gistId = gistInput ? gistInput.value.trim() : '';
+
+      if (!token || !gistId) {
+        showToast('请完整填写 GitHub Token 与 Gist ID！');
+        return;
+      }
+
+      localStorage.setItem(STORAGE_GIST_TOKEN, token);
+      localStorage.setItem(STORAGE_GIST_ID, gistId);
+      gistConfig.token = token;
+      gistConfig.gistId = gistId;
+
+      updateSyncDot('syncing');
+      showToast('正在连接云端同步...');
+
+      const success = await pushToGist();
+      if (success) {
+        await pullFromGist(true);
+        toggleSyncModal(false);
+        showToast('🎉 Gist 云端双向同步成功！');
+      } else {
+        updateSyncDot('error');
+        showToast('连接失败，请核对 Token (需gist权限) 或 Gist ID');
+      }
+    }
+
     async function pullFromGist(silent = true) {
       if (!gistConfig.token || !gistConfig.gistId) return false;
       try {
