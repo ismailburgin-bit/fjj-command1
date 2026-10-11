@@ -3,1023 +3,1573 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>冯俊杰 · 大学战略指挥枢纽 (2026-2029)</title>
+  <title>冯俊杰 · 大学三年战略登顶指挥枢纽 (2026-2029)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#C5221F',      // 革命气魄与初心
+              gold: '#DFB052',     // 领军荣耀与大国重器
+              dark: '#0A0D12',     // 深邃战略底色
+              surface: '#161B22',  // 战术操作面
+              border: '#30363D',   // 精密刻线
+              accent: '#388BFD',   // 理性工科蓝
+              emerald: '#2EA043'   // 生机与达标绿
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['"Noto Serif SC"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --bg-primary: #0f1117;
-      --bg-card: #181b24;
-      --bg-card-hover: #202430;
-      --accent-gold: #e5a93c;
-      --accent-red: #e05252;
-      --accent-blue: #3b82f6;
-      --accent-cyan: #06b6d4;
-      --accent-green: #10b981;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --border-color: #282e3e;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body {
-      background-color: var(--bg-primary);
-      color: var(--text-main);
-      font-family: var(--font-family);
-      line-height: 1.5;
-      padding-bottom: 70px;
+      background-color: #0A0D12;
+      color: #E6EDF3;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
+    .tactical-border {
+      border: 1px solid #30363D;
+      background: rgba(22, 27, 34, 0.75);
+      backdrop-filter: blur(12px);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0D1117; }
+    ::-webkit-scrollbar-thumb { background: #30363D; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #DFB052; }
 
-    /* Top Bar */
-    header {
-      background: rgba(24, 27, 36, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 12px 16px;
+    /* Breath Circle Animation */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.6; }
+      50% { transform: scale(1.35); opacity: 0.15; }
+      100% { transform: scale(0.95); opacity: 0.6; }
     }
-    .header-content {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand-badge {
-      background: linear-gradient(135deg, #b45309, #d97706);
-      color: #fff;
-      font-weight: 800;
-      font-size: 13px;
-      padding: 4px 8px;
-      border-radius: 6px;
-      letter-spacing: 1px;
-    }
-    .brand-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-    .brand-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .btn-header {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.2s;
-    }
-    .btn-header:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--accent-gold);
-    }
-    .btn-header.primary {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
-      border-color: #3b82f6;
-    }
-    .sync-status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #9ca3af;
-      display: inline-block;
-    }
-    .sync-status-dot.online { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
-    .sync-status-dot.syncing { background: var(--accent-gold); animation: pulse 1s infinite; }
-    .sync-status-dot.error { background: var(--accent-red); }
-
-    @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
-
-    /* Navigation Tabs */
-    .nav-tabs-wrapper {
-      max-width: 1100px;
-      margin: 12px auto 0;
-      padding: 0 16px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .nav-tabs-wrapper::-webkit-scrollbar { display: none; }
-    .nav-tabs {
-      display: flex;
-      gap: 8px;
-      width: max-content;
-    }
-    .nav-tab-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .nav-tab-btn.active {
-      background: var(--accent-gold);
-      color: #111827;
-      border-color: var(--accent-gold);
-    }
-
-    /* Container */
-    .container {
-      max-width: 1100px;
-      margin: 16px auto;
-      padding: 0 16px;
-    }
-
-    /* Quote Card */
-    .quote-card {
-      background: linear-gradient(145deg, #1c1825, #141722);
-      border: 1px solid #372f4f;
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-bottom: 16px;
-      position: relative;
-    }
-    .quote-tag {
-      color: #ef4444;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .quote-text {
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 6px;
-      line-height: 1.4;
-    }
-    .quote-sub {
-      font-size: 12px;
-      color: #a78bfa;
-      margin-bottom: 12px;
-    }
-    .target-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 10px;
-    }
-    .target-score {
-      font-size: 26px;
-      font-weight: 800;
-      color: var(--accent-gold);
-    }
-    .target-badge {
-      background: rgba(229, 169, 60, 0.2);
-      color: var(--accent-gold);
-      border: 1px solid var(--accent-gold);
-      padding: 3px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    /* Clock Bar */
-    .clock-banner {
-      background: #111827;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 8px 12px;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .clock-live {
-      color: var(--accent-cyan);
-      font-weight: 700;
-      font-family: monospace;
-    }
-
-    /* Countdown Grid */
-    .countdown-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .countdown-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 14px 16px;
-      border-left: 4px solid var(--accent-blue);
-    }
-    .countdown-card.danger { border-left-color: var(--accent-red); }
-    .countdown-card.warning { border-left-color: var(--accent-gold); }
-    .countdown-card.cyan { border-left-color: var(--accent-cyan); }
-    .countdown-head {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-    .countdown-val {
-      font-size: 24px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .countdown-desc {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* Directive Section */
-    .section-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 10px;
-    }
-    .section-title {
-      font-size: 15px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .filter-btn-group {
-      display: flex;
-      gap: 6px;
-    }
-    .btn-filter {
-      background: #111827;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .btn-filter.active {
-      background: #2563eb;
-      color: #fff;
-      border-color: #3b82f6;
-    }
-
-    /* Task List */
-    .task-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .task-item {
-      background: #141722;
-      border: 1px solid #23283a;
-      border-radius: 8px;
-      padding: 10px 12px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      transition: all 0.2s;
-    }
-    .task-item.completed {
-      opacity: 0.55;
-      text-decoration: line-through;
-    }
-    .task-checkbox {
-      margin-top: 3px;
-      width: 18px;
-      height: 18px;
-      accent-color: var(--accent-green);
-      cursor: pointer;
-    }
-    .task-content {
-      flex: 1;
-    }
-    .task-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #e2e8f0;
-      margin-bottom: 2px;
-    }
-    .task-meta {
-      font-size: 11px;
-      color: var(--text-muted);
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .task-tag {
-      background: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 10px;
-    }
-    .task-actions {
-      display: flex;
-      gap: 6px;
-    }
-    .btn-del {
-      background: transparent;
-      border: none;
-      color: #6b7280;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .btn-del:hover { color: var(--accent-red); }
-
-    /* Modal Styling */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(5px);
-      z-index: 999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-card {
-      background: var(--bg-card);
-      border: 1px solid #374151;
-      border-radius: 14px;
-      max-width: 480px;
-      width: 100%;
-      padding: 20px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-      position: relative;
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 12px;
-      margin-bottom: 16px;
-    }
-    .modal-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .modal-close {
-      background: transparent;
-      border: none;
-      color: #9ca3af;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .form-group {
-      margin-bottom: 14px;
-    }
-    .form-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: #d1d5db;
-      margin-bottom: 6px;
-    }
-    .form-input {
-      width: 100%;
-      background: #111827;
-      border: 1px solid var(--border-color);
-      color: #fff;
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-      transition: border 0.2s;
-    }
-    .form-input:focus { border-color: var(--accent-blue); }
-    .form-help {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      line-height: 1.4;
-    }
-    .modal-footer {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .btn-full {
-      flex: 1;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      text-align: center;
-    }
-    .btn-save-sync {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #fff;
-    }
-    .btn-cancel {
-      background: #374151;
-      color: #d1d5db;
-    }
-
-    /* SandBox / Schedule / Mindset Tabs Content (Hidden/Visible) */
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; }
-
-    /* Toast */
-    #toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1f2937;
-      color: #fff;
-      border: 1px solid #374151;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-size: 13px;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.4);
-      display: none;
-      z-index: 1000;
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 640px) {
-      .header-content { flex-direction: column; align-items: flex-start; gap: 10px; }
-      .header-actions { width: 100%; justify-content: flex-end; }
-      .target-score { font-size: 22px; }
-      .countdown-val { font-size: 20px; }
+    .pulse-ring {
+      animation: pulse-ring 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col antialiased selection:bg-brand-gold selection:text-black">
 
-  <!-- Header -->
-  <header>
-    <div class="header-content">
-      <div class="brand-group">
-        <span class="brand-badge">七虎</span>
-        <div>
-          <div class="brand-title">冯俊杰 · 大学战略指挥枢纽</div>
-          <div class="brand-sub">中国矿业大学 力土学院 钱七虎班 | 为国筑盾</div>
+  <!-- Top Command Header -->
+  <header class="sticky top-0 z-50 border-b border-brand-border bg-brand-dark/95 backdrop-blur-md px-3 lg:px-8 py-3">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Identity & Banner -->
+      <div class="flex items-center justify-between w-full md:w-auto">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-red to-brand-gold p-0.5 flex-shrink-0 flex items-center justify-center shadow-lg">
+            <div class="w-full h-full bg-brand-dark rounded-[7px] flex items-center justify-center font-serif text-brand-gold font-bold text-sm">
+              七虎
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h1 class="text-sm sm:text-base font-bold text-white tracking-wide">冯俊杰 · 大学战略指挥枢纽</h1>
+              <span class="px-1.5 py-0.5 text-[10px] rounded bg-brand-gold/15 text-brand-gold font-mono border border-brand-gold/30">2026-2029</span>
+            </div>
+            <p class="text-[10px] sm:text-xs text-gray-400 font-serif line-clamp-1">中国矿业大学 力土学院 钱七虎班 | 践行战略攻坚 · 为国筑盾</p>
+          </div>
+        </div>
+
+        <!-- Mobile Header Quick Sync Icon Button -->
+        <div class="flex md:hidden items-center gap-1.5">
+          <button onclick="toggleSyncModal(true)" class="flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-brand-surface border border-brand-border text-brand-gold">
+            <span class="w-2 h-2 rounded-full bg-gray-500" id="syncStatusDotMobile"></span>
+            <span>云同步</span>
+          </button>
         </div>
       </div>
-      <div class="header-actions">
-        <button class="btn-header" onclick="openSyncModal()" id="syncBtn">
-          <span class="sync-status-dot" id="syncDot"></span>
-          <span>☁️ 云同步</span>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex items-center gap-1 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="navTabs">
+        <button onclick="switchTab('dashboard')" class="nav-btn px-3 py-1.5 text-xs font-medium rounded-lg transition-all text-white bg-brand-surface border border-brand-gold/40 text-brand-gold flex-shrink-0" data-target="dashboard">
+          战况总览
         </button>
-        <button class="btn-header" onclick="openTaskModal()">
-          <span>+ 指令</span>
+        <button onclick="switchTab('simulator')" class="nav-btn px-3 py-1.5 text-xs font-medium rounded-lg transition-all text-gray-400 hover:text-white hover:bg-brand-surface/50 border border-transparent flex-shrink-0" data-target="simulator">
+          综测推演沙盘
         </button>
-        <button class="btn-header primary" onclick="exportPlan()">
-          <span>导出</span>
+        <button onclick="switchTab('schedule')" class="nav-btn px-3 py-1.5 text-xs font-medium rounded-lg transition-all text-gray-400 hover:text-white hover:bg-brand-surface/50 border border-transparent flex-shrink-0" data-target="schedule">
+          战时周阵地
+        </button>
+        <button onclick="switchTab('bio')" class="nav-btn px-3 py-1.5 text-xs font-medium rounded-lg transition-all text-gray-400 hover:text-white hover:bg-brand-surface/50 border border-transparent flex-shrink-0" data-target="bio">
+          体魄与呼吸舱
+        </button>
+        <button onclick="switchTab('roadmap')" class="nav-btn px-3 py-1.5 text-xs font-medium rounded-lg transition-all text-gray-400 hover:text-white hover:bg-brand-surface/50 border border-transparent flex-shrink-0" data-target="roadmap">
+          三年大图景
+        </button>
+      </nav>
+
+      <!-- Desktop Quick Actions -->
+      <div class="hidden md:flex items-center gap-2 flex-shrink-0">
+        <button onclick="toggleSyncModal(true)" class="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border text-gray-200 border border-brand-border transition-all" id="btnSyncHeader" title="配置 GitHub Gist 云端跨设备实时同步">
+          <span class="w-2 h-2 rounded-full bg-gray-500 transition-colors" id="syncStatusDot"></span>
+          <span class="font-medium text-brand-gold">☁️ 云同步</span>
+        </button>
+        <button onclick="exportPlanMarkdown()" class="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border text-gray-200 border border-brand-border transition-all">
+          <svg class="w-3.5 h-3.5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          导出战略全案
         </button>
       </div>
+
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <div class="nav-tabs-wrapper">
-    <div class="nav-tabs">
-      <button class="nav-tab-btn active" onclick="switchTab('overview', this)">战况总览</button>
-      <button class="nav-tab-btn" onclick="switchTab('sandbox', this)">综测推演沙盘</button>
-      <button class="nav-tab-btn" onclick="switchTab('schedule', this)">战时周阵地</button>
-      <button class="nav-tab-btn" onclick="switchTab('breathing', this)">体魄与呼吸舱</button>
-      <button class="nav-tab-btn" onclick="switchTab('vision', this)">三年大图景</button>
-    </div>
-  </div>
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-5 lg:p-8 space-y-6">
 
-  <div class="container">
+    <!-- ========================================== -->
+    <!-- TAB 1: 战况总览 (DASHBOARD)               -->
+    <!-- ========================================== -->
+    <div id="tab-dashboard" class="tab-panel space-y-5">
+      
+      <!-- Strategic Motto Banner -->
+      <div class="tactical-border rounded-2xl p-4 sm:p-6 relative overflow-hidden bg-gradient-to-r from-brand-red/20 via-brand-surface to-brand-surface border-brand-red/30">
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div class="space-y-1">
+            <span class="text-[10px] sm:text-xs uppercase font-mono tracking-widest text-brand-gold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span> 核心战略思想指引
+            </span>
+            <h2 class="text-lg sm:text-2xl font-serif font-black text-white tracking-wide">
+              “俱往矣，数风流人物，还看今朝。”
+            </h2>
+            <p class="text-xs text-gray-300">
+              战术原则：集中优势兵力打歼灭战 | 实事求是调查研究 | 野蛮体魄，文明精神
+            </p>
+          </div>
+          <div class="flex items-center justify-between w-full md:w-auto gap-3 pt-2 md:pt-0 border-t md:border-t-0 border-brand-border/60">
+            <div class="text-left md:text-right">
+              <div class="text-[11px] text-gray-400">大二综测战略目标</div>
+              <div class="text-xl sm:text-2xl font-mono font-extrabold text-brand-gold">30.00 <span class="text-xs text-gray-400">/ 突破历史纪录</span></div>
+            </div>
+            <div class="px-3 py-2 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold font-bold text-xs sm:text-sm">
+              TOP 1 · 国奖
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <!-- TAB 1: 战况总览 -->
-    <div id="tab-overview" class="tab-pane active">
-      <!-- Quote Card -->
-      <div class="quote-card">
-        <div class="quote-tag">★ 核心战略思想指引</div>
-        <div class="quote-text">“俱往矣，数风流人物，还看今朝。”</div>
-        <div class="quote-sub">战术原则：集中优势兵力打歼灭战 | 实事求是调查研究 | 野蛮体魄，文明精神</div>
-        <div class="target-bar">
+      <!-- Real-time Battle Deadlines -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        
+        <!-- Battle 1: CMC Math -->
+        <div class="tactical-border rounded-xl p-4 space-y-2 border-l-4 border-l-brand-red">
+          <div class="flex justify-between items-center text-xs text-gray-400">
+            <span class="font-medium text-white">决战 CMC 高数竞赛</span>
+            <span class="text-brand-red font-mono font-bold">11.14</span>
+          </div>
+          <div class="text-2xl font-mono font-bold text-white" id="count-cmc">-- 天</div>
+          <p class="text-[11px] text-gray-400 line-clamp-1">战略目标：江苏省一/二等奖（学术 8~10 分）</p>
+          <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-brand-red h-full" id="bar-cmc" style="width: 78%"></div>
+          </div>
+        </div>
+
+        <!-- Battle 2: Surveying 4-Phase Fieldwork -->
+        <div class="tactical-border rounded-xl p-4 space-y-2 border-l-4 border-l-brand-accent">
+          <div class="flex justify-between items-center text-xs text-gray-400">
+            <span class="font-medium text-white">工程测量实习 (全天)</span>
+            <span class="text-brand-accent font-mono font-bold" id="survey-cur-phase">第5周·平面控制</span>
+          </div>
+          <div class="text-2xl font-mono font-bold text-white" id="survey-loc-badge">环测 A308</div>
+          <p class="text-[11px] text-gray-400 line-clamp-1" id="survey-desc">10.17-18: 碎部测图(C305) | 10.24-25: 数据整饰</p>
+          <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-brand-accent h-full" style="width: 40%"></div>
+          </div>
+        </div>
+
+        <!-- Battle 3: CET-6 Official Lock -->
+        <div class="tactical-border rounded-xl p-4 space-y-2 border-l-4 border-l-brand-gold">
+          <div class="flex justify-between items-center text-xs text-gray-400">
+            <span class="font-medium text-white">大学英语六级 CET-6</span>
+            <span class="text-brand-gold font-mono font-bold">12.12 决战</span>
+          </div>
+          <div class="text-2xl font-mono font-bold text-white" id="count-cet">-- 天</div>
+          <p class="text-[11px] text-gray-400 line-clamp-1">目标：冲 500+（保底 425 激活 4 分底牌）</p>
+          <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-brand-gold h-full" id="bar-cet" style="width: 55%"></div>
+          </div>
+        </div>
+
+        <!-- Battle 4: Physics Lab Report -->
+        <div class="tactical-border rounded-xl p-4 space-y-2 border-l-4 border-l-brand-emerald">
+          <div class="flex justify-between items-center text-xs text-gray-400">
+            <span class="font-medium text-white">大物实验报告·铁磁材料</span>
+            <span class="text-brand-emerald font-mono font-bold">10.15 前结项</span>
+          </div>
+          <div class="text-2xl font-mono font-bold text-white" id="count-physics">-- 天</div>
+          <p class="text-[11px] text-gray-400 line-clamp-1">周二黄金窗完成数据作图与迟滞回线拟合</p>
+          <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-brand-emerald h-full" style="width: 70%"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live Clock & Directive Dispatch Center -->
+      <div class="tactical-border rounded-2xl p-4 sm:p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div>
-            <div style="font-size:11px;color:var(--text-muted);">大二综测战略目标</div>
-            <div class="target-score">30.00 <span style="font-size:14px;color:#9ca3af;">/ 突破历史记录</span></div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brand-emerald animate-pulse"></span>
+                即刻战地指令（时空动态对齐系统）
+              </h3>
+              <span id="combat-live-badge" class="px-2 py-0.5 rounded text-[10px] font-mono bg-brand-emerald/15 text-brand-emerald border border-brand-emerald/30">
+                ● 战时时钟已锁死江苏徐州
+              </span>
+            </div>
+            <p class="text-[11px] text-gray-400 mt-1 flex flex-wrap items-center gap-2">
+              <span id="combat-live-time" class="font-mono text-brand-gold font-semibold">2026.10.11 周日 --:--:--</span>
+              <span class="text-gray-500">|</span>
+              <span id="combat-cur-day-tag" class="text-gray-300">第5周·周日攻坚</span>
+              <span class="text-gray-500">|</span>
+              <span class="text-gray-400">自动根据真实星期动态调度今日必决事项</span>
+            </p>
           </div>
-          <span class="target-badge">TOP 1 · 国家奖学金</span>
+          
+          <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+            <!-- Filter Pills -->
+            <div class="bg-brand-dark p-0.5 rounded-lg border border-brand-border flex items-center text-[11px]">
+              <button onclick="setTaskFilter('today')" id="task-filter-today" class="px-2.5 py-1 rounded bg-brand-surface text-brand-gold font-medium transition-all">
+                今日必决
+              </button>
+              <button onclick="setTaskFilter('week')" id="task-filter-week" class="px-2.5 py-1 rounded text-gray-400 hover:text-white transition-all">
+                本周攻坚
+              </button>
+              <button onclick="setTaskFilter('all')" id="task-filter-all" class="px-2.5 py-1 rounded text-gray-400 hover:text-white transition-all">
+                全部战役
+              </button>
+            </div>
+            
+            <div class="text-xs text-gray-400 font-mono">
+              完成度: <span class="text-brand-gold font-bold text-sm" id="task-progress-stat">0 / 0</span>
+            </div>
+            <button onclick="toggleHistoryModal(true)" class="px-2.5 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border border border-brand-border text-gray-300 text-xs font-medium flex items-center gap-1 transition-all" title="查看历史已结战役与时间戳">
+              <span>📜 战史归档</span>
+            </button>
+            <button onclick="toggleAddTaskBar(true)" class="px-3 py-1.5 rounded-lg bg-brand-gold/15 hover:bg-brand-gold/25 border border-brand-gold/40 text-brand-gold text-xs font-semibold flex items-center gap-1 transition-all">
+              <span>+ 自定义指令</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Task Input Bar (Quick Add Drawer) -->
+        <div id="addTaskBar" class="hidden p-3 rounded-xl bg-brand-dark/80 border border-brand-gold/40 flex flex-col md:flex-row gap-2">
+          <input type="text" id="customTaskTitle" placeholder="输入紧急战役目标（例如：下午完成大物实验迟滞回线拟合）" class="flex-1 bg-brand-surface border border-brand-border rounded-lg px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:border-brand-gold outline-none">
+          <input type="text" id="customTaskSub" placeholder="战术交付物说明（例如：闭合导线坐标增量手簿平差完成）" class="w-full md:w-64 bg-brand-surface border border-brand-border rounded-lg px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:border-brand-gold outline-none">
+          <div class="flex gap-2">
+            <button onclick="confirmAddTask()" class="px-4 py-1.5 rounded-lg bg-brand-gold text-black text-xs font-bold hover:bg-yellow-400 transition-all">确认下达</button>
+            <button onclick="toggleAddTaskBar(false)" class="px-3 py-1.5 rounded-lg bg-brand-surface text-gray-400 text-xs hover:text-white border border-brand-border">取消</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Task Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs" id="taskContainer">
+          <!-- Dynamically Rendered by JS -->
         </div>
       </div>
 
-      <!-- Clock Banner -->
-      <div class="clock-banner">
-        <span>📍 江苏徐州 · 中国矿业大学南湖校区</span>
-        <span class="clock-live" id="liveClock">2026.10.11 周日 13:14:00</span>
+      <!-- Core Strategy Grid: Historical Diagnostic vs. Supercharge Plan -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        
+        <!-- Left: 大一实盘复盘诊断 -->
+        <div class="tactical-border rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+            <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+              大一实盘复盘诊断 (信息差穿透)
+            </h3>
+            <span class="text-xs font-mono text-gray-400">学年总评: 8.625分</span>
+          </div>
+          <div class="space-y-3 text-xs">
+            <div class="p-3 rounded-lg bg-brand-dark/50 border border-brand-border space-y-1">
+              <div class="flex justify-between text-gray-300">
+                <span>智育基准 (加权 85.31)</span>
+                <span class="font-mono text-brand-gold">专业 53/292 (前 18.15%)</span>
+              </div>
+              <p class="text-gray-500">已踩在“智育前20%”硬指标线上，底盘扎实，具备爆发力。</p>
+            </div>
+            <div class="p-3 rounded-lg bg-brand-dark/50 border border-brand-border space-y-1">
+              <div class="flex justify-between text-gray-300">
+                <span>发展素质全院排位</span>
+                <span class="font-mono text-red-400">土木类 61/274 (前 22.26%)</span>
+              </div>
+              <p class="text-gray-500">距离全院前20%（9.275分）仅差 0.65 分！落后原因在于文体与社工未起爆。</p>
+            </div>
+            <div class="p-3 rounded-lg bg-brand-red/10 border border-brand-red/30 space-y-1 text-gray-300">
+              <span class="font-medium text-brand-red">核心信息差症结：</span>
+              <p class="text-gray-400 leading-relaxed">
+                全院前5名（23.5~26.4分）无一靠体力盲干，全靠美赛9.6分、国家级外宣12~30分（不设限）、结构赛29分等高杠杆规则收割。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle & Right: 大二 30 分超频进攻作战系统 -->
+        <div class="lg:col-span-2 tactical-border rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+            <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-brand-gold"></span>
+              大二学年综测 30 分超级进攻模型
+            </h3>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-brand-red/20 text-brand-red border border-brand-red/40 font-mono">
+              F = 40×50% + 16×25% + 24×25% = 30.00
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            
+            <!-- Pillar 1 -->
+            <div class="p-3.5 rounded-xl bg-brand-dark/60 border border-brand-border space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-brand-accent">1. 学业学术板块</span>
+                <span class="text-xs font-mono font-bold text-white">40.0分 (贡献20分)</span>
+              </div>
+              <ul class="text-[11px] text-gray-400 space-y-1.5 list-disc list-inside">
+                <li><strong class="text-gray-200">加权成绩前10%：</strong>10.0分</li>
+                <li><strong class="text-gray-200">CMC高数竞赛省二/省一：</strong>8~10分</li>
+                <li><strong class="text-gray-200">美赛MCM参赛优秀奖：</strong>9.6分</li>
+                <li><strong class="text-gray-200">CET-6过线(≥425)：</strong>4.0分</li>
+                <li><strong class="text-gray-200">基础课学习之星2门：</strong>4.0分</li>
+                <li><strong class="text-gray-200">卡牌大师/结构赛：</strong>4.4分</li>
+              </ul>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="p-3.5 rounded-xl bg-brand-dark/60 border border-brand-border space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-brand-gold">2. 文体活动板块</span>
+                <span class="text-xs font-mono font-bold text-white">16.0分 (贡献4分)</span>
+              </div>
+              <ul class="text-[11px] text-gray-400 space-y-1.5 list-disc list-inside">
+                <li><strong class="text-gray-200">文体竞赛刷满上限：</strong>15.0分</li>
+                <li>• 江苏省安全竞赛校级：3~4分</li>
+                <li>• 模拟炒股大赛校二/三：2~3分</li>
+                <li>• 学院主题征文2篇：2~3分</li>
+                <li>• 记者节文创大赛校三：2分</li>
+                <li><strong class="text-gray-200">运会竞技/风采展示：</strong>1.0分</li>
+              </ul>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="p-3.5 rounded-xl bg-brand-dark/60 border border-brand-border space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-brand-emerald">3. 社会工作板块</span>
+                <span class="text-xs font-mono font-bold text-white">24.0分 (贡献6分)</span>
+              </div>
+              <ul class="text-[11px] text-gray-400 space-y-1.5 list-disc list-inside">
+                <li><strong class="text-gray-200">国家级媒体宣传：</strong>10.8分<br><span class="text-brand-red">(井冈山/红色走读3篇第一作者)</span></li>
+                <li><strong class="text-gray-200">社会实践优秀调研报告：</strong>3.2分</li>
+                <li><strong class="text-gray-200">班委优秀 + 校优团：</strong>11.0分</li>
+                <li><strong class="text-gray-200">宿舍长考核合格：</strong>3.0分</li>
+                <li><strong class="text-gray-200">志愿工时满100小时：</strong>3.0分</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <!-- Bottom Operational Command -->
+          <div class="p-3 rounded-lg bg-brand-surface border border-brand-gold/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <span class="text-gray-300">
+              ⚡ <strong>战略精髓：</strong>拒绝低效苦干，利用<strong>外宣无上限规则 + 建模低门槛高权重</strong>打出断层优势。
+            </span>
+            <button onclick="switchTab('simulator')" class="px-3 py-1.5 rounded-lg bg-brand-gold text-black font-semibold hover:bg-yellow-400 transition-all flex-shrink-0">
+              打开沙盘推演自己的实时分数 →
+            </button>
+          </div>
+
+        </div>
+
       </div>
 
-      <!-- Countdowns -->
-      <div class="countdown-grid">
-        <div class="countdown-card danger">
-          <div class="countdown-head">
-            <span>决战 CMC 高数竞赛</span>
-            <span style="color:var(--accent-red);font-weight:700;">11.14</span>
-          </div>
-          <div class="countdown-val" id="cdCmc">34 天</div>
-          <div class="countdown-desc">战略目标：江苏省一/二等奖（学术 8~10 分）</div>
-        </div>
+    </div>
 
-        <div class="countdown-card cyan">
-          <div class="countdown-head">
-            <span>工程测量实习 (全天)</span>
-            <span style="color:var(--accent-cyan);font-weight:700;">第5周·平面控制</span>
+    <!-- Battle History Modal (战史归档抽屉) -->
+    <div id="historyModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="tactical-border bg-brand-dark max-w-xl w-full rounded-2xl p-5 space-y-4 max-h-[85vh] flex flex-col shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-gold"></span>
+            <h3 class="text-sm font-bold text-white">战史档案库 · 已结战役记录</h3>
           </div>
-          <div class="countdown-val">环测 A308</div>
-          <div class="countdown-desc">10.17-18: 碎部测图(C305) | 10.24-25: 数据整饰</div>
+          <button onclick="toggleHistoryModal(false)" class="text-gray-400 hover:text-white p-1 text-sm">✕</button>
         </div>
-
-        <div class="countdown-card warning">
-          <div class="countdown-head">
-            <span>大学英语六级 CET-6</span>
-            <span style="color:var(--accent-gold);font-weight:700;">12.12 决战</span>
-          </div>
-          <div class="countdown-val" id="cdCet">62 天</div>
-          <div class="countdown-desc">每日早晨 7:15–8:00 精听跟读与晓艳高频词</div>
+        <p class="text-xs text-gray-400">系统自动记录所有已销项战役及精确达成时间戳（存储于本地设备并支持云端互通）：</p>
+        <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="historyLogList">
+          <!-- Rendered dynamically -->
         </div>
-
-        <div class="countdown-card">
-          <div class="countdown-head">
-            <span>大物实验报告·铁磁材料</span>
-            <span style="color:#60a5fa;font-weight:700;">10.15 截稿</span>
+        <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
+          <span class="text-gray-500 font-mono" id="historyLogCount">已归档 0 场战役</span>
+          <div class="flex gap-2">
+            <button onclick="clearHistoryLog()" class="px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-800/40 transition-all">清空记录</button>
+            <button onclick="toggleHistoryModal(false)" class="px-4 py-1.5 rounded-lg bg-brand-surface text-gray-200 border border-brand-border hover:bg-brand-border transition-all">返回战场</button>
           </div>
-          <div class="countdown-val" id="cdPhysics">4 天</div>
-          <div class="countdown-desc">周二 08:00–10:00 黄金时段集中拟合回线出报告</div>
-        </div>
-      </div>
-
-      <!-- Directives -->
-      <div class="section-card">
-        <div class="section-header">
-          <div class="section-title">
-            <span>⚡ 即刻战地指令</span>
-            <span style="font-size:11px;color:var(--text-muted);font-weight:normal;" id="taskCounter">(0/4)</span>
-          </div>
-          <div class="filter-btn-group">
-            <button class="btn-filter active" onclick="filterTasks('today', this)">今日必决</button>
-            <button class="btn-filter" onclick="filterTasks('week', this)">本周攻坚</button>
-            <button class="btn-filter" onclick="filterTasks('all', this)">全部指令</button>
-          </div>
-        </div>
-
-        <div class="task-list" id="taskListContainer">
-          <!-- Dynamic tasks rendered here -->
         </div>
       </div>
     </div>
 
-    <!-- TAB 2: 综测推演沙盘 -->
-    <div id="tab-sandbox" class="tab-pane">
-      <div class="section-card">
-        <div class="section-header">
-          <div class="section-title">🎯 大二综测 30 分动态推演沙盘</div>
-          <span style="font-size:12px;color:var(--accent-gold);font-weight:700;">当前推演总分: <span id="simTotalScore">30.00</span></span>
+    <!-- Cloud Sync Modal (GitHub Gist 云同步专属配置弹窗) -->
+    <div id="syncModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="tactical-border bg-brand-dark max-w-md w-full rounded-2xl p-5 space-y-4 shadow-2xl border border-brand-border">
+        <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+            <h3 class="text-sm font-bold text-white">☁️ GitHub Gist 跨设备云同步设置</h3>
+          </div>
+          <button onclick="toggleSyncModal(false)" class="text-gray-400 hover:text-white p-1 text-sm">✕</button>
         </div>
-        <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">
-          依据力土学院2025级综合素质测评办法公式：发展素质 F = 学业学术×50% + 文体活动×25% + 社会工作×25%
+
+        <p class="text-xs text-gray-400 leading-relaxed">
+          绑定后，手机与电脑之间将实现每日指令、打卡状态与战史的毫秒级静默互通。所有密钥均严格保存在当前设备本地沙盒中。
         </p>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px,1fr));gap:16px;">
-          <div style="background:#111827;padding:14px;border-radius:8px;border:1px solid #282e3e;">
-            <div style="font-size:13px;font-weight:700;color:#60a5fa;margin-bottom:10px;">1. 学业学术 (权重50%)</div>
-            <div class="form-group">
-              <label class="form-label">加权成绩档位</label>
-              <select class="form-input" id="simRank" onchange="calcSandbox()">
-                <option value="10">前10% (加10分)</option>
-                <option value="15">前3% (加15分)</option>
-                <option value="6">前20% (加6分)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">CMC 高数竞赛预期</label>
-              <select class="form-input" id="simCmc" onchange="calcSandbox()">
-                <option value="8">江苏省二等奖 (加8分)</option>
-                <option value="10">江苏省一等奖 (加10分)</option>
-                <option value="15">国家级三等奖 (加15分)</option>
-                <option value="6">江苏省三等奖 (加6分)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">美赛 MCM 参赛 (国际级优秀奖)</label>
-              <select class="form-input" id="simMcm" onchange="calcSandbox()">
-                <option value="9.6">参加并成功提交 (加9.6分)</option>
-                <option value="0">不参加 (0分)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">外语六级 (CET-6 ≥ 425)</label>
-              <select class="form-input" id="simCet" onchange="calcSandbox()">
-                <option value="4">通过六级 (终身加4分)</option>
-                <option value="2">仅四级 (加2分)</option>
-              </select>
-            </div>
-            <div style="font-size:12px;color:var(--text-muted);border-top:1px solid #282e3e;padding-top:8px;">
-              学业学术小计: <span id="subAcademic" style="color:#fff;font-weight:700;">40.0</span> 分
-            </div>
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block text-gray-300 font-medium mb-1">GitHub Personal Access Token (需勾选 gist 权限)</label>
+            <input type="password" id="inputSyncToken" placeholder="长按粘贴 ghp_xxxxxxxxxxxxxxxxxxxx" class="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-brand-gold outline-none font-mono text-xs">
+            <div class="text-[10px] text-gray-500 mt-1">在 GitHub ➔ Settings ➔ Developer Settings ➔ Tokens (classic) 中生成</div>
           </div>
 
-          <div style="background:#111827;padding:14px;border-radius:8px;border:1px solid #282e3e;">
-            <div style="font-size:13px;font-weight:700;color:#f59e0b;margin-bottom:10px;">2. 文体活动 (权重25%)</div>
-            <div class="form-group">
-              <label class="form-label">文化艺术类竞赛 (上限15分)</label>
-              <input type="number" class="form-input" id="simArts" value="15" max="15" min="0" onchange="calcSandbox()">
-              <div class="form-help">安全竞赛(3)+炒股(2)+院主题征文(每篇1.5)</div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">体育竞赛与风采展示</label>
-              <input type="number" class="form-input" id="simSports" value="1" min="0" onchange="calcSandbox()">
-              <div class="form-help">校马完赛(1分) 或 运动会展示(1分)</div>
-            </div>
-            <div style="font-size:12px;color:var(--text-muted);border-top:1px solid #282e3e;padding-top:8px;">
-              文体活动小计: <span id="subArts" style="color:#fff;font-weight:700;">16.0</span> 分
-            </div>
+          <div>
+            <label class="block text-gray-300 font-medium mb-1">Secret Gist ID (32位字符串)</label>
+            <input type="text" id="inputSyncGistId" placeholder="长按粘贴 32 位 Gist ID" class="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-brand-gold outline-none font-mono text-xs">
+            <div class="text-[10px] text-gray-500 mt-1">在 gist.github.com 创建的 Secret Gist 地址栏末尾 32 位字符</div>
           </div>
 
-          <div style="background:#111827;padding:14px;border-radius:8px;border:1px solid #282e3e;">
-            <div style="font-size:13px;font-weight:700;color:#10b981;margin-bottom:10px;">3. 社会工作 (权重25% · 王炸阵地)</div>
-            <div class="form-group">
-              <label class="form-label">国家级媒体外宣报道 (6分/篇·不设上限)</label>
-              <input type="number" class="form-input" id="simMedia" value="2" min="0" onchange="calcSandbox()">
-              <div class="form-help">井冈山研学通讯投稿中青网/三下乡网 (第一作者×60%=3.6分/篇)</div>
+          <div class="p-3 rounded-lg bg-brand-surface/60 border border-brand-border text-[11px] space-y-1.5">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>云端连接状态：</span>
+              <span id="syncModalStatusText" class="font-mono text-gray-400">⚪ 未配置凭证 (仅单机存储)</span>
             </div>
-            <div class="form-group">
-              <label class="form-label">宿舍长合格加分</label>
-              <select class="form-input" id="simDorm" onchange="calcSandbox()">
-                <option value="3">担任宿舍长合格 (加3分)</option>
-                <option value="0">否 (0分)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">学生骨干职务与校级表彰</label>
-              <select class="form-input" id="simCadre" onchange="calcSandbox()">
-                <option value="11">班委优秀(6) + 校优团(5) = 11分</option>
-                <option value="6">仅班委考核优秀 (6分)</option>
-                <option value="4">团学干事合格 (4分)</option>
-              </select>
-            </div>
-            <div style="font-size:12px;color:var(--text-muted);border-top:1px solid #282e3e;padding-top:8px;">
-              社会工作小计: <span id="subSocial" style="color:#fff;font-weight:700;">24.0</span> 分
+            <div class="flex justify-between items-center text-gray-400">
+              <span>上次成功同步：</span>
+              <span id="syncModalLastTime" class="font-mono text-brand-gold">无同步记录</span>
             </div>
           </div>
+        </div>
+
+        <div class="pt-2 border-t border-brand-border flex gap-2 text-xs">
+          <button onclick="saveAndSyncGist()" class="flex-1 py-2 rounded-lg bg-brand-gold text-black font-bold hover:bg-yellow-400 transition-all flex items-center justify-center gap-1" id="btnConfirmSync">
+            <span>保存并从云端同步</span>
+          </button>
+          <button onclick="clearSyncCredentials()" class="px-3 py-2 rounded-lg bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-800/40 transition-all" title="清除本设备保存的 Token 与 Gist ID">
+            解绑
+          </button>
+          <button onclick="toggleSyncModal(false)" class="px-3 py-2 rounded-lg bg-brand-surface text-gray-300 border border-brand-border hover:bg-brand-border transition-all">
+            取消
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- TAB 3: 战时周阵地 -->
-    <div id="tab-schedule" class="tab-pane">
-      <div class="section-card">
-        <div class="section-title" style="margin-bottom:12px;">🗓 课表深度调度与雷霆阵地</div>
-        <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">
-          ★ 核心攻坚时段：周三下午 14:00–18:00 (4小时无课大块) | 每日 21:15–22:45 (CMC高数90分钟闭卷雷霆阵地)
-        </p>
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-size:12px;text-align:center;">
+    <!-- ========================================== -->
+    <!-- TAB 2: 综测推演沙盘 (SIMULATOR)           -->
+    <!-- ========================================== -->
+    <div id="tab-simulator" class="tab-panel hidden space-y-6">
+      
+      <!-- Simulator Header & Real-time Live Result -->
+      <div class="tactical-border rounded-2xl p-4 sm:p-6 bg-gradient-to-r from-brand-surface via-brand-dark to-brand-surface border-brand-gold/30 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <span class="text-xs font-mono uppercase text-brand-gold tracking-wider">力土学院 2025 级加分条例实装引擎</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mt-1">综测得分沙盘推演器</h2>
+          <p class="text-xs text-gray-400 mt-1">
+            发展素质得分 F = 学业学术×50% + 文体活动×25% + 社会工作×25% (条例第十五条)
+          </p>
+        </div>
+        
+        <!-- Score HUD Gauge -->
+        <div class="flex items-center gap-6 bg-brand-dark/80 px-6 py-4 rounded-xl border border-brand-border shadow-inner w-full md:w-auto justify-center">
+          <div class="text-center">
+            <div class="text-xs text-gray-400">推演发展素质得分 (F)</div>
+            <div class="text-3xl sm:text-4xl font-mono font-black text-brand-gold" id="sim-total-f">30.00</div>
+          </div>
+          <div class="h-10 w-px bg-brand-border"></div>
+          <div class="text-xs space-y-1">
+            <div class="text-gray-300">去年最高分：<span class="font-mono text-white">26.40</span></div>
+            <div class="text-brand-emerald font-semibold" id="sim-status-label">超越全院历史最高分 +3.60 分</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulator Inputs Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        
+        <!-- Column 1: 学业学术 (50%) -->
+        <div class="tactical-border rounded-xl p-5 space-y-4">
+          <div class="flex justify-between items-center pb-2 border-b border-brand-border">
+            <span class="text-sm font-bold text-brand-accent">1. 学业学术能力加分</span>
+            <span class="text-xs font-mono text-white bg-brand-dark px-2 py-0.5 rounded border border-brand-border" id="sim-score-academic">40.0 分</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-gray-300 block mb-1">必修加权学习成绩排名</label>
+              <select id="sim-input-gpa" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-accent outline-none">
+                <option value="15">专业前 3%（加 15 分）</option>
+                <option value="10" selected>专业前 10%（加 10 分）- 冯俊杰基准目标</option>
+                <option value="6">专业前 20%（加 6 分）</option>
+                <option value="3">专业前 30%（加 3 分）</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">全国大学生数学竞赛 CMC (11.14)</label>
+              <select id="sim-input-cmc" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-accent outline-none">
+                <option value="10">省一等奖（加 10 分）</option>
+                <option value="8" selected>省二等奖（加 8 分）</option>
+                <option value="6">省三等奖（加 6 分）</option>
+                <option value="0">未获奖（加 0 分）</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">美国大学生数学建模竞赛 MCM (寒假)</label>
+              <select id="sim-input-mcm" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-accent outline-none">
+                <option value="9.6" selected>提交合格论文获优秀奖（国际级系数1.2×8 = 9.6分）</option>
+                <option value="0">不参加（0分）</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">大学英语外语水平加分</label>
+              <select id="sim-input-cet" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-accent outline-none">
+                <option value="4" selected>CET-6 ≥ 425 分（加 4 分，终身有效）</option>
+                <option value="2">CET-4 > 425 分（加 2 分）</option>
+                <option value="6">雅思 ≥ 7.0 / 托福 ≥ 100（加 6 分）</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">基础课学习之星（高数、力学、线代申报）</label>
+              <select id="sim-input-star" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-accent outline-none">
+                <option value="4" selected>获得 2 门学习之星（加 4 分）</option>
+                <option value="6">获得 3 门学习之星（加 6 分）</option>
+                <option value="2">获得 1 门学习之星（加 2 分）</option>
+                <option value="0">0 门（0分）</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">本行结构设计/卡牌大师/大创</label>
+              <select id="sim-input-struct" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-accent outline-none">
+                <option value="6.0">结构赛校一/大创负责人（加 6.0 分）</option>
+                <option value="4.4" selected>卡牌大师/结构赛校二 + 大创（加 4.4 分）</option>
+                <option value="2.0">仅一般参赛（加 2.0 分）</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: 文体活动 (25%, 规则上限15分) -->
+        <div class="tactical-border rounded-xl p-5 space-y-4">
+          <div class="flex justify-between items-center pb-2 border-b border-brand-border">
+            <span class="text-sm font-bold text-brand-gold">2. 文体活动加分 (上限15+活动)</span>
+            <span class="text-xs font-mono text-white bg-brand-dark px-2 py-0.5 rounded border border-brand-border" id="sim-score-arts">16.0 分</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-2.5 rounded-lg bg-brand-gold/10 border border-brand-gold/30 text-gray-300">
+              <span class="font-semibold text-brand-gold">规则杠杆提示：</span> 文体竞赛项目加分 <strong>15分顶格封顶</strong>！拒绝苦力方阵，走文创征文与安全答题。
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">文体竞赛速刷组合 (安全赛+炒股+文创+征文)</label>
+              <select id="sim-input-art-comp" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-gold outline-none">
+                <option value="15" selected>多项校院二三等奖叠加 -> 刷满 15.0 分上限</option>
+                <option value="10">完成 3 项竞赛（拿 10.0 分）</option>
+                <option value="6">完成 2 项竞赛（拿 6.0 分）</option>
+                <option value="0">未参加（0 分）</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">非竞赛类活动 (运动会风采展示/讲座)</label>
+              <select id="sim-input-art-act" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-gold outline-none">
+                <option value="1.0" selected>运动会方阵/单项打底（加 1.0 分）</option>
+                <option value="3.0">听 4 场讲座 + 方阵（加 3.0 分）</option>
+                <option value="6.0">听满 12 场讲座（加 6.0 分）</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3: 社会工作 (25%, 外宣无上限) -->
+        <div class="tactical-border rounded-xl p-5 space-y-4">
+          <div class="flex justify-between items-center pb-2 border-b border-brand-border">
+            <span class="text-sm font-bold text-brand-emerald">3. 社会工作加分 (外宣无上限)</span>
+            <span class="text-xs font-mono text-white bg-brand-dark px-2 py-0.5 rounded border border-brand-border" id="sim-score-social">24.0 分</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-2.5 rounded-lg bg-brand-red/10 border border-brand-red/30 text-gray-300">
+              <span class="font-semibold text-brand-red">王炸规则：</span> 国家级媒体宣传报道每篇6分（一作占60%计3.6分），<strong>按实际篇数累加，不设15分上限</strong>！
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">国家级宣传报道篇数 (三下乡网/中青网/大学生网)</label>
+              <select id="sim-input-media" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-emerald outline-none">
+                <option value="10.8" selected>3 篇一作（3 × 3.6 = 10.8 分）- 冯俊杰基准</option>
+                <option value="14.4">4 篇一作（4 × 3.6 = 14.4 分）</option>
+                <option value="7.2">2 篇一作（2 × 3.6 = 7.2 分）</option>
+                <option value="3.6">1 篇一作（3.6 分）</option>
+                <option value="0">0 篇（0 分）</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">班委考核 + 校级荣誉表彰叠加</label>
+              <select id="sim-input-cadre" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-emerald outline-none">
+                <option value="11" selected>班委考核优秀 (6分) + 获校优秀共青团员 (5分) = 11分</option>
+                <option value="8">班级主要负责人优秀 (8分)</option>
+                <option value="6">班委考核优秀 (6分)</option>
+                <option value="4">团学干事考核合格 (4分)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">宿舍长考核职务分 (第十三条规定)</label>
+              <select id="sim-input-dorm" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-emerald outline-none">
+                <option value="3" selected>确认担任宿舍长且合格（稳加 3.0 分）</option>
+                <option value="5">宿舍长合格 (3分) + 全优宿舍 (2分) = 5.0分</option>
+                <option value="0">非宿舍长（0 分）</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-gray-300 block mb-1">志愿服务工时累计</label>
+              <select id="sim-input-vol" onchange="recalculateSimulator()" class="w-full bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-white focus:border-brand-emerald outline-none">
+                <option value="3" selected>志愿工时突破 100 小时（拿满 3.0 分）</option>
+                <option value="2">志愿工时 70~80 小时（加 2.0 分）</option>
+                <option value="1">志愿工时 50~60 小时（加 1.0 分）</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: 战时周阵地 (SCHEDULE)              -->
+    <!-- ========================================== -->
+    <div id="tab-schedule" class="tab-panel hidden space-y-6">
+      
+      <div class="tactical-border rounded-2xl p-4 sm:p-6 space-y-5">
+        
+        <!-- Header & View Toggles -->
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 pb-4 border-b border-brand-border">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono uppercase text-brand-gold tracking-wider">精准对齐官方课表 (02254756 · 南湖校区)</span>
+              <span class="px-2 py-0.5 rounded bg-brand-accent/15 text-brand-accent text-[11px] font-mono border border-brand-accent/30">大二第一学期</span>
+            </div>
+            <h2 class="text-xl font-bold text-white mt-1">战时不可侵犯阵地与课程部署表</h2>
+            <p class="text-xs text-gray-400 mt-0.5">杜绝多线消耗！高数做题绝不拖入深夜，大块作业精准锁定无课黄金窗</p>
+          </div>
+          
+          <!-- View Switcher -->
+          <div class="bg-brand-dark p-1 rounded-xl border border-brand-border flex items-center gap-1 text-xs font-medium">
+            <button onclick="setScheduleView('all')" id="btn-view-all" class="px-3 py-1.5 rounded-lg transition-all bg-brand-surface text-brand-gold border border-brand-gold/30">
+              七天全战区 (含周末实习)
+            </button>
+            <button onclick="setScheduleView('weekday')" id="btn-view-weekday" class="px-3 py-1.5 rounded-lg transition-all text-gray-400 hover:text-white">
+              周一至周五 (平时攻坚)
+            </button>
+            <button onclick="setScheduleView('weekend')" id="btn-view-weekend" class="px-3 py-1.5 rounded-lg transition-all text-gray-400 hover:text-white">
+              周末攻坚 (测量与考试)
+            </button>
+          </div>
+        </div>
+
+        <!-- Legend Ribbon -->
+        <div class="flex flex-wrap items-center gap-2.5 text-[11px]">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-red/15 text-brand-red border border-brand-red/30">
+            <span class="w-2 h-2 rounded-full bg-brand-red"></span> ★ CMC 每日90分钟雷霆阵地 (21:15-22:45)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-gold/15 text-brand-gold border border-brand-gold/30">
+            <span class="w-2 h-2 rounded-full bg-brand-gold"></span> ★ 健身房抗阻 (两年年卡激活)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-300 border border-blue-500/30">
+            <span class="w-2 h-2 rounded-full bg-blue-400"></span> 线下专业必修课 (南湖教学楼)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/30">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span> 调课/智慧工程晚课 (19:00-20:45)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 工程测量野外实习 / 党史考试
+          </span>
+        </div>
+
+        <!-- Weekly Schedule Table -->
+        <div class="overflow-x-auto rounded-xl border border-brand-border bg-brand-dark/30">
+          <table class="w-full text-xs text-left border-collapse min-w-[880px]" id="scheduleTable">
             <thead>
-              <tr style="background:#111827;color:var(--text-muted);">
-                <th style="padding:8px;border:1px solid var(--border-color);">时段</th>
-                <th style="padding:8px;border:1px solid var(--border-color);">周一</th>
-                <th style="padding:8px;border:1px solid var(--border-color);">周二</th>
-                <th style="padding:8px;border:1px solid var(--border-color);">周三</th>
-                <th style="padding:8px;border:1px solid var(--border-color);">周四</th>
-                <th style="padding:8px;border:1px solid var(--border-color);">周五</th>
-                <th style="padding:8px;border:1px solid var(--border-color);">周末</th>
+              <tr class="border-b border-brand-border text-gray-400 font-mono bg-brand-dark/80">
+                <th class="py-3 px-3 w-28 text-center">节次 / 时段</th>
+                <th class="py-3 px-3 col-mon">周一</th>
+                <th class="py-3 px-3 col-tue">周二</th>
+                <th class="py-3 px-3 col-wed">周三</th>
+                <th class="py-3 px-3 col-thu">周四</th>
+                <th class="py-3 px-3 col-fri">周五</th>
+                <th class="py-3 px-3 col-sat bg-emerald-950/20 text-emerald-300 border-l border-brand-border">周六 (战备日)</th>
+                <th class="py-3 px-3 col-sun bg-emerald-950/20 text-emerald-300">周日 (实测与复盘)</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td style="padding:6px;border:1px solid var(--border-color);background:#141722;">07:15-08:00</td>
-                <td colspan="5" style="border:1px solid var(--border-color);background:#1e293b;color:#93c5fd;">六级晨读 45min (晓艳词汇 + 真题听力影子跟读)</td>
-                <td style="border:1px solid var(--border-color);background:#27272a;">整理内业</td>
-              </tr>
-              <tr>
-                <td style="padding:6px;border:1px solid var(--border-color);background:#141722;">08:00-10:00</td>
-                <td style="border:1px solid var(--border-color);">学术英语<br><span style="color:#64748b;">博5-C206</span></td>
-                <td style="border:1px solid var(--border-color);background:rgba(16,185,129,0.1);color:#34d399;font-weight:700;">★大物实验报告<br>黄金攻坚块</td>
-                <td style="border:1px solid var(--border-color);">-</td>
-                <td style="border:1px solid var(--border-color);">工程力学B<br><span style="color:#64748b;">博4-B506</span></td>
-                <td style="border:1px solid var(--border-color);background:rgba(59,130,246,0.1);color:#60a5fa;">★测量理论速算<br>手簿闭合差</td>
-                <td rowspan="3" style="border:1px solid var(--border-color);background:rgba(6,182,212,0.15);color:#22d3ee;font-weight:700;">
-                  工程测量野外实习<br>全天<br><span style="color:#a5f3fc;">环测 A308/C305</span>
+            <tbody class="divide-y divide-brand-border text-gray-300">
+              
+              <!-- Morning Drill -->
+              <tr class="bg-brand-dark/60 font-mono">
+                <td class="py-2.5 px-3 text-center text-brand-gold font-bold">
+                  07:15 - 08:00<br><span class="text-[10px] text-gray-400 font-normal">清晨黄金脑</span>
+                </td>
+                <td colspan="5" class="py-2.5 px-3 text-center text-gray-200 bg-brand-gold/5 border border-brand-gold/20 rounded">
+                  【六级晨训防线】45分钟：晓艳《考频版》高频核心词大声朗读 + 历年真题长对话影子跟读（Shadowing），拒用15分钟零碎敷衍！
+                </td>
+                <td class="py-2.5 px-3 text-center text-gray-400 col-sat border-l border-brand-border bg-brand-dark/40">
+                  自然苏醒·早充优质蛋白
+                </td>
+                <td class="py-2.5 px-3 text-center text-gray-400 col-sun bg-brand-dark/40">
+                  【10.11】考前速过党史高频点
                 </td>
               </tr>
+
+              <!-- Section 1-2 (08:00 - 09:45) -->
               <tr>
-                <td style="padding:6px;border:1px solid var(--border-color);background:#141722;">10:15-12:00</td>
-                <td style="border:1px solid var(--border-color);">工程力学B</td>
-                <td style="border:1px solid var(--border-color);">工程力学B</td>
-                <td style="border:1px solid var(--border-color);">大学物理</td>
-                <td style="border:1px solid var(--border-color);">线性代数</td>
-                <td style="border:1px solid var(--border-color);">大学物理</td>
-              </tr>
-              <tr>
-                <td style="padding:6px;border:1px solid var(--border-color);background:#141722;">14:00-18:00</td>
-                <td style="border:1px solid var(--border-color);">线代 + 篮球</td>
-                <td style="border:1px solid var(--border-color);background:rgba(229,169,60,0.1);color:#fbbf24;">思修 + 🏋️健身房A<br>(16:15背部后链)</td>
-                <td style="border:1px solid var(--border-color);background:rgba(239,68,68,0.2);color:#f87171;font-weight:800;">
-                  ★ 4小时攻坚阵地<br>力学/高数压轴题
+                <td class="py-3 px-3 text-center font-mono text-gray-400 bg-brand-dark/40">
+                  第 1-2 节<br><span class="text-[10px] text-gray-500">08:00 - 09:45</span>
                 </td>
-                <td style="border:1px solid var(--border-color);background:rgba(229,169,60,0.1);color:#fbbf24;">🏋️健身房B<br>(14:00卧推深蹲)</td>
-                <td style="border:1px solid var(--border-color);">交通绘编<br><span style="color:#64748b;">博4-B102</span></td>
-              </tr>
-              <tr>
-                <td style="padding:6px;border:1px solid var(--border-color);background:#141722;">18:00-18:30</td>
-                <td colspan="5" style="border:1px solid var(--border-color);background:#1e1b4b;color:#a5b4fc;">🏃 校园跑 2.52km 极速打卡 (Zone 2 低心率排酸，刚过线即停)</td>
-                <td style="border:1px solid var(--border-color);">-</td>
-              </tr>
-              <tr>
-                <td style="padding:6px;border:1px solid var(--border-color);background:#141722;">19:00-20:45</td>
-                <td style="border:1px solid var(--border-color);">工程测量晚课</td>
-                <td style="border:1px solid var(--border-color);">智慧工程晚课</td>
-                <td style="border:1px solid var(--border-color);">工程测量晚课</td>
-                <td style="border:1px solid var(--border-color);">智慧工程晚课</td>
-                <td style="border:1px solid var(--border-color);">-</td>
-                <td style="border:1px solid var(--border-color);">-</td>
-              </tr>
-              <tr style="background:rgba(224,82,82,0.15);">
-                <td style="padding:6px;border:1px solid var(--border-color);font-weight:700;color:var(--accent-red);">21:15-22:45</td>
-                <td colspan="7" style="border:1px solid var(--border-color);color:#fca5a5;font-weight:700;">
-                  ⚡ CMC 90分钟每日雷霆阵地 (极限/中值定理/反常积分/闭卷模拟，22:45强制停笔)
+                <!-- Mon 1-2 -->
+                <td class="py-3 px-3 col-mon">
+                  <div class="font-medium text-white">基础学术英语</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博5-C206</div>
+                  <span class="text-[10px] text-gray-400">1-4, 6-17周</span>
+                </td>
+                <!-- Tue 1-2 -->
+                <td class="py-3 px-3 col-tue bg-brand-red/10 border border-brand-red/30 rounded">
+                  <div class="font-bold text-brand-red">★【大物实验与线代黄金块】</div>
+                  <div class="text-[11px] text-gray-300 font-mono mt-0.5">博4空教室 / 图书馆</div>
+                  <span class="text-[10px] text-gray-400">铁磁材料回线拟合与矩阵推导</span>
+                </td>
+                <!-- Wed 1-2 -->
+                <td class="py-3 px-3 col-wed text-gray-400">
+                  <div class="text-gray-300 font-medium">自主复盘窗</div>
+                  <span class="text-[10px] text-gray-500">大物公式推导与课前梳理</span>
+                </td>
+                <!-- Thu 1-2 -->
+                <td class="py-3 px-3 col-thu">
+                  <div class="font-medium text-white">工程力学B (1)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博4-B506</div>
+                  <span class="text-[10px] text-gray-400">1-3, 5-18周</span>
+                </td>
+                <!-- Fri 1-2 -->
+                <td class="py-3 px-3 col-fri bg-brand-red/10 border border-brand-red/30 rounded">
+                  <div class="font-bold text-brand-red">★【测量手簿计算块】</div>
+                  <div class="text-[11px] text-gray-300 font-mono mt-0.5">博4自习室</div>
+                  <span class="text-[10px] text-gray-400">亲手算通闭合水准与导线平差</span>
+                </td>
+                <!-- Sat 1-2 -->
+                <td rowspan="2" class="py-3 px-3 col-sat border-l border-brand-border bg-emerald-950/20 border border-emerald-500/30 text-emerald-200 rounded align-top">
+                  <div class="font-bold flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    【野外实习 / 竞赛攻坚】
+                  </div>
+                  <div class="text-[11px] text-emerald-300 font-mono mt-1">10.17起连续3周末:</div>
+                  <div class="text-[11px] text-gray-300">工程测量野外实习(南湖实测)</div>
+                  <div class="text-[10px] text-gray-400 mt-1">非实习周: CMC高数4小时模考</div>
+                </td>
+                <!-- Sun 1-2 -->
+                <td class="py-3 px-3 col-sun bg-amber-950/20 border border-amber-500/40 text-amber-200 rounded">
+                  <div class="font-bold text-amber-300">★【党史课程考试】</div>
+                  <div class="text-[11px] text-amber-400 font-mono mt-0.5">10.11 博1-A101</div>
+                  <span class="text-[10px] text-gray-300">上午从容通过，不拖泥带水</span>
                 </td>
               </tr>
+
+              <!-- Section 3-4 (10:15 - 12:00) -->
               <tr>
-                <td style="padding:6px;border:1px solid var(--border-color);background:#141722;">23:00-23:30</td>
-                <td colspan="7" style="border:1px solid var(--border-color);background:#090a0f;color:#a1a1aa;">
-                  🌙 脑力冷却 · 4-2-6 腹式呼吸 · 毛选10页 ➔ 23:30 准时熄灯睡觉 (降皮质醇红线)
+                <td class="py-3 px-3 text-center font-mono text-gray-400 bg-brand-dark/40">
+                  第 3-4 节<br><span class="text-[10px] text-gray-500">10:15 - 12:00</span>
+                </td>
+                <!-- Mon 3-4 -->
+                <td class="py-3 px-3 col-mon">
+                  <div class="font-medium text-white">工程力学B (1)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博4-B506</div>
+                  <span class="text-[10px] text-gray-400">1-4, 6-19周</span>
+                </td>
+                <!-- Tue 3-4 -->
+                <td class="py-3 px-3 col-tue">
+                  <div class="font-medium text-white">工程力学B (1)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博4-B506</div>
+                  <span class="text-[10px] text-gray-400">1-4, 6-19周</span>
+                </td>
+                <!-- Wed 3-4 -->
+                <td class="py-3 px-3 col-wed">
+                  <div class="font-medium text-white">大学物理 (2)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B301</div>
+                  <span class="text-[10px] text-gray-400">1-4, 6-15周</span>
+                </td>
+                <!-- Thu 3-4 -->
+                <td class="py-3 px-3 col-thu">
+                  <div class="font-medium text-white">线性代数</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B303</div>
+                  <span class="text-[10px] text-gray-400">1-3, 5-10周</span>
+                </td>
+                <!-- Fri 3-4 -->
+                <td class="py-3 px-3 col-fri">
+                  <div class="font-medium text-white">大学物理 (2)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B301</div>
+                  <span class="text-[10px] text-gray-400">1-15周</span>
+                </td>
+                <!-- Sun 3-4 -->
+                <td class="py-3 px-3 col-sun">
+                  <div class="text-gray-300 font-medium">测量手簿复核</div>
+                  <span class="text-[10px] text-gray-500">水准与导线记录表自算</span>
                 </td>
               </tr>
+
+              <!-- Lunch Break -->
+              <tr class="bg-brand-dark/40 text-gray-400 text-center font-mono text-[11px]">
+                <td class="py-1.5 px-3">12:00 - 14:00</td>
+                <td colspan="7" class="py-1.5 px-3">
+                  午餐摄入足量高蛋白（去皮鸡肉/牛肉/蛋） + 25分钟深度午休，重置前额叶专注力
+                </td>
+              </tr>
+
+              <!-- Section 5-6 (14:00 - 15:45) -->
+              <tr>
+                <td class="py-3 px-3 text-center font-mono text-gray-400 bg-brand-dark/40">
+                  第 5-6 节<br><span class="text-[10px] text-gray-500">14:00 - 15:45</span>
+                </td>
+                <!-- Mon 5-6 -->
+                <td class="py-3 px-3 col-mon">
+                  <div class="font-medium text-white">线性代数</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B303</div>
+                  <span class="text-[10px] text-gray-400">1-4, 6-10周</span>
+                </td>
+                <!-- Tue 5-6 -->
+                <td class="py-3 px-3 col-tue">
+                  <div class="font-medium text-white">思想道德与法治</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B101</div>
+                  <span class="text-[10px] text-gray-400">1-3, 6-12周</span>
+                </td>
+                <!-- Wed 5-6 & 7-8 Combined Block -->
+                <td rowspan="2" class="py-3 px-3 col-wed bg-brand-red/15 border-2 border-brand-red/40 text-brand-red font-bold rounded align-top">
+                  <div class="text-sm font-black flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
+                    ★★★【4小时核心攻坚阵地】
+                  </div>
+                  <div class="text-[11px] text-gray-200 font-normal mt-2 space-y-1.5">
+                    <div class="p-2 rounded bg-brand-dark/60 border border-brand-red/30">
+                      <strong class="text-white">14:00 - 16:00:</strong> 攻关《工程力学B》课后大题与力学仿真
+                    </div>
+                    <div class="p-2 rounded bg-brand-dark/60 border border-brand-red/30">
+                      <strong class="text-white">16:00 - 18:00:</strong> 刷通 CMC 高数竞赛历年真题压轴题（中值定理与多元积分）
+                    </div>
+                  </div>
+                </td>
+                <!-- Thu 5-6 -->
+                <td class="py-3 px-3 col-thu bg-brand-gold/15 border border-brand-gold/30 rounded">
+                  <div class="font-bold text-brand-gold">★【健身房训练 B】</div>
+                  <div class="text-[11px] text-gray-300 font-mono mt-0.5">14:00 - 15:00 (45分抗阻)</div>
+                  <span class="text-[10px] text-gray-400">上斜哑铃卧推 + 自重深蹲 + 核心</span>
+                </td>
+                <!-- Fri 5-6 & 7-8 Combined -->
+                <td rowspan="2" class="py-3 px-3 col-fri bg-blue-950/20 border border-blue-500/30 rounded align-top">
+                  <div class="font-medium text-white">校园交通信息绘编★</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博4-B102</div>
+                  <span class="text-[10px] text-gray-400">第 5-8 节连续4堂制图实训 (14:00 - 18:00)</span>
+                </td>
+                <!-- Sat 5-6 -->
+                <td rowspan="2" class="py-3 px-3 col-sat border-l border-brand-border bg-emerald-950/20 text-emerald-200 rounded align-top">
+                  <div class="font-bold">【野外测绘实操】</div>
+                  <div class="text-[11px] text-gray-300 mt-1">10.17起连续3周末:</div>
+                  <div class="text-[11px] text-gray-400">全站仪/水准仪外业路线闭合观测 (主测兼主算)</div>
+                </td>
+                <!-- Sun 5-6 -->
+                <td class="py-3 px-3 col-sun">
+                  <div class="text-gray-300 font-medium">测量内业平差</div>
+                  <span class="text-[10px] text-gray-500">坐标增量闭合差手簿核算</span>
+                </td>
+              </tr>
+
+              <!-- Section 7-8 (16:15 - 18:00) -->
+              <tr>
+                <td class="py-3 px-3 text-center font-mono text-gray-400 bg-brand-dark/40">
+                  第 7-8 节<br><span class="text-[10px] text-gray-500">16:15 - 18:00</span>
+                </td>
+                <!-- Mon 7-8 -->
+                <td class="py-3 px-3 col-mon">
+                  <div class="font-medium text-white">篮球课 (3)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">桃苑篮球场</div>
+                  <span class="text-[10px] text-gray-400">1-4, 6-13周</span>
+                </td>
+                <!-- Tue 7-8 -->
+                <td class="py-3 px-3 col-tue bg-brand-gold/15 border border-brand-gold/30 rounded">
+                  <div class="font-bold text-brand-gold">★【健身房训练 A】</div>
+                  <div class="text-[11px] text-gray-300 font-mono mt-0.5">16:15 - 17:15 (45分抗阻)</div>
+                  <span class="text-[10px] text-gray-400">高位下拉 + 坐姿划船 + 罗马尼亚硬拉</span>
+                </td>
+                <!-- Thu 7-8 -->
+                <td class="py-3 px-3 col-thu">
+                  <div class="font-medium text-white">思想道德与法治</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B101</div>
+                  <span class="text-[10px] text-gray-400">1-3, 6-12周</span>
+                </td>
+                <!-- Sun 7-8 -->
+                <td class="py-3 px-3 col-sun bg-brand-emerald/10 text-brand-emerald">
+                  <div class="font-bold">第 21 次校园跑</div>
+                  <span class="text-[10px]">2.52 km 达标即停</span>
+                </td>
+              </tr>
+
+              <!-- Campus Run Drill -->
+              <tr class="bg-brand-emerald/10 font-mono">
+                <td class="py-2.5 px-3 text-center text-brand-emerald font-bold">
+                  18:00 - 18:30<br><span class="text-[10px] text-gray-400 font-normal">低心率排酸</span>
+                </td>
+                <td class="py-2.5 px-3 col-mon text-brand-emerald font-medium">校园跑 2.52 km</td>
+                <td class="py-2.5 px-3 col-tue text-gray-500">训练日洗澡用餐</td>
+                <td class="py-2.5 px-3 col-wed text-brand-emerald font-medium">校园跑 2.52 km</td>
+                <td class="py-2.5 px-3 col-thu text-brand-emerald font-medium">校园跑 2.52 km</td>
+                <td class="py-2.5 px-3 col-fri text-brand-emerald font-medium">校园跑 2.52 km</td>
+                <td class="py-2.5 px-3 col-sat border-l border-brand-border text-gray-500">实习收工休整</td>
+                <td class="py-2.5 px-3 col-sun text-brand-emerald font-medium">第21次校园跑</td>
+              </tr>
+
+              <!-- Night Section (19:00 - 20:45) -->
+              <tr>
+                <td class="py-3 px-3 text-center font-mono text-gray-400 bg-brand-dark/40">
+                  第 9-10 节<br><span class="text-[10px] text-gray-500">19:00 - 20:45</span>
+                </td>
+                <!-- Mon 9-10 -->
+                <td class="py-3 px-3 col-mon bg-purple-950/20 border border-purple-500/30 rounded">
+                  <div class="font-medium text-purple-200">【调】工程测量B</div>
+                  <div class="text-[11px] text-purple-300 font-mono mt-0.5">博1-C102</div>
+                  <span class="text-[10px] text-gray-400">1-2, 3-4, 6-7周</span>
+                </td>
+                <!-- Tue 9-10 -->
+                <td class="py-3 px-3 col-tue bg-purple-950/20 border border-purple-500/30 rounded">
+                  <div class="font-medium text-purple-200">【调】工程的智慧...</div>
+                  <div class="text-[11px] text-purple-300 font-mono mt-0.5">博4-C302 / 线上</div>
+                  <span class="text-[10px] text-gray-400">1-3, 6-8周</span>
+                </td>
+                <!-- Wed 9-10 -->
+                <td class="py-3 px-3 col-wed bg-purple-950/20 border border-purple-500/30 rounded">
+                  <div class="font-medium text-purple-200">【调】工程测量B</div>
+                  <div class="text-[11px] text-purple-300 font-mono mt-0.5">博1-C102</div>
+                  <span class="text-[10px] text-gray-400">1-2, 3-4, 6-7周</span>
+                </td>
+                <!-- Thu 9-10 -->
+                <td class="py-3 px-3 col-thu bg-purple-950/20 border border-purple-500/30 rounded">
+                  <div class="font-medium text-purple-200">【调】工程的智慧...</div>
+                  <div class="text-[11px] text-purple-300 font-mono mt-0.5">博4-C302 / 线上</div>
+                  <span class="text-[10px] text-gray-400">1-3, 6-8周</span>
+                </td>
+                <!-- Fri 9-10 -->
+                <td class="py-3 px-3 col-fri bg-brand-dark border border-brand-border rounded">
+                  <div class="font-medium text-white">测量内业手簿校核</div>
+                  <span class="text-[10px] text-gray-400">备齐周末实习图板与计算器</span>
+                </td>
+                <!-- Sat 9-10 -->
+                <td class="py-3 px-3 col-sat border-l border-brand-border bg-brand-dark/40">
+                  <div class="font-medium text-gray-300">实习外业数据整理</div>
+                  <span class="text-[10px] text-gray-500">水准路线闭合差平差</span>
+                </td>
+                <!-- Sun 9-10 -->
+                <td class="py-3 px-3 col-sun bg-brand-dark/40">
+                  <div class="font-medium text-brand-gold">下周攻坚周复盘</div>
+                  <span class="text-[10px] text-gray-500">核对周目标达成率</span>
+                </td>
+              </tr>
+
+              <!-- CMC Daily 90-Min Thunder Attack Block (21:15 - 22:45) -->
+              <tr class="bg-brand-red/10 border-y-2 border-brand-red/40 font-mono">
+                <td class="py-3 px-3 text-center text-brand-red font-bold bg-brand-dark/80">
+                  21:15 - 22:45<br><span class="text-[10px] text-brand-gold font-normal">每日90分攻坚</span>
+                </td>
+                <!-- Mon CMC -->
+                <td class="py-3 px-3 col-mon border-r border-brand-border/40">
+                  <div class="font-bold text-brand-red">★【极限与导数】</div>
+                  <div class="text-[11px] text-gray-200">Stolz定理 + 泰勒展开</div>
+                  <span class="text-[10px] text-gray-400">限时精做 3 道真题压轴</span>
+                </td>
+                <!-- Tue CMC -->
+                <td class="py-3 px-3 col-tue border-r border-brand-border/40">
+                  <div class="font-bold text-brand-red">★【中值定理专攻】</div>
+                  <div class="text-[11px] text-gray-200">柯西/拉格朗日辅助函数</div>
+                  <span class="text-[10px] text-gray-400">突破零点与积分中值构造</span>
+                </td>
+                <!-- Wed CMC -->
+                <td class="py-3 px-3 col-wed border-r border-brand-border/40 bg-brand-red/20">
+                  <div class="font-bold text-brand-red">★【积分与反常积分】</div>
+                  <div class="text-[11px] text-gray-200">含参变量积分 + 敛散性</div>
+                  <span class="text-[10px] text-gray-400">下午4小时成果晚间深度回火</span>
+                </td>
+                <!-- Thu CMC -->
+                <td class="py-3 px-3 col-thu border-r border-brand-border/40">
+                  <div class="font-bold text-brand-red">★【多元微积分】</div>
+                  <div class="text-[11px] text-gray-200">格林/高斯公式对称性变形</div>
+                  <span class="text-[10px] text-gray-400">曲面积分转化技巧实战</span>
+                </td>
+                <!-- Fri CMC -->
+                <td class="py-3 px-3 col-fri border-r border-brand-border/40">
+                  <div class="font-bold text-brand-red">★【无穷级数审敛】</div>
+                  <div class="text-[11px] text-gray-200">阿贝尔/狄利克雷判别法</div>
+                  <span class="text-[10px] text-gray-400">幂级数求和函数专题速杀</span>
+                </td>
+                <!-- Sat CMC -->
+                <td class="py-3 px-3 col-sat border-l border-brand-border bg-emerald-950/20 text-emerald-200">
+                  <div class="font-bold text-brand-gold">★【全真初赛模拟】</div>
+                  <div class="text-[11px] text-gray-200">连续90分钟闭卷真题模考</div>
+                  <span class="text-[10px] text-gray-400">严格按江苏赛区评分细则自批</span>
+                </td>
+                <!-- Sun CMC -->
+                <td class="py-3 px-3 col-sun bg-amber-950/20 text-amber-200">
+                  <div class="font-bold text-brand-gold">★【错题重塑熔断】</div>
+                  <div class="text-[11px] text-gray-200">本周7套攻坚错题反向推导</div>
+                  <span class="text-[10px] text-gray-400">不留一个死角带入下周</span>
+                </td>
+              </tr>
+
+              <!-- Bedtime Defense Line -->
+              <tr class="bg-brand-red/15 border-t-2 border-brand-red/50 font-mono">
+                <td class="py-2.5 px-3 text-center text-brand-red font-bold">
+                  23:00 - 23:30<br><span class="text-[10px] text-white">生理红线</span>
+                </td>
+                <td colspan="7" class="py-2.5 px-3 text-center text-gray-200">
+                  🛑 【神经阻断防线】23:00 准时合上难题书本 | 洗漱泡脚 | 读《毛选》10页 | 4-2-6 腹式呼吸 5分钟 | <strong>23:30 准时熄灯就寝（严禁熬夜）</strong>
+                </td>
+              </tr>
+
             </tbody>
           </table>
         </div>
+
+        <!-- Surveying Fieldwork Master Cheat Sheet -->
+        <div class="p-4 rounded-xl bg-brand-dark/60 border border-brand-border space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+            <h3 class="text-xs font-bold text-brand-gold flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-brand-gold"></span>
+              工程测量周末集中实习（5-8周）全周期战地攻坚地图
+            </h3>
+            <span class="text-[11px] font-mono text-gray-400">环测楼A308 / C305 全程通关</span>
+          </div>
+
+          <!-- 4-Phase Timeline Ribbon -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+            <div class="p-3 rounded-lg bg-brand-surface border border-brand-border space-y-1">
+              <div class="flex justify-between font-bold text-brand-accent">
+                <span>第5周 (10.10~11)</span>
+                <span class="text-[10px] font-mono">环测 A308</span>
+              </div>
+              <div class="text-white text-[11px] font-semibold">全站仪及平面控制测量</div>
+              <p class="text-gray-400 text-[10px] leading-relaxed">全站仪对中整平、测回法测水平角、导线点布设与外业测距。</p>
+            </div>
+
+            <div class="p-3 rounded-lg bg-brand-surface border border-brand-border space-y-1">
+              <div class="flex justify-between font-bold text-brand-gold">
+                <span>第6周 (10.17~18)</span>
+                <span class="text-[10px] font-mono">环测 C305</span>
+              </div>
+              <div class="text-white text-[11px] font-semibold">碎部测图与工程测设</div>
+              <p class="text-gray-400 text-[10px] leading-relaxed">全站仪极坐标法测定地物地貌特征点，地形图现场绘制与主算员手簿校核。</p>
+            </div>
+
+            <div class="p-3 rounded-lg bg-brand-surface border border-brand-border space-y-1">
+              <div class="flex justify-between font-bold text-emerald-400">
+                <span>第7周 (10.24~25)</span>
+                <span class="text-[10px] font-mono">环测 C305</span>
+              </div>
+              <div class="text-white text-[11px] font-semibold">数据处理及图纸整饰</div>
+              <p class="text-gray-400 text-[10px] leading-relaxed">内业平差计算、坐标增量闭合差调整、铅笔展点墨线整饰与等高线勾绘。</p>
+            </div>
+
+            <div class="p-3 rounded-lg bg-brand-surface border border-brand-border space-y-1">
+              <div class="flex justify-between font-bold text-purple-400">
+                <span>第8周 (10.31~11.01)</span>
+                <span class="text-[10px] font-mono">环测 C305</span>
+              </div>
+              <div class="text-white text-[11px] font-semibold">编写实习报告与现场考核</div>
+              <p class="text-gray-400 text-[10px] leading-relaxed">测量成果手簿归档装订、仪器现场盲操考核（15分钟测回法与对中整平闭环）。</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-1">
+            <div class="p-2.5 rounded-lg bg-brand-dark/80 border border-brand-border space-y-1">
+              <div class="font-bold text-brand-accent">1. 闭合水准路线平差</div>
+              <p class="text-gray-400 text-[11px] leading-relaxed">
+                高差闭合差 $f_h = \sum h_i$；容许值 $f_{h,\text{容}} = \pm 12\sqrt{L}$ mm。改正数原则：<strong>反号按距离成正比分配</strong>。
+              </p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-brand-dark/80 border border-brand-border space-y-1">
+              <div class="font-bold text-brand-gold">2. 闭合导线坐标平差</div>
+              <p class="text-gray-400 text-[11px] leading-relaxed">
+                方位角正反推算：$\alpha_{\text{前}} = \alpha_{\text{后}} \pm 180^\circ + \beta$。坐标增量闭合差<strong>反号按边长比例分配</strong>。
+              </p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-brand-dark/80 border border-brand-border space-y-1">
+              <div class="font-bold text-brand-emerald">3. 外业测站自检法则</div>
+              <p class="text-gray-400 text-[11px] leading-relaxed">
+                全站仪两测回水平角差值 $\le 24''$；半测回归零差 $\le 18''$。<strong>在实习小组主动担任主算员，当场把闭合差算通！</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
+
     </div>
 
-    <!-- TAB 4: 体魄与呼吸舱 -->
-    <div id="tab-breathing" class="tab-pane">
-      <div class="section-card" style="text-align:center;padding:30px 20px;">
-        <div class="section-title" style="justify-content:center;margin-bottom:6px;">🫁 4-2-6 神经调控呼吸舱</div>
-        <p style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">
-          阻断交感神经兴奋，降低皮质醇，消除噩梦与腹部内脏脂肪堆积
+    <!-- ========================================== -->
+    <!-- TAB 4: 体魄与呼吸舱 (BIO & FITNESS)       -->
+    <!-- ========================================== -->
+    <div id="tab-bio" class="tab-panel hidden space-y-6">
+      
+      <div class="tactical-border rounded-2xl p-4 sm:p-6 bg-gradient-to-r from-brand-surface via-brand-dark to-brand-surface">
+        <h2 class="text-xl font-bold text-white">体魄重塑与神经防火墙系统</h2>
+        <p class="text-xs text-gray-400 mt-1">
+          生理学原理：消除噩梦与腹部内脏脂肪的核心，在于压制<strong>皮质醇（压力激素）</strong>，避免中枢神经过度兴奋。
         </p>
-
-        <div style="width:160px;height:160px;border-radius:50%;border:4px solid var(--accent-cyan);margin:0 auto 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 4s ease-in-out;" id="breathCircle">
-          <div style="font-size:20px;font-weight:800;color:#fff;" id="breathAction">吸气</div>
-          <div style="font-size:28px;font-weight:800;color:var(--accent-cyan);" id="breathTimer">4s</div>
-        </div>
-
-        <button class="btn-header primary" onclick="toggleBreathing()" id="btnBreathControl" style="padding:10px 24px;">
-          开始 5 分钟深呼吸放松
-        </button>
       </div>
-    </div>
 
-    <!-- TAB 5: 三年大图景 -->
-    <div id="tab-vision" class="tab-pane">
-      <div class="section-card">
-        <div class="section-title" style="margin-bottom:12px;">🗺 钱七虎班本科三年发展路线图</div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="background:#111827;padding:12px;border-radius:8px;border-left:4px solid var(--accent-gold);">
-            <div style="font-weight:700;color:var(--accent-gold);">大二学年 · 歼灭破局与登顶国奖 (2026-2027)</div>
-            <div style="font-size:12px;color:#d1d5db;margin-top:4px;">
-              • CMC高数竞赛省奖 + CET-6高分通关<br>
-              • 综测冲刺 28~30 分，专业第一直取国家奖学金<br>
-              • 每日 23:30 熄灯，消除腹部赘肉与疲态，建立挺拔精悍体格
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        
+        <!-- Left: 4-2-6 交互式呼吸调节舱 -->
+        <div class="tactical-border rounded-2xl p-6 flex flex-col items-center justify-between text-center relative overflow-hidden space-y-6">
+          <div>
+            <span class="text-xs font-mono uppercase text-brand-gold">睡前副交感神经重置工具</span>
+            <h3 class="text-lg font-bold text-white mt-1">4 - 2 - 6 腹式减压呼吸仪</h3>
+            <p class="text-xs text-gray-400 mt-1">吸气 4 秒，屏息 2 秒，慢呼 6 秒。呼气时长大于吸气，迅速平复噩梦与心悸。</p>
+          </div>
+
+          <!-- Animated Breathing Bubble -->
+          <div class="relative w-48 h-48 flex items-center justify-center my-4">
+            <div id="breathRing" class="absolute w-44 h-44 rounded-full border-2 border-brand-gold/40 pulse-ring"></div>
+            <div id="breathCircle" class="w-32 h-32 rounded-full bg-gradient-to-tr from-brand-red/80 to-brand-gold/80 flex flex-col items-center justify-center text-white font-bold shadow-2xl transition-all duration-1000">
+              <span id="breathText" class="text-base font-serif">准备开始</span>
+              <span id="breathTimer" class="text-2xl font-mono">--</span>
             </div>
           </div>
-          <div style="background:#111827;padding:12px;border-radius:8px;border-left:4px solid var(--accent-blue);">
-            <div style="font-weight:700;color:#60a5fa;">大三学年 · 攻坚跨越与领军科研 (2027-2028)</div>
-            <div style="font-size:12px;color:#d1d5db;margin-top:4px;">
-              • 结构设计赛/周培源力学竞赛斩获国家级奖项<br>
-              • 井冈山实践产品转化为“挑战杯”省金/国奖<br>
-              • 进入国家重点实验室课题组，产出 SCI 论文或发明专利
+
+          <!-- Breath Controller Button -->
+          <div class="w-full flex justify-center gap-3">
+            <button id="btnBreathToggle" onclick="toggleBreathingGuide()" class="px-6 py-2.5 rounded-xl bg-brand-gold text-black font-bold text-xs hover:bg-yellow-400 transition-all shadow-lg">
+              开始 5 分钟睡前呼吸排毒
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: 健身房与校园跑极简执行矩阵 -->
+        <div class="space-y-4">
+          
+          <!-- Gym Matrix A & B -->
+          <div class="tactical-border rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brand-gold"></span>
+                健身房 45 分钟门到门抗阻训练（每周仅 2 次）
+              </h4>
+              <span class="text-xs text-gray-400 font-mono">两年年卡激活</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 rounded-lg bg-brand-dark/60 border border-brand-border space-y-1.5">
+                <div class="font-bold text-brand-gold">训练 A (周二 16:15): 撑开挺拔气场</div>
+                <ul class="text-gray-400 space-y-1 text-[11px]">
+                  <li>• 高位下拉: 4组 × 10次 (展开背阔肌)</li>
+                  <li>• 坐姿划船: 4组 × 10次 (矫正含胸驼背)</li>
+                  <li>• 罗马尼亚硬拉: 4组 × 10次 (强化后链)</li>
+                  <li>• 悬垂举腿: 3组 × 15次 (紧致下腹)</li>
+                </ul>
+              </div>
+              <div class="p-3 rounded-lg bg-brand-dark/60 border border-brand-border space-y-1.5">
+                <div class="font-bold text-brand-accent">训练 B (周四 14:00): 紧致上肢与核心</div>
+                <ul class="text-gray-400 space-y-1 text-[11px]">
+                  <li>• 上斜哑铃卧推: 4组 × 10次 (填充上胸)</li>
+                  <li>• 自重深蹲/箭步蹲: 4组 × 15次 (促进代谢)</li>
+                  <li>• 平板支撑: 3组 × 60秒 (收紧核心腹横肌)</li>
+                </ul>
+              </div>
             </div>
           </div>
-          <div style="background:#111827;padding:12px;border-radius:8px;border-left:4px solid var(--accent-red);">
-            <div style="font-weight:700;color:#f87171;">大四学年 · 领航筑盾与战略定局 (2028-2029)</div>
-            <div style="font-size:12px;color:#d1d5db;margin-top:4px;">
-              • 锁定清华/同济/浙大/钱七虎院士团队直博名额<br>
-              • 国家深地工程与国防重大防护工程高水平毕业设计<br>
-              • 具备领袖决断力与国际学术对话能力
+
+          <!-- Zone 2 Running Strategy -->
+          <div class="tactical-border rounded-xl p-5 space-y-2">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                校园跑极速战术：Zone 2 低心率排酸法
+              </h4>
+              <span class="text-xs font-mono text-brand-emerald">单次锁死 2.52 km</span>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">
+              严格把心率控制在 <strong>130~145 bpm</strong>（配速 7'15"~7'45"/km，全程能用鼻子平稳呼吸）。坚决不冲刺、不多跑 1 米。将跑步重新定义为高强度脑力做题后的“动态排酸与脑力减压”。
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: 三年大图景 (ROADMAP)               -->
+    <!-- ========================================== -->
+    <div id="tab-roadmap" class="tab-panel hidden space-y-6">
+      
+      <div class="tactical-border rounded-2xl p-4 sm:p-6 space-y-6">
+        <div>
+          <span class="text-xs font-mono uppercase text-brand-gold">战略演进梯队 (2026 - 2029)</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mt-1">从单兵歼灭到大国筑盾</h2>
+          <p class="text-xs text-gray-400 mt-1">
+            以钱七虎院士为人生标杆，以毛泽东军事辩证法为思维利器，构建不可替代的领军实力。
+          </p>
+        </div>
+
+        <!-- 3-Year Stepper Timeline -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- Year 2 -->
+          <div class="p-5 rounded-xl bg-brand-dark/70 border border-brand-red/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-brand-red/20 text-brand-red border border-brand-red/30 text-xs font-mono">
+                大二 · 歼灭破局 (2026-2027)
+              </span>
+              <span class="text-xs text-brand-gold font-bold">登顶国奖</span>
+            </div>
+            <h3 class="text-base font-bold text-white">建立绝对自信底盘</h3>
+            <ul class="text-xs text-gray-400 space-y-2">
+              <li><strong class="text-gray-200">• 学术攻坚：</strong>CMC 高数竞赛斩获省奖；六级突破 500+；加权成绩冲入前 5%~10%。</li>
+              <li><strong class="text-gray-200">• 科创起步：</strong>依托力学仿真基础，作为第一负责人立项大创项目。</li>
+              <li><strong class="text-gray-200">• 综测登顶：</strong>打出 30.00 分历史级得分，全票获评国家奖学金。</li>
+              <li><strong class="text-gray-200">• 认知研读：</strong>精读《毛选》一至四卷，掌握《矛盾论》与《实践论》。</li>
+            </ul>
+          </div>
+
+          <!-- Year 3 -->
+          <div class="p-5 rounded-xl bg-brand-dark/70 border border-brand-gold/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-brand-gold/20 text-brand-gold border border-brand-gold/30 text-xs font-mono">
+                大三 · 攻坚跨越 (2027-2028)
+              </span>
+              <span class="text-xs text-brand-accent font-bold">科研领军</span>
+            </div>
+            <h3 class="text-base font-bold text-white">重大工程与国家级大奖</h3>
+            <ul class="text-xs text-gray-400 space-y-2">
+              <li><strong class="text-gray-200">• 献礼井冈山百年：</strong>将红色实践调研转化为成熟作品，冲击挑战杯/创新大赛国家级金奖。</li>
+              <li><strong class="text-gray-200">• 专业顶级竞赛：</strong>出征全国大学生结构设计竞赛或周培源力学竞赛冲击国奖。</li>
+              <li><strong class="text-gray-200">• 学术输出：</strong>进驻深地工程课题组，发表 SCI/EI 论文 1 篇，获国家发明专利实审。</li>
+              <li><strong class="text-gray-200">• 外语跃升：</strong>雅思突破 7.0+，具备全英文学术口头报告能力。</li>
+            </ul>
+          </div>
+
+          <!-- Year 4 -->
+          <div class="p-5 rounded-xl bg-brand-dark/70 border border-brand-accent/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-brand-accent/20 text-brand-accent border border-brand-accent/30 text-xs font-mono">
+                大四 · 领航筑盾 (2028-2029)
+              </span>
+              <span class="text-xs text-emerald-400 font-bold">战略定局</span>
+            </div>
+            <h3 class="text-base font-bold text-white">直博锁定与大国重器</h3>
+            <ul class="text-xs text-gray-400 space-y-2">
+              <li><strong class="text-gray-200">• 顶尖直博推免：</strong>凭借钱七虎班前列加权、两次国奖与竞赛国奖，锁定清华/同济/浙大/钱七虎院士团队直博。</li>
+              <li><strong class="text-gray-200">• 高水平毕设：</strong>紧扣国防地下抗爆结构、深地重大工程安全生命线开展毕设，争评省优。</li>
+              <li><strong class="text-gray-200">• 领袖出征：</strong>践行“一生为国筑盾”的使命，走向国家重大工程战略主战场。</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- High-Dimensional Reading Library -->
+        <div class="tactical-border rounded-xl p-5 bg-brand-dark/40 space-y-3">
+          <h4 class="text-sm font-bold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-brand-red"></span>
+            高维认知研读书单体系（三年思想库建设）
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-gray-300">
+            <div class="p-3 rounded-lg bg-brand-surface/60 border border-brand-border space-y-1">
+              <div class="font-bold text-brand-gold">第一年：向毛泽东学战略</div>
+              <p class="text-gray-400 text-[11px] leading-relaxed">
+                《毛泽东选集》（第一至四卷）：精读《矛盾论》《实践论》《中国革命战争的战略问题》。建立矛盾分析法与实地调研本能。
+              </p>
+            </div>
+            <div class="p-3 rounded-lg bg-brand-surface/60 border border-brand-border space-y-1">
+              <div class="font-bold text-brand-accent">第二年：向钱学森学系统</div>
+              <p class="text-gray-400 text-[11px] leading-relaxed">
+                钱学森《论系统工程》、司马迁《史记》、司马光《资治通鉴》（选读）。建立工科大系统观，洞察组织动员与战略博弈。
+              </p>
+            </div>
+            <div class="p-3 rounded-lg bg-brand-surface/60 border border-brand-border space-y-1">
+              <div class="font-bold text-brand-emerald">第三年：向钱七虎学使命</div>
+              <p class="text-gray-400 text-[11px] leading-relaxed">
+                保罗·肯尼迪《大国的兴衰》、《钱七虎传：科技报国的一生》。理解现代国防与深地防护在国家大安全战略中的定海神针地位。
+              </p>
             </div>
           </div>
         </div>
+
       </div>
+
     </div>
 
+  </main>
+
+  <!-- Floating Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl tactical-border bg-brand-dark text-white text-xs flex items-center gap-2.5 shadow-2xl">
+    <span class="w-2 h-2 rounded-full bg-brand-gold"></span>
+    <span id="toast-msg">已就绪</span>
   </div>
-
-  <!-- Modal: Gist 云同步设置 -->
-  <div class="modal-overlay" id="syncModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title">
-          <span>☁️ GitHub Gist 云同步配置</span>
-        </div>
-        <button class="modal-close" onclick="closeSyncModal()">&times;</button>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">GitHub Personal Access Token (Token)</label>
-        <input type="password" class="form-input" id="inputToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-        <div class="form-help">需要勾选 <code>gist</code> 权限的 GitHub Classic Token。仅存储在本地设备中，绝不上传至第三方。</div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Gist ID (32位字符串)</label>
-        <input type="text" class="form-input" id="inputGistId" placeholder="例如：8f3a1b2c4d5e6f7a8b9c0d1e2f3a4b5c">
-        <div class="form-help">在 gist.github.com 创建的 Secret Gist 的 URL 末尾 32 位字符。</div>
-      </div>
-
-      <div style="background:#111827;padding:10px;border-radius:6px;font-size:11px;color:var(--text-muted);margin-bottom:14px;">
-        <div>云端状态：<span id="syncModalStatus">未连接</span></div>
-        <div id="syncModalLastTime" style="margin-top:2px;">上次同步：暂无记录</div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-full btn-save-sync" onclick="saveAndSyncGist()">保存并从云端同步</button>
-        <button class="btn-full btn-cancel" onclick="closeSyncModal()">取消</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: 添加新指令 -->
-  <div class="modal-overlay" id="taskModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title">+ 添加战役新指令</div>
-        <button class="modal-close" onclick="closeTaskModal()">&times;</button>
-      </div>
-      <div class="form-group">
-        <label class="form-label">指令内容</label>
-        <input type="text" class="form-input" id="inputTaskTitle" placeholder="例如：推导附合导线角度闭合差">
-      </div>
-      <div class="form-group">
-        <label class="form-label">归属阵地 / 标签</label>
-        <input type="text" class="form-input" id="inputTaskTag" placeholder="例如：工程测量 / 高数竞赛 / 六级">
-      </div>
-      <div class="form-group">
-        <label class="form-label">时间分类</label>
-        <select class="form-input" id="inputTaskCategory">
-          <option value="today">今日必决</option>
-          <option value="week">本周攻坚</option>
-          <option value="all">常规任务</option>
-        </select>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-full btn-save-sync" onclick="addNewTask()">立即下达指令</button>
-        <button class="btn-full btn-cancel" onclick="closeTaskModal()">取消</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast -->
-  <div id="toast">同步成功</div>
 
   <script>
-    // --- 1. Default Tasks & State ---
-    const DEFAULT_TASKS = [
-      { id: 1, title: '【周日决胜】党史课程考试从容应试 (博1-A101)', tag: '党史考试', category: 'today', done: false, time: '今日上午' },
-      { id: 2, title: '【平差速算】整理工程测量手簿 (闭合水准路线+导线方位角推算)', tag: '工程测量', category: 'today', done: false, time: '今日下午' },
-      { id: 3, title: '【低心率排酸】完成第21次校园跑 2.52km (配速 7:30，达标即停)', tag: '校园跑', category: 'today', done: false, time: '今日傍晚' },
-      { id: 4, title: '【雷霆阵地】CMC 90分钟极限与中值定理压轴题复盘 (22:45强制停笔)', tag: '高数竞赛', category: 'today', done: false, time: '21:15-22:45' },
-      { id: 5, title: '【大物实验报告】周二上午08:00拟合铁磁材料回线，周三前结项', tag: '大学物理', category: 'week', done: false, time: '10.15前' },
-      { id: 6, title: '【碎部测图实战】备齐周六全天外业图板与仪器观测手册 (环测C305)', tag: '工程测量', category: 'week', done: false, time: '10.17全天' },
+    // -------------------------------------------------------------
+    // Constants & Storage Keys
+    // -------------------------------------------------------------
+    const STORAGE_TASKS_KEY = 'fjj_tactical_tasks_v2';
+    const STORAGE_HISTORY_KEY = 'fjj_combat_history_v2';
+    const STORAGE_GIST_TOKEN = 'GIST_TOKEN';
+    const STORAGE_GIST_ID = 'GIST_ID';
+    const STORAGE_GIST_LAST_SYNC = 'GIST_LAST_SYNC';
+
+    let currentTaskFilter = 'today';
+    let gistConfig = {
+      token: '',
+      gistId: '',
+      filename: 'data.json'
+    };
+
+    // Default Baseline Master Task Repository
+    const defaultTacticalTasks = [
+      {
+        id: 101,
+        title: "【今日必决·上午】党史课程考试 (博1-A101)",
+        sub: "上午沉着应试，绝不在通识课丢分，考完即撤转入专业攻坚",
+        done: false,
+        tag: "今日必决",
+        scope: "today",
+        dayCode: 0 // Sunday
+      },
+      {
+        id: 102,
+        title: "【今日必决·下午】工程测量内业平差自算",
+        sub: "核算水准路线闭合差与导线方位角推算手簿，理论盲区不过夜",
+        done: false,
+        tag: "今日必决",
+        scope: "today",
+        dayCode: 0
+      },
+      {
+        id: 103,
+        title: "【今日必决·傍晚】第 21 次校园跑达标",
+        sub: "2.52 km 达标即停（配速7'30\"），低心率排酸不消耗精力",
+        done: false,
+        tag: "今日必决",
+        scope: "today",
+        dayCode: 0
+      },
+      {
+        id: 104,
+        title: "【今日必决·晚间】CMC 错题重塑与周复盘",
+        sub: "21:15-22:45 攻关本周中值定理压轴错题，23:30 准时熄灯",
+        done: false,
+        tag: "今日必决",
+        scope: "today",
+        dayCode: 0
+      },
+      {
+        id: 105,
+        title: "【本周截稿】大物实验报告·铁磁材料回线拟合",
+        sub: "10.15 周三前结项，趁周二无课窗算通数据并完成坐标纸绘图",
+        done: false,
+        tag: "实验截稿",
+        scope: "week",
+        dayCode: -1
+      },
+      {
+        id: 106,
+        title: "【下周实习预演】碎部测图外业预习 (环测C305)",
+        sub: "10.17~18 全天实习：提前吃透极坐标法测设与特征点展绘",
+        done: false,
+        tag: "工程测量",
+        scope: "week",
+        dayCode: -1
+      }
     ];
 
-    let tasks = [];
-    let currentFilter = 'today';
-    let gistConfig = { token: '', gistId: '', filename: 'data.json' };
+    let tacticalTasks = [];
+    let combatHistoryLog = [];
 
-    // --- 2. Initialization ---
-    window.addEventListener('DOMContentLoaded', () => {
-      loadLocalCredentials();
-      loadTasks();
-      initLiveClock();
-      calcCountdowns();
-      calcSandbox();
+    // -------------------------------------------------------------
+    // Storage Engine (Fixed Try-Catch Closure & Local Persistence)
+    // -------------------------------------------------------------
+    function loadStateFromStorage() {
+      try {
+        const savedTasks = localStorage.getItem(STORAGE_TASKS_KEY);
+        if (savedTasks) {
+          tacticalTasks = JSON.parse(savedTasks);
+        } else {
+          tacticalTasks = defaultTacticalTasks;
+        }
 
-      // If credentials exist, try silent pull from Gist
-      if (gistConfig.token && gistConfig.gistId) {
-        updateSyncDot('syncing');
-        pullFromGist().then(success => {
-          if (success) {
-            updateSyncDot('online');
-            showToast('已从 GitHub Gist 载入最新战地数据');
-          } else {
-            updateSyncDot('error');
-          }
-        });
-      } else {
-        updateSyncDot('offline');
+        const savedHistory = localStorage.getItem(STORAGE_HISTORY_KEY);
+        if (savedHistory) {
+          combatHistoryLog = JSON.parse(savedHistory);
+        } else {
+          combatHistoryLog = [
+            {
+              id: 201,
+              title: "【周六全天】平面控制测量 (环测A308)",
+              sub: "全站仪测回法观测，主测手簿数据闭环",
+              completedAt: "2026.10.10 17:30"
+            },
+            {
+              id: 202,
+              title: "【周六晚间】党史核心题库速通",
+              sub: "集中刷通单选多选高频题库",
+              completedAt: "2026.10.10 22:15"
+            }
+          ];
+        }
+      } catch (e) {
+        console.warn('Storage load fallback', e);
+        tacticalTasks = defaultTacticalTasks;
+        combatHistoryLog = [];
       }
-    });
-
-    // --- 3. Gist Sync Core ---
-    function loadLocalCredentials() {
-      gistConfig.token = localStorage.getItem('GIST_TOKEN') || '';
-      gistConfig.gistId = localStorage.getItem('GIST_ID') || '';
-      document.getElementById('inputToken').value = gistConfig.token;
-      document.getElementById('inputGistId').value = gistConfig.gistId;
-      updateSyncModalStatus();
     }
 
-    function openSyncModal() {
-      document.getElementById('syncModal').classList.add('active');
-      updateSyncModalStatus();
-    }
-    function closeSyncModal() {
-      document.getElementById('syncModal').classList.remove('active');
-    }
-
-    function updateSyncModalStatus() {
-      const statusEl = document.getElementById('syncModalStatus');
-      const timeEl = document.getElementById('syncModalLastTime');
-      const lastSync = localStorage.getItem('GIST_LAST_SYNC');
-
-      if (gistConfig.token && gistConfig.gistId) {
-        statusEl.innerHTML = '<span style="color:var(--accent-green)">🟢 已配置云凭据</span>';
-      } else {
-        statusEl.innerHTML = '<span style="color:#9ca3af">⚪ 未配置 (仅本地存储)</span>';
+    function saveStateToStorage(skipCloud = false) {
+      try {
+        localStorage.setItem(STORAGE_TASKS_KEY, JSON.stringify(tacticalTasks));
+        localStorage.setItem(STORAGE_HISTORY_KEY, JSON.stringify(combatHistoryLog));
+        if (!skipCloud && gistConfig.token && gistConfig.gistId) {
+          pushToGist();
+        }
+      } catch (e) {
+        console.warn('Storage save failed', e);
       }
-      timeEl.innerText = lastSync ? `上次同步：${lastSync}` : '上次同步：暂无记录';
+    }
+
+    // -------------------------------------------------------------
+    // Gist Cloud Sync Engine
+    // -------------------------------------------------------------
+    function loadGistConfig() {
+      gistConfig.token = localStorage.getItem(STORAGE_GIST_TOKEN) || '';
+      gistConfig.gistId = localStorage.getItem(STORAGE_GIST_ID) || '';
+
+      const inputToken = document.getElementById('inputSyncToken');
+      const inputGistId = document.getElementById('inputSyncGistId');
+      if (inputToken) inputToken.value = gistConfig.token;
+      if (inputGistId) inputGistId.value = gistConfig.gistId;
+
+      updateSyncModalStatus();
+      updateSyncDot(gistConfig.token && gistConfig.gistId ? 'online' : 'offline');
+    }
+
+    function toggleSyncModal(show) {
+      const modal = document.getElementById('syncModal');
+      if (!modal) return;
+      if (show) {
+        loadGistConfig();
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+      }
     }
 
     function updateSyncDot(state) {
-      const dot = document.getElementById('syncDot');
-      dot.className = 'sync-status-dot';
-      if (state === 'online') dot.classList.add('online');
-      else if (state === 'syncing') dot.classList.add('syncing');
-      else if (state === 'error') dot.classList.add('error');
+      const dots = [document.getElementById('syncStatusDot'), document.getElementById('syncStatusDotMobile')];
+      dots.forEach(dot => {
+        if (!dot) return;
+        dot.className = 'w-2 h-2 rounded-full transition-all';
+        if (state === 'online') {
+          dot.className += ' bg-emerald-400 shadow-[0_0_8px_#34d399]';
+        } else if (state === 'syncing') {
+          dot.className += ' bg-brand-gold animate-ping';
+        } else if (state === 'error') {
+          dot.className += ' bg-red-400';
+        } else {
+          dot.className += ' bg-gray-500';
+        }
+      });
+    }
+
+    function updateSyncModalStatus() {
+      const statusEl = document.getElementById('syncModalStatusText');
+      const timeEl = document.getElementById('syncModalLastTime');
+      const lastSync = localStorage.getItem(STORAGE_GIST_LAST_SYNC);
+
+      if (statusEl) {
+        if (gistConfig.token && gistConfig.gistId) {
+          statusEl.innerHTML = '<span class="text-emerald-400">🟢 已配置 (自动双向同步)</span>';
+        } else {
+          statusEl.innerHTML = '<span class="text-gray-400">⚪ 未配置 (仅单机存储)</span>';
+        }
+      }
+      if (timeEl) {
+        timeEl.textContent = lastSync || '暂无同步记录';
+      }
     }
 
     async function saveAndSyncGist() {
-      const token = document.getElementById('inputToken').value.trim();
-      const gistId = document.getElementById('inputGistId').value.trim();
+      const tokenInput = document.getElementById('inputSyncToken');
+      const gistIdInput = document.getElementById('inputSyncGistId');
+      const token = tokenInput ? tokenInput.value.trim() : '';
+      const gistId = gistIdInput ? gistIdInput.value.trim() : '';
 
       if (!token || !gistId) {
-        alert('请完整填写 GitHub Token 和 Gist ID！');
+        showToast('请完整输入 Token 与 Gist ID！');
         return;
       }
 
-      localStorage.setItem('GIST_TOKEN', token);
-      localStorage.setItem('GIST_ID', gistId);
+      localStorage.setItem(STORAGE_GIST_TOKEN, token);
+      localStorage.setItem(STORAGE_GIST_ID, gistId);
       gistConfig.token = token;
       gistConfig.gistId = gistId;
 
+      const btnConfirm = document.getElementById('btnConfirmSync');
+      if (btnConfirm) btnConfirm.innerHTML = '<span>正在连接云端...</span>';
       updateSyncDot('syncing');
-      showToast('正在连接 GitHub Gist...');
 
-      const success = await pushToGist();
+      const success = await pullFromGist(false);
+      if (btnConfirm) btnConfirm.innerHTML = '<span>保存并从云端同步</span>';
+
       if (success) {
         updateSyncDot('online');
-        closeSyncModal();
+        toggleSyncModal(false);
         showToast('🎉 Gist 云同步成功！');
       } else {
-        updateSyncDot('error');
-        alert('同步失败，请检查 Token 权限 (需要勾选 gist) 以及 Gist ID 是否正确！');
+        const pushOk = await pushToGist();
+        if (pushOk) {
+          updateSyncDot('online');
+          toggleSyncModal(false);
+          showToast('🎉 本地数据已初始化推至云端！');
+        } else {
+          updateSyncDot('error');
+          showToast('连接失败，请核查 Token 权限或 Gist ID');
+        }
       }
     }
 
-    async function pullFromGist() {
+    async function pullFromGist(silent = true) {
       if (!gistConfig.token || !gistConfig.gistId) return false;
       try {
+        if (!silent) updateSyncDot('syncing');
         const res = await fetch(`https://api.github.com/gists/${gistConfig.gistId}`, {
           method: 'GET',
           headers: {
@@ -1028,22 +1578,32 @@
             'X-GitHub-Api-Version': '2022-11-28'
           }
         });
-        if (!res.ok) return false;
-        const data = await res.json();
-        const file = data.files[gistConfig.filename];
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const gistData = await res.json();
+        const file = gistData.files && gistData.files[gistConfig.filename];
+
         if (file && file.content) {
           const parsed = JSON.parse(file.content);
-          if (parsed.tasks && Array.isArray(parsed.tasks)) {
-            tasks = parsed.tasks;
-            saveLocalTasks();
-            renderTasks();
-            updateLastSyncTime();
+          if (parsed && Array.isArray(parsed.tasks)) {
+            tacticalTasks = parsed.tasks;
+            if (Array.isArray(parsed.history)) {
+              combatHistoryLog = parsed.history;
+            }
+            saveStateToStorage(true);
+            renderTacticalTasks();
+            const nowStr = new Date().toLocaleString('zh-CN', { hour12: false });
+            localStorage.setItem(STORAGE_GIST_LAST_SYNC, nowStr);
+            updateSyncModalStatus();
+            updateSyncDot('online');
+            if (!silent) showToast('已从云端拉取最新战地数据');
             return true;
           }
         }
         return false;
       } catch (err) {
-        console.error('Pull error:', err);
+        console.warn('Gist pull failed:', err);
+        updateSyncDot('error');
         return false;
       }
     }
@@ -1051,11 +1611,16 @@
     async function pushToGist() {
       if (!gistConfig.token || !gistConfig.gistId) return false;
       try {
+        updateSyncDot('syncing');
         const payload = {
-          description: `FengJunjie Dashboard Data - ${new Date().toISOString()}`,
+          description: `FengJunjie Command Dashboard - ${new Date().toISOString()}`,
           files: {
             [gistConfig.filename]: {
-              content: JSON.stringify({ tasks: tasks, updatedAt: new Date().toISOString() }, null, 2)
+              content: JSON.stringify({
+                tasks: tacticalTasks,
+                history: combatHistoryLog,
+                updatedAt: new Date().toISOString()
+              }, null, 2)
             }
           }
         };
@@ -1071,283 +1636,524 @@
           body: JSON.stringify(payload)
         });
 
-        if (res.ok) {
-          updateLastSyncTime();
-          return true;
-        }
-        return false;
-      } catch (err) {
-        console.error('Push error:', err);
-        return false;
-      }
-    }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    function updateLastSyncTime() {
-      const nowStr = new Date().toLocaleString('zh-CN', { hour12: false });
-      localStorage.setItem('GIST_LAST_SYNC', nowStr);
-      updateSyncModalStatus();
-    }
-
-    // --- 4. Task Management ---
-    function loadTasks() {
-      const saved = localStorage.getItem('FJJ_TASKS');
-      if (saved) {
-        try { tasks = JSON.parse(saved); } catch(e) { tasks = DEFAULT_TASKS; }
-      } else {
-        tasks = DEFAULT_TASKS;
-        saveLocalTasks();
-      }
-      renderTasks();
-    }
-
-    function saveLocalTasks() {
-      localStorage.setItem('FJJ_TASKS', JSON.stringify(tasks));
-      // Auto-trigger background push if configured
-      if (gistConfig.token && gistConfig.gistId) {
-        updateSyncDot('syncing');
-        pushToGist().then(ok => updateSyncDot(ok ? 'online' : 'error'));
-      }
-    }
-
-    function renderTasks() {
-      const container = document.getElementById('taskListContainer');
-      container.innerHTML = '';
-
-      const filtered = tasks.filter(t => {
-        if (currentFilter === 'today') return t.category === 'today';
-        if (currentFilter === 'week') return t.category === 'today' || t.category === 'week';
+        const nowStr = new Date().toLocaleString('zh-CN', { hour12: false });
+        localStorage.setItem(STORAGE_GIST_LAST_SYNC, nowStr);
+        updateSyncModalStatus();
+        updateSyncDot('online');
         return true;
+      } catch (err) {
+        console.warn('Gist push failed:', err);
+        updateSyncDot('error');
+        return false;
+      }
+    }
+
+    function clearSyncCredentials() {
+      localStorage.removeItem(STORAGE_GIST_TOKEN);
+      localStorage.removeItem(STORAGE_GIST_ID);
+      localStorage.removeItem(STORAGE_GIST_LAST_SYNC);
+      gistConfig.token = '';
+      gistConfig.gistId = '';
+      loadGistConfig();
+      showToast('已解除 Gist 绑定，恢复单机模式');
+    }
+
+    // -------------------------------------------------------------
+    // Live Combat Clock & Countdown Engine
+    // -------------------------------------------------------------
+    function updateLiveCombatClock() {
+      const now = new Date();
+      const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      const curWeekDay = weekDays[now.getDay()];
+      
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const date = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      const clockEl = document.getElementById('combat-live-time');
+      const tagEl = document.getElementById('combat-cur-day-tag');
+      
+      if (clockEl) {
+        clockEl.textContent = `${year}.${month}.${date} ${curWeekDay} ${hours}:${minutes}:${seconds}`;
+      }
+      if (tagEl) {
+        tagEl.textContent = `第5周·${curWeekDay}实战阵地`;
+      }
+    }
+
+    function updateCountdowns() {
+      const now = new Date();
+      const targetCMC = new Date('2026-11-14T08:30:00');
+      const targetCET = new Date('2026-12-12T09:00:00');
+      const targetPhysics = new Date('2026-10-15T18:00:00');
+
+      function getDaysDiff(target) {
+        const diffTime = target - now;
+        return Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+      }
+
+      const daysCMC = getDaysDiff(targetCMC);
+      const daysCET = getDaysDiff(targetCET);
+      const daysPhysics = getDaysDiff(targetPhysics);
+
+      const elCMC = document.getElementById('count-cmc');
+      const elCET = document.getElementById('count-cet');
+      const elPhysics = document.getElementById('count-physics');
+
+      if (elCMC) elCMC.textContent = daysCMC + ' 天';
+      if (elCET) elCET.textContent = daysCET + ' 天';
+      if (elPhysics) elPhysics.textContent = daysPhysics + ' 天';
+    }
+
+    // -------------------------------------------------------------
+    // Task Dispatcher & Historical Archive
+    // -------------------------------------------------------------
+    function setTaskFilter(filter) {
+      currentTaskFilter = filter;
+      const btnToday = document.getElementById('task-filter-today');
+      const btnWeek = document.getElementById('task-filter-week');
+      const btnAll = document.getElementById('task-filter-all');
+
+      [btnToday, btnWeek, btnAll].forEach(b => {
+        if (b) b.className = "px-2.5 py-1 rounded text-gray-400 hover:text-white transition-all";
       });
 
-      const doneCount = filtered.filter(t => t.done).length;
-      document.getElementById('taskCounter').innerText = `(${doneCount}/${filtered.length})`;
+      if (filter === 'today' && btnToday) btnToday.className = "px-2.5 py-1 rounded bg-brand-surface text-brand-gold font-medium transition-all";
+      if (filter === 'week' && btnWeek) btnWeek.className = "px-2.5 py-1 rounded bg-brand-surface text-brand-gold font-medium transition-all";
+      if (filter === 'all' && btnAll) btnAll.className = "px-2.5 py-1 rounded bg-brand-surface text-brand-gold font-medium transition-all";
 
-      if (filtered.length === 0) {
-        container.innerHTML = '<div style="text-align:center;color:#6b7280;padding:20px;font-size:12px;">当前分类暂无战地指令</div>';
+      renderTacticalTasks();
+    }
+
+    function renderTacticalTasks() {
+      const container = document.getElementById('taskContainer');
+      const stat = document.getElementById('task-progress-stat');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      let filteredList = tacticalTasks;
+      if (currentTaskFilter === 'today') {
+        filteredList = tacticalTasks.filter(t => t.scope === 'today');
+      } else if (currentTaskFilter === 'week') {
+        filteredList = tacticalTasks.filter(t => t.scope === 'today' || t.scope === 'week');
+      }
+
+      const completedCount = filteredList.filter(t => t.done).length;
+      if (stat) stat.textContent = `${completedCount} / ${filteredList.length}`;
+
+      if (filteredList.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-6 text-gray-500 font-mono">当前维度暂无待办战役，随时点击右上角添加！</div>`;
         return;
       }
 
-      filtered.forEach(task => {
-        const item = document.createElement('div');
-        item.className = `task-item ${task.done ? 'completed' : ''}`;
-        item.innerHTML = `
-          <input type="checkbox" class="task-checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${task.id})">
-          <div class="task-content">
-            <div class="task-title">${task.title}</div>
-            <div class="task-meta">
-              <span class="task-tag">${task.tag}</span>
-              <span>${task.time || ''}</span>
+      filteredList.forEach(task => {
+        const card = document.createElement('div');
+        card.className = `flex items-start justify-between gap-2.5 p-3 rounded-lg border transition-all ${
+          task.done ? 'bg-brand-dark/20 border-gray-800 opacity-60' : 'bg-brand-dark/60 border-brand-border hover:border-brand-gold/50'
+        }`;
+        
+        card.innerHTML = `
+          <div class="flex items-start gap-2.5 flex-1 cursor-pointer" onclick="toggleTaskStatus(${task.id})">
+            <input type="checkbox" ${task.done ? 'checked' : ''} class="mt-0.5 rounded text-brand-gold focus:ring-0 bg-gray-900 border-gray-700 pointer-events-none">
+            <div>
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="font-medium text-white ${task.done ? 'line-through text-gray-500' : ''}">${task.title}</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded font-mono ${task.tag === '今日必决' ? 'bg-brand-red/20 text-brand-red border border-brand-red/30' : 'bg-brand-surface text-gray-400'}">${task.tag}</span>
+              </div>
+              <div class="text-gray-400 text-[11px] mt-0.5">${task.sub}</div>
             </div>
           </div>
-          <div class="task-actions">
-            <button class="btn-del" onclick="deleteTask(${task.id})" title="删除指令">&times;</button>
-          </div>
+          <button onclick="removeTask(${task.id})" class="text-gray-500 hover:text-red-400 p-1 text-xs" title="删除指令">✕</button>
         `;
-        container.appendChild(item);
+        container.appendChild(card);
       });
     }
 
-    function toggleTask(id) {
-      const t = tasks.find(x => x.id === id);
-      if (t) {
-        t.done = !t.done;
-        saveLocalTasks();
-        renderTasks();
-        showToast(t.done ? '✓ 指令已攻克' : '指令已重置');
+    function toggleTaskStatus(id) {
+      tacticalTasks = tacticalTasks.map(t => {
+        if (t.id === id) {
+          const newStatus = !t.done;
+          if (newStatus) {
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            combatHistoryLog.unshift({
+              id: Date.now(),
+              title: t.title,
+              sub: t.sub,
+              completedAt: dateStr
+            });
+            showToast('战役达成！已记录归档至战史库');
+          }
+          return { ...t, done: newStatus };
+        }
+        return t;
+      });
+      saveStateToStorage();
+      renderTacticalTasks();
+    }
+
+    function removeTask(id) {
+      tacticalTasks = tacticalTasks.filter(t => t.id !== id);
+      saveStateToStorage();
+      renderTacticalTasks();
+      showToast('已移除该战地指令');
+    }
+
+    function toggleAddTaskBar(show) {
+      const bar = document.getElementById('addTaskBar');
+      if (bar) {
+        if (show) {
+          bar.classList.remove('hidden');
+          const titleInput = document.getElementById('customTaskTitle');
+          if (titleInput) titleInput.focus();
+        } else {
+          bar.classList.add('hidden');
+        }
       }
     }
 
-    function deleteTask(id) {
-      tasks = tasks.filter(x => x.id !== id);
-      saveLocalTasks();
-      renderTasks();
-      showToast('指令已删除');
-    }
+    function confirmAddTask() {
+      const titleInput = document.getElementById('customTaskTitle');
+      const subInput = document.getElementById('customTaskSub');
+      const title = titleInput ? titleInput.value.trim() : '';
+      const sub = subInput ? subInput.value.trim() : '自主战役指令';
 
-    function filterTasks(cat, btn) {
-      currentFilter = cat;
-      document.querySelectorAll('.filter-btn-group .btn-filter').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderTasks();
-    }
-
-    function openTaskModal() { document.getElementById('taskModal').classList.add('active'); }
-    function closeTaskModal() { document.getElementById('taskModal').classList.remove('active'); }
-
-    function addNewTask() {
-      const title = document.getElementById('inputTaskTitle').value.trim();
-      const tag = document.getElementById('inputTaskTag').value.trim() || '突发战役';
-      const cat = document.getElementById('inputTaskCategory').value;
-
-      if (!title) { alert('请输入指令内容！'); return; }
+      if (!title) {
+        showToast('指令标题不可为空');
+        return;
+      }
 
       const newTask = {
         id: Date.now(),
         title: title,
-        tag: tag,
-        category: cat,
+        sub: sub,
         done: false,
-        time: '自定指令'
+        tag: "自定义",
+        scope: "today",
+        dayCode: new Date().getDay()
       };
 
-      tasks.unshift(newTask);
-      saveLocalTasks();
-      renderTasks();
-      closeTaskModal();
-      document.getElementById('inputTaskTitle').value = '';
-      document.getElementById('inputTaskTag').value = '';
-      showToast('⚡ 新指令已下达');
+      tacticalTasks.unshift(newTask);
+      if (titleInput) titleInput.value = '';
+      if (subInput) subInput.value = '';
+      toggleAddTaskBar(false);
+      saveStateToStorage();
+      renderTacticalTasks();
+      showToast('新战地指令已成功推入队列！');
     }
 
-    // --- 5. Sandbox Calculator ---
-    function calcSandbox() {
-      const rank = parseFloat(document.getElementById('simRank').value);
-      const cmc = parseFloat(document.getElementById('simCmc').value);
-      const mcm = parseFloat(document.getElementById('simMcm').value);
-      const cet = parseFloat(document.getElementById('simCet').value);
-      const baseLearnStar = 4.0; // 2门基础课学习之星
-      const camp = 2.0; // 创业训练营
-
-      const academicTotal = rank + cmc + mcm + cet + baseLearnStar + camp;
-      document.getElementById('subAcademic').innerText = academicTotal.toFixed(1);
-
-      const arts = Math.min(15.0, parseFloat(document.getElementById('simArts').value) || 0);
-      const sports = parseFloat(document.getElementById('simSports').value) || 0;
-      const artsTotal = arts + sports;
-      document.getElementById('subArts').innerText = artsTotal.toFixed(1);
-
-      const mediaNum = parseFloat(document.getElementById('simMedia').value) || 0;
-      const mediaScore = mediaNum * (6 * 0.6); // 国家级第一作者
-      const dorm = parseFloat(document.getElementById('simDorm').value);
-      const cadre = parseFloat(document.getElementById('simCadre').value);
-      const socialTotal = mediaScore + dorm + cadre;
-      document.getElementById('subSocial').innerText = socialTotal.toFixed(1);
-
-      const total = (academicTotal * 0.5) + (artsTotal * 0.25) + (socialTotal * 0.25);
-      document.getElementById('simTotalScore').innerText = total.toFixed(2);
-    }
-
-    // --- 6. Navigation Tabs ---
-    function switchTab(tabKey, btn) {
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
-
-      document.getElementById(`tab-${tabKey}`).classList.add('active');
-      btn.classList.add('active');
-    }
-
-    // --- 7. Clock & Countdowns ---
-    function initLiveClock() {
-      const clockEl = document.getElementById('liveClock');
-      function updateClock() {
-        const now = new Date();
-        const y = now.getFullYear();
-        const m = String(now.getMonth() + 1).padStart(2, '0');
-        const d = String(now.getDate()).padStart(2, '0');
-        const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-        const dayStr = days[now.getDay()];
-        const timeStr = now.toTimeString().split(' ')[0];
-        clockEl.innerText = `${y}.${m}.${d} ${dayStr} ${timeStr}`;
-      }
-      updateClock();
-      setInterval(updateClock, 1000);
-    }
-
-    function calcCountdowns() {
-      const now = new Date('2026-10-11T12:00:00'); // Baseline
-      const targetCmc = new Date('2026-11-14T09:00:00');
-      const targetCet = new Date('2026-12-12T09:00:00');
-      const targetPhysics = new Date('2026-10-15T23:59:59');
-
-      const diffCmc = Math.max(0, Math.ceil((targetCmc - now) / (1000 * 60 * 60 * 24)));
-      const diffCet = Math.max(0, Math.ceil((targetCet - now) / (1000 * 60 * 60 * 24)));
-      const diffPhy = Math.max(0, Math.ceil((targetPhysics - now) / (1000 * 60 * 60 * 24)));
-
-      document.getElementById('cdCmc').innerText = `${diffCmc} 天`;
-      document.getElementById('cdCet').innerText = `${diffCet} 天`;
-      document.getElementById('cdPhysics').innerText = `${diffPhy} 天`;
-    }
-
-    // --- 8. Breathing Guide ---
-    let breathInterval = null;
-    let breathRunning = false;
-    function toggleBreathing() {
-      const btn = document.getElementById('btnBreathControl');
-      const circle = document.getElementById('breathCircle');
-      const action = document.getElementById('breathAction');
-      const timer = document.getElementById('breathTimer');
-
-      if (!breathRunning) {
-        breathRunning = true;
-        btn.innerText = '停止呼吸调控';
-        let step = 0; // 0: 吸气(4s), 1: 屏息(2s), 2: 呼气(6s)
-        let sec = 4;
-
-        function runStep() {
-          if (step === 0) {
-            action.innerText = '深吸气';
-            action.style.color = '#38bdf8';
-            circle.style.transform = 'scale(1.25)';
-            circle.style.borderColor = '#38bdf8';
-          } else if (step === 1) {
-            action.innerText = '屏息';
-            action.style.color = '#f59e0b';
-            circle.style.borderColor = '#f59e0b';
-          } else {
-            action.innerText = '慢呼气';
-            action.style.color = '#10b981';
-            circle.style.transform = 'scale(0.85)';
-            circle.style.borderColor = '#10b981';
-          }
-        }
-
-        runStep();
-        breathInterval = setInterval(() => {
-          sec--;
-          timer.innerText = `${sec}s`;
-          if (sec <= 0) {
-            step = (step + 1) % 3;
-            sec = step === 0 ? 4 : (step === 1 ? 2 : 6);
-            runStep();
-          }
-        }, 1000);
+    function toggleHistoryModal(show) {
+      const modal = document.getElementById('historyModal');
+      if (!modal) return;
+      if (show) {
+        modal.classList.remove('hidden');
+        renderHistoryLog();
       } else {
-        breathRunning = false;
-        clearInterval(breathInterval);
-        btn.innerText = '开始 5 分钟深呼吸放松';
-        circle.style.transform = 'scale(1)';
-        action.innerText = '吸气';
-        timer.innerText = '4s';
+        modal.classList.add('hidden');
       }
     }
 
-    // --- 9. Toast & Export ---
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.innerText = msg;
-      t.style.display = 'block';
-      setTimeout(() => { t.style.display = 'none'; }, 2500);
-    }
+    function renderHistoryLog() {
+      const list = document.getElementById('historyLogList');
+      const countEl = document.getElementById('historyLogCount');
+      if (!list) return;
+      list.innerHTML = '';
+      if (countEl) countEl.textContent = `已归档 ${combatHistoryLog.length} 场战役`;
 
-    function exportPlan() {
-      const text = `# 冯俊杰 · 钱七虎班三年战略登顶规划
-导出时间：${new Date().toLocaleString('zh-CN')}
-当前推演综测得分：${document.getElementById('simTotalScore').innerText}
-待攻克指令：
-` + tasks.map(t => `- [${t.done ? 'x' : ' '}] ${t.title} (${t.tag})`).join('\n');
+      if (combatHistoryLog.length === 0) {
+        list.innerHTML = `<div class="text-center py-8 text-gray-500 font-mono text-xs">暂无已结战史，每一项勾选的任务都将在此永久留存！</div>`;
+        return;
+      }
 
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('📋 战略规划与待办已复制到剪贴板！');
-      }).catch(() => {
-        alert(text);
+      combatHistoryLog.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'p-3 rounded-xl bg-brand-surface border border-brand-border flex items-start justify-between gap-3 text-xs';
+        div.innerHTML = `
+          <div>
+            <div class="text-white font-medium flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+              ${item.title}
+            </div>
+            <div class="text-gray-400 text-[11px] mt-0.5">${item.sub}</div>
+          </div>
+          <span class="font-mono text-[10px] text-brand-gold bg-brand-dark px-2 py-0.5 rounded border border-brand-border/60 flex-shrink-0">
+            ${item.completedAt}
+          </span>
+        `;
+        list.appendChild(div);
       });
     }
+
+    function clearHistoryLog() {
+      if (combatHistoryLog.length === 0) return;
+      combatHistoryLog = [];
+      saveStateToStorage();
+      renderHistoryLog();
+      showToast('战史记录已清空');
+    }
+
+    // -------------------------------------------------------------
+    // Simulator Calculation Engine (Formula Fifteenth Rule)
+    // -------------------------------------------------------------
+    function recalculateSimulator() {
+      const gpa = parseFloat(document.getElementById('sim-input-gpa')?.value || 10);
+      const cmc = parseFloat(document.getElementById('sim-input-cmc')?.value || 8);
+      const mcm = parseFloat(document.getElementById('sim-input-mcm')?.value || 9.6);
+      const cet = parseFloat(document.getElementById('sim-input-cet')?.value || 4);
+      const star = parseFloat(document.getElementById('sim-input-star')?.value || 4);
+      const struct = parseFloat(document.getElementById('sim-input-struct')?.value || 4.4);
+
+      const artComp = parseFloat(document.getElementById('sim-input-art-comp')?.value || 15);
+      const artAct = parseFloat(document.getElementById('sim-input-art-act')?.value || 1.0);
+
+      const media = parseFloat(document.getElementById('sim-input-media')?.value || 10.8);
+      const cadre = parseFloat(document.getElementById('sim-input-cadre')?.value || 11);
+      const dorm = parseFloat(document.getElementById('sim-input-dorm')?.value || 3);
+      const vol = parseFloat(document.getElementById('sim-input-vol')?.value || 3);
+
+      const academicTotal = gpa + cmc + mcm + cet + star + struct;
+      const artsTotal = Math.min(15, artComp) + artAct;
+      const socialTotal = media + cadre + dorm + vol;
+
+      const fScore = (academicTotal * 0.5) + (artsTotal * 0.25) + (socialTotal * 0.25);
+
+      const elAcad = document.getElementById('sim-score-academic');
+      const elArts = document.getElementById('sim-score-arts');
+      const elSoc = document.getElementById('sim-score-social');
+      const elTotal = document.getElementById('sim-total-f');
+      const elLabel = document.getElementById('sim-status-label');
+
+      if (elAcad) elAcad.textContent = academicTotal.toFixed(1) + ' 分';
+      if (elArts) elArts.textContent = artsTotal.toFixed(1) + ' 分';
+      if (elSoc) elSoc.textContent = socialTotal.toFixed(1) + ' 分';
+      if (elTotal) elTotal.textContent = fScore.toFixed(2);
+
+      if (elLabel) {
+        const diff = fScore - 26.40;
+        if (diff > 0) {
+          elLabel.textContent = `超越全院历史最高分 +${diff.toFixed(2)} 分 (登顶第一)`;
+          elLabel.className = "text-brand-emerald font-semibold";
+        } else {
+          elLabel.textContent = `距离历史第一名仅差 ${Math.abs(diff).toFixed(2)} 分`;
+          elLabel.className = "text-brand-gold font-semibold";
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Core Navigation & Tab Switching Controller
+    // -------------------------------------------------------------
+    function switchTab(tabId) {
+      const panels = document.querySelectorAll('.tab-panel');
+      panels.forEach(panel => panel.classList.add('hidden'));
+
+      const targetPanel = document.getElementById('tab-' + tabId);
+      if (targetPanel) {
+        targetPanel.classList.remove('hidden');
+      }
+
+      const navBtns = document.querySelectorAll('.nav-btn');
+      navBtns.forEach(btn => {
+        if (btn.getAttribute('data-target') === tabId) {
+          btn.className = "nav-btn px-3 py-1.5 text-xs font-medium rounded-lg transition-all text-white bg-brand-surface border border-brand-gold/40 text-brand-gold flex-shrink-0";
+        } else {
+          btn.className = "nav-btn px-3 py-1.5 text-xs font-medium rounded-lg transition-all text-gray-400 hover:text-white hover:bg-brand-surface/50 border border-transparent flex-shrink-0";
+        }
+      });
+
+      if (tabId === 'simulator') {
+        recalculateSimulator();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------
+    // Toast Notification Dispatcher
+    // -------------------------------------------------------------
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      if (!toast) return;
+      if (toastMsg) toastMsg.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2500);
+    }
+
+    // -------------------------------------------------------------
+    // Schedule Mode View Switcher (All / Weekday / Weekend)
+    // -------------------------------------------------------------
+    function setScheduleView(view) {
+      const btnAll = document.getElementById('btn-view-all');
+      const btnWeekday = document.getElementById('btn-view-weekday');
+      const btnWeekend = document.getElementById('btn-view-weekend');
+      
+      const allBtns = [btnAll, btnWeekday, btnWeekend];
+      allBtns.forEach(btn => {
+        if (btn) {
+          btn.className = "px-3 py-1.5 rounded-lg transition-all text-gray-400 hover:text-white";
+        }
+      });
+
+      const activeBtn = view === 'weekday' ? btnWeekday : (view === 'weekend' ? btnWeekend : btnAll);
+      if (activeBtn) {
+        activeBtn.className = "px-3 py-1.5 rounded-lg transition-all bg-brand-surface text-brand-gold border border-brand-gold/30";
+      }
+
+      const weekdays = document.querySelectorAll('.col-mon, .col-tue, .col-wed, .col-thu, .col-fri');
+      const weekends = document.querySelectorAll('.col-sat, .col-sun');
+
+      const showWeekdays = (view === 'all' || view === 'weekday');
+      const showWeekends = (view === 'all' || view === 'weekend');
+
+      weekdays.forEach(el => el.style.display = showWeekdays ? '' : 'none');
+      weekends.forEach(el => el.style.display = showWeekends ? '' : 'none');
+    }
+
+    // -------------------------------------------------------------
+    // 4-2-6 Interactive Bio-Breathing Controller
+    // -------------------------------------------------------------
+    let breathInterval = null;
+    let isBreathing = false;
+
+    function toggleBreathingGuide() {
+      const btn = document.getElementById('btnBreathToggle');
+      const circle = document.getElementById('breathCircle');
+      const text = document.getElementById('breathText');
+      const timer = document.getElementById('breathTimer');
+
+      if (isBreathing) {
+        clearInterval(breathInterval);
+        isBreathing = false;
+        if (btn) btn.textContent = '开始 5 分钟睡前呼吸排毒';
+        if (text) text.textContent = '准备开始';
+        if (timer) timer.textContent = '--';
+        if (circle) circle.style.transform = 'scale(1)';
+        showToast('呼吸调理仪已停止');
+        return;
+      }
+
+      isBreathing = true;
+      if (btn) btn.textContent = '停止调理仪';
+      showToast('4-2-6 呼吸循环启动：深吸平放');
+
+      let currentPhase = 'inhale';
+      let phaseSeconds = 4;
+
+      function updatePhaseDisplay() {
+        if (!isBreathing) return;
+        if (currentPhase === 'inhale') {
+          if (text) text.textContent = '吸气 (深长)';
+          if (circle) circle.style.transform = 'scale(1.35)';
+        } else if (currentPhase === 'hold') {
+          if (text) text.textContent = '屏息 (意守)';
+          if (circle) circle.style.transform = 'scale(1.35)';
+        } else if (currentPhase === 'exhale') {
+          if (text) text.textContent = '慢呼 (排空)';
+          if (circle) circle.style.transform = 'scale(0.9)';
+        }
+        if (timer) timer.textContent = phaseSeconds + 's';
+      }
+
+      updatePhaseDisplay();
+
+      breathInterval = setInterval(() => {
+        phaseSeconds--;
+        if (phaseSeconds <= 0) {
+          if (currentPhase === 'inhale') {
+            currentPhase = 'hold';
+            phaseSeconds = 2;
+          } else if (currentPhase === 'hold') {
+            currentPhase = 'exhale';
+            phaseSeconds = 6;
+          } else {
+            currentPhase = 'inhale';
+            phaseSeconds = 4;
+          }
+        }
+        updatePhaseDisplay();
+      }, 1000);
+    }
+
+    // -------------------------------------------------------------
+    // Strategic Plan Markdown Exporter
+    // -------------------------------------------------------------
+    function exportPlanMarkdown() {
+      const totalF = document.getElementById('sim-total-f') ? document.getElementById('sim-total-f').textContent : '30.00';
+
+      const markdownText = `# 冯俊杰 · 大学三年战略登顶实战全案 (2026-2029)
+中国矿业大学 力土学院 钱七虎班 | 战略攻坚指挥枢纽
+
+【核心思想与行动指针】
+• “俱往矣，数风流人物，还看今朝。”
+• 战略原则：集中优势兵力打歼灭战 | 实事求是调查研究 | 野蛮其体魄，文明其精神
+
+【大二学年综测实盘推演】
+• 当前发展素质得分预测 (F): ` + totalF + ` 分 (断层登顶全院第 1 名)
+• 学业学术配置：加权成绩前10% + CMC省奖 + 美赛MCM优秀奖 + CET-6过线
+• 文体活动配置：安全竞赛 + 模拟炒股 + 院级征文 (刷满15分上限)
+• 社会工作配置：国家级媒体外宣报道 (10.8分不设限) + 班委优秀 + 宿舍长考核合格 (3分)
+
+【战时不可侵犯阵地】
+1. 周三下午 14:00-18:00 (4小时连续阵地)：攻关工程力学B与CMC历年压轴真题
+2. 周二 16:15 & 周四 14:00 (45分钟健身房)：高位下拉/硬拉/深蹲 (撑起挺拔气场)
+3. 23:00 停止做题，23:30 准时熄灯就寝 (阻断皮质醇与噩梦)
+4. 校园跑 2.52 km 达标即停 (Zone 2 低心率排酸)`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(markdownText).then(() => {
+          showToast('战略全案已复制到剪贴板！');
+        }).catch(() => {
+          fallbackCopyText(markdownText);
+        });
+      } else {
+        fallbackCopyText(markdownText);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('战略全案已复制到剪贴板！');
+      } catch (err) {
+        showToast('无法访问剪贴板，请手动记录');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // -------------------------------------------------------------
+    // Master Initialization
+    // -------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      loadGistConfig();
+      loadStateFromStorage();
+      updateCountdowns();
+      updateLiveCombatClock();
+      setInterval(updateLiveCombatClock, 1000);
+      renderTacticalTasks();
+      recalculateSimulator();
+
+      // Silent pull from Gist on startup if credentials exist
+      if (gistConfig.token && gistConfig.gistId) {
+        pullFromGist(true);
+      }
+    });
   </script>
 </body>
 </html>
-"""
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-print("index.html written successfully! Size:", len(html_content))
