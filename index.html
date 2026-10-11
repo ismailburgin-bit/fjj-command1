@@ -61,6 +61,32 @@
     .pulse-ring {
       animation: pulse-ring 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
+
+    /* 实用主义：课表阵地与战地指令动态联动状态样式 */
+    .sched-synced-cell {
+      position: relative;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .sched-synced-cell:hover {
+      box-shadow: inset 0 0 0 1px rgba(223, 176, 82, 0.4);
+    }
+    .sched-synced-cell.is-completed {
+      opacity: 0.58;
+      background: rgba(46, 160, 67, 0.08) !important;
+      border-color: rgba(46, 160, 67, 0.35) !important;
+    }
+    .sched-synced-cell.is-completed .sched-cell-title {
+      text-decoration: line-through;
+      color: #9CA3AF !important;
+    }
+    .sched-status-pill {
+      font-size: 9px;
+      line-height: 1;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-brand-gold selection:text-black">
@@ -88,6 +114,9 @@
 
         <!-- Mobile Header Quick Sync Icon Button -->
         <div class="flex md:hidden items-center gap-1.5">
+          <button onclick="toggleInsightsModal(true)" class="flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-brand-surface border border-brand-border text-brand-gold">
+            <span>📝 心得</span>
+          </button>
           <button onclick="toggleSyncModal(true)" class="flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-brand-surface border border-brand-border text-brand-gold">
             <span class="w-2 h-2 rounded-full bg-gray-500" id="syncStatusDotMobile"></span>
             <span>云同步</span>
@@ -116,6 +145,9 @@
 
       <!-- Desktop Quick Actions -->
       <div class="hidden md:flex items-center gap-2 flex-shrink-0">
+        <button onclick="toggleInsightsModal(true)" class="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border text-gray-200 border border-brand-border transition-all" title="记录与导学研习心得">
+          <span>📝 学习心得</span>
+        </button>
         <button onclick="toggleSyncModal(true)" class="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-brand-surface hover:bg-brand-border text-gray-200 border border-brand-border transition-all" id="btnSyncHeader" title="配置 GitHub Gist 云端跨设备实时同步">
           <span class="w-2 h-2 rounded-full bg-gray-500 transition-colors" id="syncStatusDot"></span>
           <span class="font-medium text-brand-gold">☁️ 云同步</span>
@@ -423,6 +455,90 @@
       </div>
     </div>
 
+    <!-- Learning Insights Modal (学习心得与思考沉淀抽屉) -->
+    <div id="insightsModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="tactical-border bg-brand-dark max-w-2xl w-full rounded-2xl p-5 space-y-4 max-h-[90vh] flex flex-col shadow-2xl border border-brand-border">
+        <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-accent"></span>
+            <h3 class="text-sm font-bold text-white">📝 战地研读心得与学习心法</h3>
+          </div>
+          <button onclick="toggleInsightsModal(false)" class="text-gray-400 hover:text-white p-1 text-sm">✕</button>
+        </div>
+
+        <!-- Add Insight Input Box -->
+        <div class="space-y-2.5 p-3.5 rounded-xl bg-brand-surface/60 border border-brand-border">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input type="text" id="insightTitleInput" placeholder="心得标题 / 突破主题（例如：柯西中值定理辅助函数积分法构造规律）" class="flex-1 bg-brand-dark border border-brand-border rounded-lg px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:border-brand-accent outline-none">
+            <select id="insightTagSelect" class="bg-brand-dark border border-brand-border rounded-lg px-2.5 py-1.5 text-xs text-gray-300 focus:border-brand-accent outline-none">
+              <option value="CMC高数攻坚">CMC高数攻坚</option>
+              <option value="力学与专业课">力学与专业课</option>
+              <option value="工程测量实战">工程测量实战</option>
+              <option value="毛选与战略思维">毛选与战略思维</option>
+              <option value="体魄与精力管理">体魄与精力管理</option>
+            </select>
+          </div>
+          <textarea id="insightContentInput" rows="3" placeholder="记录具体推导关键步、错题反思规律、或战略领悟要点..." class="w-full bg-brand-dark border border-brand-border rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:border-brand-accent outline-none resize-none"></textarea>
+          <div class="flex justify-between items-center pt-1">
+            <span class="text-[11px] text-gray-500 font-mono">随时记录，沉淀为大学三年不可替代的认知底盘</span>
+            <button onclick="saveNewInsight()" class="px-4 py-1.5 rounded-lg bg-brand-accent text-white font-semibold text-xs hover:bg-blue-600 transition-all">保存心得</button>
+          </div>
+        </div>
+
+        <!-- Insights List -->
+        <div class="flex-1 overflow-y-auto space-y-2.5 pr-1" id="insightsList">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="pt-3 border-t border-brand-border flex justify-between items-center text-xs">
+          <span class="text-gray-400 font-mono" id="insightsCountText">共沉淀 0 篇心得</span>
+          <div class="flex gap-2">
+            <button onclick="exportInsightsMarkdown()" class="px-3.5 py-1.5 rounded-lg bg-brand-gold/15 hover:bg-brand-gold/25 text-brand-gold border border-brand-gold/40 font-semibold flex items-center gap-1 transition-all" title="复制所有心得为格式规整的Markdown文档">
+              <span>📋 一键导出全部心得</span>
+            </button>
+            <button onclick="toggleInsightsModal(false)" class="px-4 py-1.5 rounded-lg bg-brand-surface text-gray-300 border border-brand-border hover:bg-brand-border transition-all">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schedule Cell Editor Modal (课程部署单元格修改弹窗) -->
+    <div id="scheduleEditModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="tactical-border bg-brand-dark max-w-md w-full rounded-2xl p-5 space-y-4 shadow-2xl border border-brand-border">
+        <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-emerald"></span>
+            <h3 class="text-sm font-bold text-white">编辑战时课程部署 · <span id="schedEditSlotLabel" class="text-brand-gold font-mono">周二 第 1-2 节</span></h3>
+          </div>
+          <button onclick="toggleScheduleEditModal(false)" class="text-gray-400 hover:text-white p-1 text-sm">✕</button>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block text-gray-300 font-medium mb-1">课程 / 战役阵地名称</label>
+            <input type="text" id="schedEditName" placeholder="例如：工程力学B (1) 或 ★【自主复盘阵地】" class="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-brand-emerald outline-none">
+          </div>
+          <div>
+            <label class="block text-gray-300 font-medium mb-1">地点 / 教室编号</label>
+            <input type="text" id="schedEditLoc" placeholder="例如：博4-B506 / 环测C305 / 图书馆自习室" class="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-brand-emerald outline-none">
+          </div>
+          <div>
+            <label class="block text-gray-300 font-medium mb-1">周次 / 交付物说明</label>
+            <input type="text" id="schedEditNote" placeholder="例如：1-4, 6-19周 / 限时做通2道课后大题" class="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-brand-emerald outline-none">
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-brand-border flex justify-between gap-2 text-xs">
+          <button onclick="resetCurrentScheduleCell()" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 border border-brand-border transition-all">恢复默认</button>
+          <div class="flex gap-2">
+            <button onclick="toggleScheduleEditModal(false)" class="px-3.5 py-2 rounded-lg bg-brand-surface text-gray-300 border border-brand-border hover:bg-brand-border transition-all">取消</button>
+            <button onclick="saveScheduleCellEdit()" class="px-4 py-2 rounded-lg bg-brand-emerald text-black font-bold hover:bg-emerald-400 transition-all">保存更新</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Cloud Sync Modal (GitHub Gist 云同步专属配置弹窗) -->
     <div id="syncModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
       <div class="tactical-border bg-brand-dark max-w-md w-full rounded-2xl p-5 space-y-4 shadow-2xl border border-brand-border">
@@ -718,6 +834,13 @@
 
         <!-- Weekly Schedule Table -->
         <div class="overflow-x-auto rounded-xl border border-brand-border bg-brand-dark/30">
+          <div class="p-2.5 bg-brand-dark/90 border-b border-brand-border text-[11px] text-gray-400 flex items-center justify-between">
+            <span class="flex items-center gap-1.5 text-gray-300">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span>
+              💡 <strong>操作提示：</strong>点击表格中任一时段单元格，即可直接编辑课程、教室或作战备忘（支持多端同步存储）。
+            </span>
+            <span class="text-brand-gold font-mono">已消除冗余修饰 · 实用优先</span>
+          </div>
           <table class="w-full text-xs text-left border-collapse min-w-[880px]" id="scheduleTable">
             <thead>
               <tr class="border-b border-brand-border text-gray-400 font-mono bg-brand-dark/80">
@@ -738,14 +861,14 @@
                 <td class="py-2.5 px-3 text-center text-brand-gold font-bold">
                   07:15 - 08:00<br><span class="text-[10px] text-gray-400 font-normal">清晨黄金脑</span>
                 </td>
-                <td colspan="5" class="py-2.5 px-3 text-center text-gray-200 bg-brand-gold/5 border border-brand-gold/20 rounded">
+                <td colspan="5" class="py-2.5 px-3 text-center text-gray-200 bg-brand-gold/5 border border-brand-gold/20 rounded cursor-pointer hover:border-brand-gold transition-all" onclick="openScheduleEditor('周一至周五', '清晨训练', 'slot_weekday_morning')">
                   【六级晨训防线】45分钟：晓艳《考频版》高频核心词大声朗读 + 历年真题长对话影子跟读（Shadowing），拒用15分钟零碎敷衍！
                 </td>
-                <td class="py-2.5 px-3 text-center text-gray-400 col-sat border-l border-brand-border bg-brand-dark/40">
+                <td class="py-2.5 px-3 text-center text-gray-400 col-sat border-l border-brand-border bg-brand-dark/40 cursor-pointer hover:border-brand-border transition-all" onclick="openScheduleEditor('周六', '清晨时段', 'slot_sat_morning')">
                   自然苏醒·早充优质蛋白
                 </td>
-                <td class="py-2.5 px-3 text-center text-gray-400 col-sun bg-brand-dark/40">
-                  【10.11】考前速过党史高频点
+                <td class="py-2.5 px-3 text-center text-gray-300 col-sun bg-brand-dark/40 cursor-pointer hover:border-brand-gold transition-all" onclick="openScheduleEditor('周日', '清晨时段', 'slot_sun_morning')">
+                  自主规划·高蛋白早餐与周梳理
                 </td>
               </tr>
 
@@ -755,49 +878,50 @@
                   第 1-2 节<br><span class="text-[10px] text-gray-500">08:00 - 09:45</span>
                 </td>
                 <!-- Mon 1-2 -->
-                <td class="py-3 px-3 col-mon">
-                  <div class="font-medium text-white">基础学术英语</div>
-                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博5-C206</div>
-                  <span class="text-[10px] text-gray-400">1-4, 6-17周</span>
+                <td class="py-3 px-3 col-mon cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周一', '第 1-2 节', 'slot_mon_1_2')">
+                  <div class="font-medium text-white cell-title">基础学术英语</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">博5-C206</div>
+                  <span class="text-[10px] text-gray-400 cell-note">1-4, 6-17周</span>
                 </td>
                 <!-- Tue 1-2 -->
-                <td class="py-3 px-3 col-tue bg-brand-red/10 border border-brand-red/30 rounded">
-                  <div class="font-bold text-brand-red">★【大物实验与线代黄金块】</div>
-                  <div class="text-[11px] text-gray-300 font-mono mt-0.5">博4空教室 / 图书馆</div>
-                  <span class="text-[10px] text-gray-400">铁磁材料回线拟合与矩阵推导</span>
+                <td class="py-3 px-3 col-tue bg-brand-red/10 border border-brand-red/30 rounded cursor-pointer hover:border-brand-red" onclick="openScheduleEditor('周二', '第 1-2 节', 'slot_tue_1_2')">
+                  <div class="font-bold text-brand-red cell-title">★【大物实验与线代黄金块】</div>
+                  <div class="text-[11px] text-gray-300 font-mono mt-0.5 cell-loc">博4空教室 / 图书馆</div>
+                  <span class="text-[10px] text-gray-400 cell-note">铁磁材料回线拟合与矩阵推导</span>
                 </td>
                 <!-- Wed 1-2 -->
-                <td class="py-3 px-3 col-wed text-gray-400">
-                  <div class="text-gray-300 font-medium">自主复盘窗</div>
-                  <span class="text-[10px] text-gray-500">大物公式推导与课前梳理</span>
+                <td class="py-3 px-3 col-wed text-gray-400 cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周三', '第 1-2 节', 'slot_wed_1_2')">
+                  <div class="text-gray-300 font-medium cell-title">自主复盘窗</div>
+                  <div class="text-[11px] text-gray-400 font-mono mt-0.5 cell-loc">图书馆 / 自习室</div>
+                  <span class="text-[10px] text-gray-500 cell-note">大物公式推导与课前梳理</span>
                 </td>
                 <!-- Thu 1-2 -->
-                <td class="py-3 px-3 col-thu">
-                  <div class="font-medium text-white">工程力学B (1)</div>
-                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博4-B506</div>
-                  <span class="text-[10px] text-gray-400">1-3, 5-18周</span>
+                <td class="py-3 px-3 col-thu cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周四', '第 1-2 节', 'slot_thu_1_2')">
+                  <div class="font-medium text-white cell-title">工程力学B (1)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">博4-B506</div>
+                  <span class="text-[10px] text-gray-400 cell-note">1-3, 5-18周</span>
                 </td>
                 <!-- Fri 1-2 -->
-                <td class="py-3 px-3 col-fri bg-brand-red/10 border border-brand-red/30 rounded">
-                  <div class="font-bold text-brand-red">★【测量手簿计算块】</div>
-                  <div class="text-[11px] text-gray-300 font-mono mt-0.5">博4自习室</div>
-                  <span class="text-[10px] text-gray-400">亲手算通闭合水准与导线平差</span>
+                <td class="py-3 px-3 col-fri bg-brand-red/10 border border-brand-red/30 rounded cursor-pointer hover:border-brand-red" onclick="openScheduleEditor('周五', '第 1-2 节', 'slot_fri_1_2')">
+                  <div class="font-bold text-brand-red cell-title">★【测量手簿计算块】</div>
+                  <div class="text-[11px] text-gray-300 font-mono mt-0.5 cell-loc">博4自习室</div>
+                  <span class="text-[10px] text-gray-400 cell-note">亲手算通闭合水准与导线平差</span>
                 </td>
                 <!-- Sat 1-2 -->
-                <td rowspan="2" class="py-3 px-3 col-sat border-l border-brand-border bg-emerald-950/20 border border-emerald-500/30 text-emerald-200 rounded align-top">
-                  <div class="font-bold flex items-center gap-1">
+                <td rowspan="2" class="py-3 px-3 col-sat border-l border-brand-border bg-emerald-950/20 border border-emerald-500/30 text-emerald-200 rounded align-top cursor-pointer hover:border-emerald-400" onclick="openScheduleEditor('周六', '上午集中实习/模考', 'slot_sat_morning_block')">
+                  <div class="font-bold flex items-center gap-1 cell-title">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                     【野外实习 / 竞赛攻坚】
                   </div>
-                  <div class="text-[11px] text-emerald-300 font-mono mt-1">10.17起连续3周末:</div>
+                  <div class="text-[11px] text-emerald-300 font-mono mt-1 cell-loc">10.17起连续3周末:</div>
                   <div class="text-[11px] text-gray-300">工程测量野外实习(南湖实测)</div>
-                  <div class="text-[10px] text-gray-400 mt-1">非实习周: CMC高数4小时模考</div>
+                  <div class="text-[10px] text-gray-400 mt-1 cell-note">非实习周: CMC高数4小时模考</div>
                 </td>
-                <!-- Sun 1-2 -->
-                <td class="py-3 px-3 col-sun bg-amber-950/20 border border-amber-500/40 text-amber-200 rounded">
-                  <div class="font-bold text-amber-300">★【党史课程考试】</div>
-                  <div class="text-[11px] text-amber-400 font-mono mt-0.5">10.11 博1-A101</div>
-                  <span class="text-[10px] text-gray-300">上午从容通过，不拖泥带水</span>
+                <!-- Sun 1-2 (Party exam cleared and deleted) -->
+                <td class="py-3 px-3 col-sun cursor-pointer hover:bg-brand-surface/40 bg-brand-dark/40" onclick="openScheduleEditor('周日', '第 1-2 节', 'slot_sun_1_2')">
+                  <div class="font-medium text-white cell-title">自主研读与复盘阵地</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">博4自习室 / 图书馆</div>
+                  <span class="text-[10px] text-gray-400 cell-note">查漏补缺，保持专注</span>
                 </td>
               </tr>
 
@@ -807,39 +931,40 @@
                   第 3-4 节<br><span class="text-[10px] text-gray-500">10:15 - 12:00</span>
                 </td>
                 <!-- Mon 3-4 -->
-                <td class="py-3 px-3 col-mon">
-                  <div class="font-medium text-white">工程力学B (1)</div>
-                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博4-B506</div>
-                  <span class="text-[10px] text-gray-400">1-4, 6-19周</span>
+                <td class="py-3 px-3 col-mon cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周一', '第 3-4 节', 'slot_mon_3_4')">
+                  <div class="font-medium text-white cell-title">工程力学B (1)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">博4-B506</div>
+                  <span class="text-[10px] text-gray-400 cell-note">1-4, 6-19周</span>
                 </td>
                 <!-- Tue 3-4 -->
-                <td class="py-3 px-3 col-tue">
-                  <div class="font-medium text-white">工程力学B (1)</div>
-                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博4-B506</div>
-                  <span class="text-[10px] text-gray-400">1-4, 6-19周</span>
+                <td class="py-3 px-3 col-tue cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周二', '第 3-4 节', 'slot_tue_3_4')">
+                  <div class="font-medium text-white cell-title">工程力学B (1)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">博4-B506</div>
+                  <span class="text-[10px] text-gray-400 cell-note">1-4, 6-19周</span>
                 </td>
                 <!-- Wed 3-4 -->
-                <td class="py-3 px-3 col-wed">
-                  <div class="font-medium text-white">大学物理 (2)</div>
-                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B301</div>
-                  <span class="text-[10px] text-gray-400">1-4, 6-15周</span>
+                <td class="py-3 px-3 col-wed cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周三', '第 3-4 节', 'slot_wed_3_4')">
+                  <div class="font-medium text-white cell-title">大学物理 (2)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">博3-B301</div>
+                  <span class="text-[10px] text-gray-400 cell-note">1-4, 6-15周</span>
                 </td>
                 <!-- Thu 3-4 -->
-                <td class="py-3 px-3 col-thu">
-                  <div class="font-medium text-white">线性代数</div>
-                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B303</div>
-                  <span class="text-[10px] text-gray-400">1-3, 5-10周</span>
+                <td class="py-3 px-3 col-thu cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周四', '第 3-4 节', 'slot_thu_3_4')">
+                  <div class="font-medium text-white cell-title">线性代数</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">博3-B303</div>
+                  <span class="text-[10px] text-gray-400 cell-note">1-3, 5-10周</span>
                 </td>
                 <!-- Fri 3-4 -->
-                <td class="py-3 px-3 col-fri">
-                  <div class="font-medium text-white">大学物理 (2)</div>
-                  <div class="text-[11px] text-blue-300 font-mono mt-0.5">博3-B301</div>
-                  <span class="text-[10px] text-gray-400">1-15周</span>
+                <td class="py-3 px-3 col-fri cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周五', '第 3-4 节', 'slot_fri_3_4')">
+                  <div class="font-medium text-white cell-title">大学物理 (2)</div>
+                  <div class="text-[11px] text-blue-300 font-mono mt-0.5 cell-loc">博3-B301</div>
+                  <span class="text-[10px] text-gray-400 cell-note">1-15周</span>
                 </td>
                 <!-- Sun 3-4 -->
-                <td class="py-3 px-3 col-sun">
-                  <div class="text-gray-300 font-medium">测量手簿复核</div>
-                  <span class="text-[10px] text-gray-500">水准与导线记录表自算</span>
+                <td class="py-3 px-3 col-sun cursor-pointer hover:bg-brand-surface/40" onclick="openScheduleEditor('周日', '第 3-4 节', 'slot_sun_3_4')">
+                  <div class="text-gray-300 font-medium cell-title">测量手簿复核</div>
+                  <div class="text-[11px] text-gray-400 font-mono mt-0.5 cell-loc">宿舍 / 自习室</div>
+                  <span class="text-[10px] text-gray-500 cell-note">水准与导线记录表自算</span>
                 </td>
               </tr>
 
@@ -932,8 +1057,11 @@
                   <span class="text-[10px] text-gray-400">1-3, 6-12周</span>
                 </td>
                 <!-- Sun 7-8 -->
-                <td class="py-3 px-3 col-sun bg-brand-emerald/10 text-brand-emerald">
-                  <div class="font-bold">第 21 次校园跑</div>
+                <td class="py-3 px-3 col-sun bg-brand-emerald/10 text-brand-emerald sched-synced-cell" id="sched-cell-sun-run" onclick="toggleTaskFromSchedule('sun-run')">
+                  <div class="flex items-center justify-between gap-1">
+                    <span class="font-bold sched-cell-title">第 21 次校园跑</span>
+                    <span class="sched-status-pill font-mono bg-emerald-900/40 text-emerald-400" id="sched-pill-sun-run">待跑</span>
+                  </div>
                   <span class="text-[10px]">2.52 km 达标即停</span>
                 </td>
               </tr>
@@ -1040,8 +1168,11 @@
                   <span class="text-[10px] text-gray-400">严格按江苏赛区评分细则自批</span>
                 </td>
                 <!-- Sun CMC -->
-                <td class="py-3 px-3 col-sun bg-amber-950/20 text-amber-200">
-                  <div class="font-bold text-brand-gold">★【错题重塑熔断】</div>
+                <td class="py-3 px-3 col-sun bg-amber-950/20 text-amber-200 sched-synced-cell" id="sched-cell-sun-cmc" onclick="toggleTaskFromSchedule('sun-cmc')">
+                  <div class="flex items-center justify-between gap-1">
+                    <span class="font-bold text-brand-gold sched-cell-title">★【错题重塑】</span>
+                    <span class="sched-status-pill font-mono bg-amber-900/40 text-amber-300" id="sched-pill-sun-cmc">待战</span>
+                  </div>
                   <div class="text-[11px] text-gray-200">本周7套攻坚错题反向推导</div>
                   <span class="text-[10px] text-gray-400">不留一个死角带入下周</span>
                 </td>
@@ -1343,28 +1474,22 @@
     // -------------------------------------------------------------
     const STORAGE_TASKS_KEY = 'fjj_tactical_tasks_v2';
     const STORAGE_HISTORY_KEY = 'fjj_combat_history_v2';
+    const STORAGE_INSIGHTS_KEY = 'fjj_study_insights_v1';
+    const STORAGE_SCHEDULE_KEY = 'fjj_schedule_overrides_v1';
     const STORAGE_GIST_TOKEN = 'GIST_TOKEN';
     const STORAGE_GIST_ID = 'GIST_ID';
     const STORAGE_GIST_LAST_SYNC = 'GIST_LAST_SYNC';
 
     let currentTaskFilter = 'today';
+    let currentEditingSlotId = null;
     let gistConfig = {
       token: '',
       gistId: '',
       filename: 'data.json'
     };
 
-    // Default Baseline Master Task Repository
+    // Default Baseline Master Task Repository (Cleaned up party exam)
     const defaultTacticalTasks = [
-      {
-        id: 101,
-        title: "【今日必决·上午】党史课程考试 (博1-A101)",
-        sub: "上午沉着应试，绝不在通识课丢分，考完即撤转入专业攻坚",
-        done: false,
-        tag: "今日必决",
-        scope: "today",
-        dayCode: 0 // Sunday
-      },
       {
         id: 102,
         title: "【今日必决·下午】工程测量内业平差自算",
@@ -1414,6 +1539,8 @@
 
     let tacticalTasks = [];
     let combatHistoryLog = [];
+    let studyInsightsList = [];
+    let scheduleOverrides = {};
 
     // -------------------------------------------------------------
     // Storage Engine (Fixed Try-Catch Closure & Local Persistence)
@@ -1423,6 +1550,8 @@
         const savedTasks = localStorage.getItem(STORAGE_TASKS_KEY);
         if (savedTasks) {
           tacticalTasks = JSON.parse(savedTasks);
+          // Purge party history exam if it was in the saved cache
+          tacticalTasks = tacticalTasks.filter(t => !t.title.includes('党史课程考试'));
         } else {
           tacticalTasks = defaultTacticalTasks;
         }
@@ -1440,16 +1569,48 @@
             },
             {
               id: 202,
-              title: "【周六晚间】党史核心题库速通",
-              sub: "集中刷通单选多选高频题库",
-              completedAt: "2026.10.10 22:15"
+              title: "【党史课程考试】已顺利通过结项 (博1-A101)",
+              sub: "通识课稳步过关，精力全力转入核心专业与竞赛",
+              completedAt: "2026.10.11 11:30"
             }
           ];
         }
+
+        const savedInsights = localStorage.getItem(STORAGE_INSIGHTS_KEY);
+        if (savedInsights) {
+          studyInsightsList = JSON.parse(savedInsights);
+        } else {
+          studyInsightsList = [
+            {
+              id: 301,
+              title: "闭合水准路线平差改正数分配规律",
+              tag: "工程测量实战",
+              content: "高差闭合差反号按路线长度比例分配。外业当场把手簿算通闭环，绝不将糊涂账留回宿舍，小组担任主算员建立威信。",
+              date: "2026.10.10 18:20"
+            },
+            {
+              id: 302,
+              title: "毛选矛盾论在大学时间分配上的运用",
+              tag: "毛选与战略思维",
+              content: "任何时期都有且仅有一个主要矛盾。当前主要矛盾是 CMC 高数省一（学术加分核心）与工程力学B底盘，杂项活动走最低消耗路径，严禁平均用力。",
+              date: "2026.10.09 22:40"
+            }
+          ];
+        }
+
+        const savedSched = localStorage.getItem(STORAGE_SCHEDULE_KEY);
+        if (savedSched) {
+          scheduleOverrides = JSON.parse(savedSched);
+        } else {
+          scheduleOverrides = {};
+        }
+
       } catch (e) {
         console.warn('Storage load fallback', e);
         tacticalTasks = defaultTacticalTasks;
         combatHistoryLog = [];
+        studyInsightsList = [];
+        scheduleOverrides = {};
       }
     }
 
@@ -1457,6 +1618,8 @@
       try {
         localStorage.setItem(STORAGE_TASKS_KEY, JSON.stringify(tacticalTasks));
         localStorage.setItem(STORAGE_HISTORY_KEY, JSON.stringify(combatHistoryLog));
+        localStorage.setItem(STORAGE_INSIGHTS_KEY, JSON.stringify(studyInsightsList));
+        localStorage.setItem(STORAGE_SCHEDULE_KEY, JSON.stringify(scheduleOverrides));
         if (!skipCloud && gistConfig.token && gistConfig.gistId) {
           pushToGist();
         }
@@ -1466,106 +1629,199 @@
     }
 
     // -------------------------------------------------------------
-    // Gist Cloud Sync Engine
+    // Schedule Cell Interactive Editor Controller
     // -------------------------------------------------------------
-    function loadGistConfig() {
-      gistConfig.token = localStorage.getItem(STORAGE_GIST_TOKEN) || '';
-      gistConfig.gistId = localStorage.getItem(STORAGE_GIST_ID) || '';
+    function openScheduleEditor(day, slotLabel, slotId) {
+      currentEditingSlotId = slotId;
+      const modal = document.getElementById('scheduleEditModal');
+      const labelEl = document.getElementById('schedEditSlotLabel');
+      const nameInput = document.getElementById('schedEditName');
+      const locInput = document.getElementById('schedEditLoc');
+      const noteInput = document.getElementById('schedEditNote');
 
-      const inputToken = document.getElementById('inputSyncToken');
-      const inputGistId = document.getElementById('inputSyncGistId');
-      if (inputToken) inputToken.value = gistConfig.token;
-      if (inputGistId) inputGistId.value = gistConfig.gistId;
+      if (labelEl) labelEl.textContent = `${day} ${slotLabel}`;
 
-      updateSyncModalStatus();
-      updateSyncDot(gistConfig.token && gistConfig.gistId ? 'online' : 'offline');
+      const cell = document.querySelector(`[onclick*="${slotId}"]`);
+      if (cell) {
+        const titleEl = cell.querySelector('.cell-title');
+        const locEl = cell.querySelector('.cell-loc');
+        const noteEl = cell.querySelector('.cell-note');
+
+        if (nameInput) nameInput.value = titleEl ? titleEl.textContent.trim() : '';
+        if (locInput) locInput.value = locEl ? locEl.textContent.trim() : '';
+        if (noteInput) noteInput.value = noteEl ? noteEl.textContent.trim() : '';
+      }
+
+      if (modal) modal.classList.remove('hidden');
     }
 
-    function toggleSyncModal(show) {
-      const modal = document.getElementById('syncModal');
+    function toggleScheduleEditModal(show) {
+      const modal = document.getElementById('scheduleEditModal');
+      if (modal) {
+        if (show) modal.classList.remove('hidden');
+        else modal.classList.add('hidden');
+      }
+    }
+
+    function saveScheduleCellEdit() {
+      if (!currentEditingSlotId) return;
+
+      const nameInput = document.getElementById('schedEditName');
+      const locInput = document.getElementById('schedEditLoc');
+      const noteInput = document.getElementById('schedEditNote');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const loc = locInput ? locInput.value.trim() : '';
+      const note = noteInput ? noteInput.value.trim() : '';
+
+      scheduleOverrides[currentEditingSlotId] = { name, loc, note };
+      applyScheduleOverrides();
+      saveStateToStorage();
+      toggleScheduleEditModal(false);
+      showToast('课表时段已更新并保存！');
+    }
+
+    function resetCurrentScheduleCell() {
+      if (!currentEditingSlotId) return;
+      delete scheduleOverrides[currentEditingSlotId];
+      saveStateToStorage();
+      location.reload();
+    }
+
+    function applyScheduleOverrides() {
+      for (const slotId in scheduleOverrides) {
+        const data = scheduleOverrides[slotId];
+        const cell = document.querySelector(`[onclick*="${slotId}"]`);
+        if (cell && data) {
+          const titleEl = cell.querySelector('.cell-title');
+          const locEl = cell.querySelector('.cell-loc');
+          const noteEl = cell.querySelector('.cell-note');
+
+          if (titleEl && data.name) titleEl.textContent = data.name;
+          if (locEl) locEl.textContent = data.loc || '';
+          if (noteEl) noteEl.textContent = data.note || '';
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Learning Insights & Thought Repository Engine
+    // -------------------------------------------------------------
+    function toggleInsightsModal(show) {
+      const modal = document.getElementById('insightsModal');
       if (!modal) return;
       if (show) {
-        loadGistConfig();
+        renderInsightsList();
         modal.classList.remove('hidden');
       } else {
         modal.classList.add('hidden');
       }
     }
 
-    function updateSyncDot(state) {
-      const dots = [document.getElementById('syncStatusDot'), document.getElementById('syncStatusDotMobile')];
-      dots.forEach(dot => {
-        if (!dot) return;
-        dot.className = 'w-2 h-2 rounded-full transition-all';
-        if (state === 'online') {
-          dot.className += ' bg-emerald-400 shadow-[0_0_8px_#34d399]';
-        } else if (state === 'syncing') {
-          dot.className += ' bg-brand-gold animate-ping';
-        } else if (state === 'error') {
-          dot.className += ' bg-red-400';
-        } else {
-          dot.className += ' bg-gray-500';
-        }
-      });
-    }
+    function saveNewInsight() {
+      const titleInput = document.getElementById('insightTitleInput');
+      const tagSelect = document.getElementById('insightTagSelect');
+      const contentInput = document.getElementById('insightContentInput');
 
-    function updateSyncModalStatus() {
-      const statusEl = document.getElementById('syncModalStatusText');
-      const timeEl = document.getElementById('syncModalLastTime');
-      const lastSync = localStorage.getItem(STORAGE_GIST_LAST_SYNC);
+      const title = titleInput ? titleInput.value.trim() : '';
+      const tag = tagSelect ? tagSelect.value : 'CMC高数攻坚';
+      const content = contentInput ? contentInput.value.trim() : '';
 
-      if (statusEl) {
-        if (gistConfig.token && gistConfig.gistId) {
-          statusEl.innerHTML = '<span class="text-emerald-400">🟢 已配置 (自动双向同步)</span>';
-        } else {
-          statusEl.innerHTML = '<span class="text-gray-400">⚪ 未配置 (仅单机存储)</span>';
-        }
-      }
-      if (timeEl) {
-        timeEl.textContent = lastSync || '暂无同步记录';
-      }
-    }
-
-    async function saveAndSyncGist() {
-      const tokenInput = document.getElementById('inputSyncToken');
-      const gistIdInput = document.getElementById('inputSyncGistId');
-      const token = tokenInput ? tokenInput.value.trim() : '';
-      const gistId = gistIdInput ? gistIdInput.value.trim() : '';
-
-      if (!token || !gistId) {
-        showToast('请完整输入 Token 与 Gist ID！');
+      if (!title || !content) {
+        showToast('请输入完整的心得标题与研读要点！');
         return;
       }
 
-      localStorage.setItem(STORAGE_GIST_TOKEN, token);
-      localStorage.setItem(STORAGE_GIST_ID, gistId);
-      gistConfig.token = token;
-      gistConfig.gistId = gistId;
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
-      const btnConfirm = document.getElementById('btnConfirmSync');
-      if (btnConfirm) btnConfirm.innerHTML = '<span>正在连接云端...</span>';
-      updateSyncDot('syncing');
+      const newEntry = {
+        id: Date.now(),
+        title,
+        tag,
+        content,
+        date: dateStr
+      };
 
-      const success = await pullFromGist(false);
-      if (btnConfirm) btnConfirm.innerHTML = '<span>保存并从云端同步</span>';
+      studyInsightsList.unshift(newEntry);
+      if (titleInput) titleInput.value = '';
+      if (contentInput) contentInput.value = '';
 
-      if (success) {
-        updateSyncDot('online');
-        toggleSyncModal(false);
-        showToast('🎉 Gist 云同步成功！');
+      saveStateToStorage();
+      renderInsightsList();
+      showToast('研读心得已归档入库！');
+    }
+
+    function deleteInsight(id) {
+      studyInsightsList = studyInsightsList.filter(item => item.id !== id);
+      saveStateToStorage();
+      renderInsightsList();
+      showToast('已移除该心得条目');
+    }
+
+    function renderInsightsList() {
+      const container = document.getElementById('insightsList');
+      const countEl = document.getElementById('insightsCountText');
+      if (!container) return;
+
+      container.innerHTML = '';
+      if (countEl) countEl.textContent = `共沉淀 ${studyInsightsList.length} 篇心得`;
+
+      if (studyInsightsList.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-gray-500 font-mono text-xs">暂无心得记录，随时在上方敲下做题灵感与战略思考！</div>`;
+        return;
+      }
+
+      studyInsightsList.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'p-3 rounded-xl bg-brand-surface border border-brand-border space-y-1.5 text-xs';
+        div.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-brand-accent/15 text-blue-300 border border-brand-accent/30">${item.tag}</span>
+              <strong class="text-white text-xs">${item.title}</strong>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <span class="text-[10px] text-gray-500 font-mono">${item.date}</span>
+              <button onclick="deleteInsight(${item.id})" class="text-gray-500 hover:text-red-400 p-0.5" title="删除心得">✕</button>
+            </div>
+          </div>
+          <p class="text-gray-300 text-[11px] leading-relaxed whitespace-pre-line">${item.content}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function exportInsightsMarkdown() {
+      if (studyInsightsList.length === 0) {
+        showToast('暂无心得可供导出，先记录第一篇吧！');
+        return;
+      }
+
+      let md = `# 冯俊杰 · 钱七虎班战地研读心得与学习心法全集\n`;
+      md += `导出时间：${new Date().toLocaleString('zh-CN', { hour12: false })}\n\n`;
+      md += `> “实事求是，实践出真知。积跬步以致千里，为国筑盾于细微。”\n\n`;
+
+      studyInsightsList.forEach((item, idx) => {
+        md += `## ${idx + 1}. 【${item.tag}】${item.title}\n`;
+        md += `- **记录时间：** ${item.date}\n`;
+        md += `- **核心领悟：**\n${item.content}\n\n`;
+      });
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(md).then(() => {
+          showToast('📋 全部心得已复制到剪贴板！');
+        }).catch(() => {
+          fallbackCopyText(md);
+        });
       } else {
-        const pushOk = await pushToGist();
-        if (pushOk) {
-          updateSyncDot('online');
-          toggleSyncModal(false);
-          showToast('🎉 本地数据已初始化推至云端！');
-        } else {
-          updateSyncDot('error');
-          showToast('连接失败，请核查 Token 权限或 Gist ID');
-        }
+        fallbackCopyText(md);
       }
     }
 
+    // -------------------------------------------------------------
+    // Gist Cloud Sync Engine (Enhanced to support schedule & insights)
+    // -------------------------------------------------------------
     async function pullFromGist(silent = true) {
       if (!gistConfig.token || !gistConfig.gistId) return false;
       try {
@@ -1586,17 +1842,19 @@
         if (file && file.content) {
           const parsed = JSON.parse(file.content);
           if (parsed && Array.isArray(parsed.tasks)) {
-            tacticalTasks = parsed.tasks;
-            if (Array.isArray(parsed.history)) {
-              combatHistoryLog = parsed.history;
-            }
+            tacticalTasks = parsed.tasks.filter(t => !t.title.includes('党史课程考试'));
+            if (Array.isArray(parsed.history)) combatHistoryLog = parsed.history;
+            if (Array.isArray(parsed.insights)) studyInsightsList = parsed.insights;
+            if (parsed.scheduleOverrides) scheduleOverrides = parsed.scheduleOverrides;
+
             saveStateToStorage(true);
             renderTacticalTasks();
+            applyScheduleOverrides();
             const nowStr = new Date().toLocaleString('zh-CN', { hour12: false });
             localStorage.setItem(STORAGE_GIST_LAST_SYNC, nowStr);
             updateSyncModalStatus();
             updateSyncDot('online');
-            if (!silent) showToast('已从云端拉取最新战地数据');
+            if (!silent) showToast('已从云端拉取最新战地数据与心得');
             return true;
           }
         }
@@ -1619,6 +1877,8 @@
               content: JSON.stringify({
                 tasks: tacticalTasks,
                 history: combatHistoryLog,
+                insights: studyInsightsList,
+                scheduleOverrides: scheduleOverrides,
                 updatedAt: new Date().toISOString()
               }, null, 2)
             }
@@ -1773,6 +2033,52 @@
         `;
         container.appendChild(card);
       });
+
+      // 同步刷新课表对应单元格的态势显示
+      syncScheduleWithTasks();
+    }
+
+    // 实用主义核心机制：根据战地任务动态驱动课表单元格状态
+    function syncScheduleWithTasks() {
+      tacticalTasks.forEach(task => {
+        if (!task.scheduleBind) return;
+        const cell = document.getElementById('sched-cell-' + task.scheduleBind);
+        const pill = document.getElementById('sched-pill-' + task.scheduleBind);
+        if (!cell) return;
+
+        if (task.done) {
+          cell.classList.add('is-completed');
+          if (pill) {
+            pill.className = 'sched-status-pill font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+            pill.textContent = '✓ 已结项';
+          }
+        } else {
+          cell.classList.remove('is-completed');
+          if (pill) {
+            if (task.scheduleBind === 'sun-exam') {
+              pill.className = 'sched-status-pill font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30';
+              pill.textContent = '待决';
+            } else if (task.scheduleBind === 'sun-run') {
+              pill.className = 'sched-status-pill font-mono bg-emerald-900/40 text-emerald-400';
+              pill.textContent = '待跑';
+            } else if (task.scheduleBind === 'sun-cmc') {
+              pill.className = 'sched-status-pill font-mono bg-amber-900/40 text-amber-300';
+              pill.textContent = '待战';
+            } else {
+              pill.className = 'sched-status-pill font-mono bg-gray-800 text-gray-400';
+              pill.textContent = '进行中';
+            }
+          }
+        }
+      });
+    }
+
+    // 从课表单元格直接反向触发指令勾选/撤销
+    function toggleTaskFromSchedule(bindKey) {
+      const targetTask = tacticalTasks.find(t => t.scheduleBind === bindKey);
+      if (targetTask) {
+        toggleTaskStatus(targetTask.id);
+      }
     }
 
     function toggleTaskStatus(id) {
@@ -1788,7 +2094,9 @@
               sub: t.sub,
               completedAt: dateStr
             });
-            showToast('战役达成！已记录归档至战史库');
+            showToast('战役达成！课表阵地同步结项');
+          } else {
+            showToast('阵地状态已恢复');
           }
           return { ...t, done: newStatus };
         }
@@ -2143,6 +2451,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       loadGistConfig();
       loadStateFromStorage();
+      applyScheduleOverrides();
       updateCountdowns();
       updateLiveCombatClock();
       setInterval(updateLiveCombatClock, 1000);
