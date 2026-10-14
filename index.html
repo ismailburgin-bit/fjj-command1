@@ -629,11 +629,53 @@
           </div>
         </div>
 
+        <!-- Quick Manual Entry / Direct Adjustment Bar (No proposal required) -->
+        <div class="p-3.5 rounded-xl bg-black/40 border border-brand-gold/30 space-y-2.5 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white flex items-center gap-1.5">
+              <span>⚡</span>
+              <span id="quickLedgerFormTitle">2. 手动快记 / 随时增减修正（免导入策划书）</span>
+            </span>
+            <button id="btnCancelLedgerEdit" onclick="resetQuickLedgerForm()" class="hidden text-[11px] text-gray-400 hover:text-white">取消编辑</button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-end">
+            <div class="sm:col-span-4">
+              <label class="text-[10px] text-gray-400 block mb-0.5">项目名称 / 调整事由</label>
+              <input type="text" id="quickActTitle" placeholder="如：思政讲座 / 补录工时" class="w-full bg-black/60 border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+            <div class="sm:col-span-3">
+              <label class="text-[10px] text-gray-400 block mb-0.5">所属板块</label>
+              <select id="quickActCategory" class="w-full bg-black/60 border border-white/15 rounded-lg px-2 py-1.5 text-white">
+                <option value="academic">学业学术 (50%)</option>
+                <option value="arts">文体活动 (25%)</option>
+                <option value="social">社会工作 (25%)</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="text-[10px] text-gray-400 block mb-0.5">素质分</label>
+              <input type="number" step="0.1" id="quickActScore" value="0.5" class="w-full bg-black/60 border border-white/15 rounded-lg px-2 py-1.5 text-brand-gold font-mono font-bold">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="text-[10px] text-gray-400 block mb-0.5">志愿工时(h)</label>
+              <input type="number" step="0.5" id="quickActHours" value="0" class="w-full bg-black/60 border border-white/15 rounded-lg px-2 py-1.5 text-emerald-400 font-mono font-bold">
+            </div>
+            <div class="sm:col-span-1">
+              <button onclick="saveQuickLedgerEntry()" id="btnSaveQuickLedger" class="w-full py-1.5 px-2 rounded-lg bg-brand-gold text-black font-bold hover:bg-yellow-400 whitespace-nowrap">
+                入账
+              </button>
+            </div>
+          </div>
+          <div class="text-[11px] text-gray-400">
+            💡 提示：下方已入账的任意条目，可直接修改数字实时算分，也可点击「编辑」或「删除」。
+          </div>
+        </div>
+
         <!-- Ledger List -->
         <div class="space-y-2">
-          <div class="flex items-center justify-between text-xs">
-            <span class="font-bold text-white">已入账活动与志愿工时明细</span>
-            <span class="font-mono text-gray-400" id="ledgerSummaryLine">净分 F: 0.00 | 志愿: 0h</span>
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+            <span class="font-bold text-white">3. 已入账活动与志愿工时明细（支持直接改数）</span>
+            <span class="font-mono text-brand-gold bg-brand-gold/10 border border-brand-gold/30 px-2 py-0.5 rounded" id="ledgerSummaryLine">净分 F: 0.00 | 志愿: 0h</span>
           </div>
           <div id="activityLedgerList" class="space-y-2 text-xs"></div>
         </div>
@@ -1515,6 +1557,102 @@
       showToast(`已入账：+${rawScore}分 / +${volHours}h`);
     }
 
+    let editingLedgerItemId = null;
+
+    function saveQuickLedgerEntry() {
+      const title = document.getElementById('quickActTitle').value.trim();
+      const category = document.getElementById('quickActCategory').value;
+      const rawScore = parseFloat(document.getElementById('quickActScore').value) || 0;
+      const volHours = parseFloat(document.getElementById('quickActHours').value) || 0;
+
+      if (!title) {
+        showToast('请输入项目名称或调整事由！');
+        return;
+      }
+
+      if (editingLedgerItemId !== null) {
+        activityLedger = activityLedger.map(item => {
+          if (item.id === editingLedgerItemId) {
+            return { ...item, title, category, rawScore, volHours };
+          }
+          return item;
+        });
+        showToast('✓ 台账记录修改已保存！');
+        resetQuickLedgerForm();
+      } else {
+        activityLedger.unshift({
+          id: Date.now(),
+          title,
+          category,
+          rawScore,
+          volHours,
+          date: new Date().toLocaleDateString('zh-CN')
+        });
+        document.getElementById('quickActTitle').value = '';
+        showToast(`⚡ 已快记入账：${rawScore >= 0 ? '+' : ''}${rawScore}分 / ${volHours >= 0 ? '+' : ''}${volHours}h`);
+      }
+
+      saveStateToStorage();
+      renderActivityLedger();
+    }
+
+    function startEditLedgerItem(id) {
+      const item = activityLedger.find(i => i.id === id);
+      if (!item) return;
+      editingLedgerItemId = id;
+
+      document.getElementById('quickLedgerFormTitle').textContent = `✏️ 正在修改：${item.title}`;
+      document.getElementById('quickActTitle').value = item.title;
+      document.getElementById('quickActCategory').value = item.category || 'arts';
+      document.getElementById('quickActScore').value = item.rawScore;
+      document.getElementById('quickActHours').value = item.volHours;
+
+      const btnSave = document.getElementById('btnSaveQuickLedger');
+      btnSave.textContent = '保存';
+      btnSave.className = 'w-full py-1.5 px-2 rounded-lg bg-emerald-500 text-black font-bold hover:bg-emerald-400 whitespace-nowrap';
+      document.getElementById('btnCancelLedgerEdit').classList.remove('hidden');
+      document.getElementById('quickActTitle').focus();
+    }
+
+    function resetQuickLedgerForm() {
+      editingLedgerItemId = null;
+      document.getElementById('quickLedgerFormTitle').textContent = '2. 手动快记 / 随时增减修正（免导入策划书）';
+      document.getElementById('quickActTitle').value = '';
+      document.getElementById('quickActCategory').value = 'arts';
+      document.getElementById('quickActScore').value = '0.5';
+      document.getElementById('quickActHours').value = '0';
+
+      const btnSave = document.getElementById('btnSaveQuickLedger');
+      btnSave.textContent = '入账';
+      btnSave.className = 'w-full py-1.5 px-2 rounded-lg bg-brand-gold text-black font-bold hover:bg-yellow-400 whitespace-nowrap';
+      document.getElementById('btnCancelLedgerEdit').classList.add('hidden');
+    }
+
+    function updateLedgerItemField(id, field, value) {
+      const numVal = parseFloat(value) || 0;
+      activityLedger = activityLedger.map(item => {
+        if (item.id === id) {
+          return { ...item, [field]: numVal };
+        }
+        return item;
+      });
+      saveStateToStorage();
+      renderActivityLedger();
+      showToast('分时统计已实时更新！');
+    }
+
+    function updateLedgerItemCategory(id, newCat) {
+      activityLedger = activityLedger.map(item => {
+        if (item.id === id) {
+          return { ...item, category: newCat };
+        }
+        return item;
+      });
+      saveStateToStorage();
+      renderActivityLedger();
+      showToast('所属板块已切换，总分已重算！');
+    }
+
     function calculateVolunteerScore(hours) {
       if (hours >= 100) return 3.0;
       if (hours >= 80) return 2.0;
@@ -1544,17 +1682,37 @@
       if (cardF) cardF.textContent = `F: ${netF.toFixed(2)}`;
       if (meF) meF.textContent = netF.toFixed(2);
       if (meVol) meVol.textContent = volH.toFixed(1);
-      if (sumLine) sumLine.textContent = `实盘净分 F: ${netF.toFixed(2)} | 累计志愿: ${volH.toFixed(1)}/100h`;
+      if (sumLine) sumLine.textContent = `实盘净分 F: ${netF.toFixed(2)} (学术${acad.toFixed(1)}/文体${arts.toFixed(1)}/社工${(soc+volScore).toFixed(1)}) | 志愿: ${volH.toFixed(1)}/100h`;
 
       const listEl = document.getElementById('activityLedgerList');
       if (!listEl) return;
       listEl.innerHTML = activityLedger.map(item => `
-        <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between">
-          <div>
-            <div class="font-bold text-white">${item.title}</div>
-            <div class="text-[10px] text-gray-400 font-mono">素质分 +${item.rawScore} | 志愿 +${item.volHours}h · ${item.date}</div>
+        <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="min-w-0 flex-1">
+            <div class="font-bold text-white truncate">${item.title}</div>
+            <div class="text-[10px] text-gray-400 font-mono flex items-center gap-2 mt-0.5">
+              <span>${item.date || ''}</span>
+              <select onchange="updateLedgerItemCategory(${item.id}, this.value)" class="bg-black/60 border border-white/10 rounded px-1.5 py-0.5 text-[10px] text-gray-300">
+                <option value="academic" ${item.category === 'academic' ? 'selected' : ''}>学业学术(50%)</option>
+                <option value="arts" ${item.category === 'arts' ? 'selected' : ''}>文体活动(25%)</option>
+                <option value="social" ${item.category === 'social' ? 'selected' : ''}>社会工作(25%)</option>
+              </select>
+            </div>
           </div>
-          <button onclick="deleteLedgerItem(${item.id})" class="text-gray-500 hover:text-red-400 px-1.5">✕</button>
+
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <div class="flex items-center gap-1 bg-black/50 border border-white/10 rounded-lg px-2 py-1">
+              <span class="text-[10px] text-gray-400">分:</span>
+              <input type="number" step="0.1" value="${item.rawScore}" onchange="updateLedgerItemField(${item.id}, 'rawScore', this.value)" class="w-12 bg-transparent text-brand-gold font-mono font-bold text-xs outline-none text-right">
+            </div>
+            <div class="flex items-center gap-1 bg-black/50 border border-white/10 rounded-lg px-2 py-1">
+              <span class="text-[10px] text-gray-400">工时:</span>
+              <input type="number" step="0.5" value="${item.volHours}" onchange="updateLedgerItemField(${item.id}, 'volHours', this.value)" class="w-12 bg-transparent text-emerald-400 font-mono font-bold text-xs outline-none text-right">
+              <span class="text-[10px] text-gray-500">h</span>
+            </div>
+            <button onclick="startEditLedgerItem(${item.id})" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-[11px]" title="修改名称与详情">编辑</button>
+            <button onclick="deleteLedgerItem(${item.id})" class="px-2 py-1 rounded-lg bg-red-950/40 hover:bg-red-900/60 text-red-300 text-[11px]" title="删除">✕</button>
+          </div>
         </div>
       `).join('');
     }
